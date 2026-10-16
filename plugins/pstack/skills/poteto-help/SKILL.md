@@ -106,8 +106,8 @@ Close calls:
 
 Not in pstack:
 
-- `/deslop`, `control-cli`, and `control-ui` ship in the `cursor-team-kit` plugin.
-- `/loop` and `/create-skill` are Cursor built-ins.
+- `/deslop`, `control-cli`, and `control-ui` ship in Cursor's `cursor-team-kit` plugin and are not available in Claude Code.
+- `/loop` and `/create-skill` are Cursor built-ins. Claude Code also bundles `/loop`; it has no `/create-skill`.
 - pstack has no `/orchestrate` skill. Orchestrate is a `/poteto-mode` playbook. If the slash menu shows `/orchestrate`, another plugin provides it.
 
 ## Playbooks and principles
