@@ -1,6 +1,6 @@
 # agent-plugins
 
-Kevin McBride's plugins for coding agents, published as a [Claude Code plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces).
+My plugins for coding agents, published as a [Claude Code plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces).
 
 ## Install
 
