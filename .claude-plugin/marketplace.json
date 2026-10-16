@@ -1,0 +1,25 @@
+{
+  "name": "krmcbride",
+  "owner": {
+    "name": "Kevin McBride",
+    "url": "https://github.com/krmcbride"
+  },
+  "description": "Kevin McBride's agent plugins for Claude Code.",
+  "version": "0.1.0",
+  "plugins": [
+    {
+      "name": "pstack",
+      "source": "./plugins/pstack",
+      "description": "Lauren Tan's (@poteto) pstack: poteto-mode workflows, principles, and review skills. Imported from cursor/plugins.",
+      "version": "0.15.25",
+      "author": {
+        "name": "Lauren Tan"
+      },
+      "homepage": "https://github.com/cursor/plugins/tree/main/pstack",
+      "repository": "https://github.com/cursor/plugins",
+      "license": "MIT",
+      "keywords": ["pstack", "poteto-mode", "workflow", "principles", "subagents", "unslop"],
+      "category": "developer-tools"
+    }
+  ]
+}
