@@ -11,7 +11,7 @@
       "name": "pstack",
       "source": "./plugins/pstack",
       "description": "Lauren Tan's (@poteto) pstack: poteto-mode workflows, principles, and review skills. Imported from cursor/plugins.",
-      "version": "0.15.25",
+      "version": "0.15.28",
       "author": {
         "name": "Lauren Tan"
       },
