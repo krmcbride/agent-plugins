@@ -188,7 +188,7 @@ export const scan = {
     { id: "cursor", re: /\bCursor('s)?\b/ },
   ],
   allow: [
-        {
+    {
       terms: ["readonly", "environment", "cloud-agent", "cursor-modes", "cursor-team-kit", "cursor"],
       files: ["skills/poteto-mode/SKILL.md", "skills/poteto-help/SKILL.md"],
       why: "The Claude Code passages added by patches name the Cursor feature they replace, and the rest point at features the poteto-mode passage tells agents to skip.",
