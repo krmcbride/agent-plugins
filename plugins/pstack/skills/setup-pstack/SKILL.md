@@ -13,7 +13,7 @@ Write `~/.claude/rules/pstack-models.md`, a rule Claude Code loads into every se
 
 ### 1. Detect available models
 
-Read the Agent tool's schema in this session. Its `model` values (such as `opus`, `sonnet`, `haiku`, `fable`) and `effort` values are the dependable source. A real slug is `<model>-<effort>`, such as `opus-xhigh`, and each pair the schema allows is detected. If you cannot read the schema, ask the user which models they have access to. Never write a real slug you have not confirmed is available. The aliases `inherit-parent` and `auto` are always valid even though they are not detected slugs.
+Read the Agent tool's schema in this session. Its `model` values (such as `opus`, `sonnet`, `haiku`, `fable`) are the dependable source. A real slug is `<model>-<effort>`, such as `opus-xhigh`, where the effort is `low`, `medium`, `high`, `xhigh`, or `max`, and each such pair the schema allows is detected. If you cannot read the schema, ask the user which models they have access to. Never write a real slug you have not confirmed is available. The aliases `inherit-parent` and `auto` are always valid even though they are not detected slugs.
 
 ### 2. Load current state
 
@@ -42,6 +42,7 @@ Write `~/.claude/rules/pstack-models.md` with no frontmatter, a `# budget` line 
 
 ```
 # pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# A value such as opus-xhigh is <model>-<effort>: pass the Agent tool model and effort.
 # `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Agent `model`). Alias entries in a panel list still count toward its fan-out.
 # budget: large (xhigh)
 feature, refactoring: sonnet-xhigh

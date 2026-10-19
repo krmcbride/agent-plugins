@@ -8,6 +8,8 @@ color: yellow
 
 # Poteto mode
 
+In Claude Code, a model value such as `opus-xhigh` is `<model>-<effort>`: pass the Agent tool `model: "opus"` and `effort: "xhigh"`. For `auto` or `inherit-parent`, omit both.
+
 Bundled skills live at `../<name>/SKILL.md` from this file, so put this file's absolute path in every `poteto-agent` prompt.
 
 ## Non-negotiables
@@ -96,7 +98,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Match the model to the job.** Before each spawn, start from the role's line or default and pick the reasoning effort the job needs. The `/setup-pstack` budget sets each role's starting effort, xhigh by default. Raise it one step, up to max, for the hardest or subtlest work. Lower it one step for judgment and two or more steps for routine work. Claude Code has no per-subagent fast mode, so effort is the only dial. Verification is the exception and stays on the `swarm workers` value (`sonnet-xhigh` by default). Change only the effort, and keep the model the role names, so a diverse panel stays diverse. A role on `auto` or `inherit-parent` stays on the parent model. If the Agent tool rejects the adjusted effort, do not try another. Use the role's line or default and say so.
 
-**Claude Code.** Most pstack skills set `disable-model-invocation`, so the Skill tool cannot run them. To run a pstack skill a step names, Read `../<name>/SKILL.md` from this file and follow it. When you tell the user to type one, write `/pstack:<name>`. The Agent tool has no `readonly` or `environment` field, and a subagent cannot spawn subagents, so nested coordinators run in this chat. For `readonly: true`, the brief says not to edit files. For `environment: "cloud"`, pass `isolation: "worktree"` and name the branch or commit the worker checks out. Claude Code has no Cursor cloud agents, Automations, Custom Modes, or `cursor-team-kit` (`deslop`, `control-cli`, `control-ui`), and no built-in `create-skill` or babysit skill. When a step needs one of those, write `Skipped in Claude Code: <step>. <reason>.` in your reply and go on. Write a skill by hand in the Agent Skills format. Bugbot comments are ordinary GitHub review threads, so triage them as the step says. Claude Code bundles `/loop`.
+**Claude Code.** Most pstack skills set `disable-model-invocation`, so the Skill tool refuses them. To run a pstack skill a step names, do not call the Skill tool. Read `../<name>/SKILL.md` from this file and follow it. When you tell the user to type one, write `/pstack:<name>`. The Agent tool has no `readonly` or `environment` field. Subagents can nest up to Claude Code's depth limit, three levels below this chat by default. For `readonly: true`, the brief says not to edit files. For `environment: "cloud"`, pass `isolation: "worktree"` and name the branch or commit the worker checks out. Claude Code has no Cursor cloud agents, Automations, Custom Modes, or `cursor-team-kit` (`deslop`, `control-cli`, `control-ui`), and no built-in `create-skill` or babysit skill. When a step needs one of those, write `Skipped in Claude Code: <step>. <reason>.` in your reply and go on. Write a skill by hand in the Agent Skills format. Bugbot comments are ordinary GitHub review threads, so triage them as the step says. Claude Code bundles `/loop`.
 
 You own every subagent's work. Review the diff and write your own summary, don't pass through what it said. A second opinion is the same prompt against a different model. Agreement is high-signal.
 

@@ -1,17 +1,24 @@
-// How plugins/pstack differs from upstream. scripts/vendor.mjs applies, in order: drop, rules,
-// generate, then patches/*.patch. Afterward every scan term left in skills/ and agents/ needs an
+// How plugins/pstack differs from upstream. scripts/vendor.mjs applies, in order: layout and drop,
+// rules, generate, then patches/*.patch. Afterward every scan term left in skills/ and agents/ needs an
 // allow entry. See .claude/skills/sync-upstream/SKILL.md.
+
+// Upstream's top-level entries that ship. Any other top-level entry must be in drop, so a new one, such as
+// a Cursor hooks folder, fails the build until someone decides whether Claude Code should load it.
+export const layout = [".gitignore", "LICENSE", "README.md", "agents", "assets", "docs", "skills"];
 
 export const drop = [
   { path: ".cursor-plugin", why: "Cursor's manifest. Claude Code reads the generated `.claude-plugin/plugin.json`." },
   { path: "plugin.json", why: "agent-plugins.org manifest, which Claude Code ignores. Its metadata moves to `.claude-plugin/plugin.json`." },
   { path: "automations", why: "Benny runs on Cursor Automations, which Claude Code lacks. Links to it point at upstream." },
+  { path: "docs/harness", why: "Upstream's Claude Code adapter, which agents read at runtime to map Cursor names. This build translates them ahead of time, and the adapter's mappings differ from it." },
   { path: "skills/make-bot-ui", why: "Builds pages that wake a Grok Bot through a Cursor Automations webhook, which Claude Code lacks." },
 ];
 
-// Claude Code reads .claude-plugin/plugin.json. Upstream's plugin.json carries the same metadata.
+// Claude Code reads .claude-plugin/plugin.json. Upstream's plugin.json carries the same metadata. With no
+// `version`, Claude Code versions the plugin by git commit, so every change here reaches installed copies,
+// not only those that come with an upstream version bump. UPSTREAM.md records upstream's version.
 export function generate({ read }) {
-  const { $schema, ...manifest } = JSON.parse(read("plugin.json"));
+  const { $schema, version, ...manifest } = JSON.parse(read("plugin.json"));
   return { ".claude-plugin/plugin.json": `${JSON.stringify(manifest, null, 2)}\n` };
 }
 
@@ -49,7 +56,7 @@ export const rules = [
     id: "model-notation",
     why: "Skills that read model roles say how a `<model>-<effort>` value maps onto the Agent tool, so each skill works when run on its own.",
     files: ["skills/*/SKILL.md"],
-    when: /pstack-models/,
+    when: /pstack-models|\/setup-pstack/,
     find: /^(# .*)\n/m,
     replace: "$1\n\nIn Claude Code, a model value such as `opus-xhigh` is `<model>-<effort>`: pass the Agent tool `model: \"opus\"` and `effort: \"xhigh\"`. For `auto` or `inherit-parent`, omit both.\n",
   },
@@ -66,6 +73,12 @@ export const rules = [
     why: "Cursor's `Task` tool is Claude Code's `Agent` tool.",
     find: /\ba (`?)Task\b|`Task`|\bTask(?= (?:(?:tool|subagent|call|spawn|schema)\b|`model`))/g,
     replace: (match, tick) => (match.startsWith("a ") ? `an ${tick}Agent` : match.replace("Task", "Agent")),
+  },
+  {
+    id: "shell-tool",
+    why: "Cursor's shell tool is `Shell`. Claude Code's is `Bash`.",
+    find: /\bShell(?=, Grep)/g,
+    replace: "Bash",
   },
   {
     id: "ask-question",
@@ -170,6 +183,7 @@ export const scan = {
   terms: [
     { id: "Task", re: /`Task`|\bTask (tool|subagent|call|spawn|schema|`model`)|\ba Task\b/ },
     { id: "AskQuestion", re: /\bAskQuestion\b/ },
+    { id: "Shell", re: /\bShell\b/ },
     { id: "generalPurpose", re: /generalPurpose/ },
     { id: "readonly", re: /readonly(: (true|false)| strips|\/Ask| judge)/ },
     { id: "environment", re: /environment: "(cloud|local)"|cloud_base_branch/ },
@@ -191,6 +205,8 @@ export const scan = {
     {
       terms: ["readonly", "environment", "cloud-agent", "cursor-modes", "cursor-team-kit", "cursor"],
       files: ["skills/poteto-mode/SKILL.md", "skills/poteto-help/SKILL.md"],
+      // These are the most-edited files upstream, so the entry covers only these passages, and new Cursor wording still fails.
+      lines: /^\*\*Claude Code\.\*\*|Cursor's built-in for authoring|`cursor-team-kit`|not Cursor's built-in babysit skill|a Cursor restart|^This file maps questions|^This build translates|has no Custom Modes/,
       why: "The Claude Code passages added by patches name the Cursor feature they replace, and the rest point at features the poteto-mode passage tells agents to skip.",
     },
     {
@@ -221,6 +237,7 @@ export const scan = {
     {
       terms: ["environment", "cloud-agent", "cursor"],
       files: ["skills/poteto-mode/playbooks/orchestrate.md"],
+      lines: /^- \*\*Worker \/ verifier\.\*\*|in the Cursor dashboard|^- After a Cursor restart/,
       why: "Orchestrate is built on Cursor cloud agents and nested spawns. poteto-mode maps cloud workers to worktrees and runs nested coordinators in the chat. A closer port is a candidate patch.",
     },
     {

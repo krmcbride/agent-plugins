@@ -6,10 +6,11 @@ Claude Code has no models API, so setup-pstack reads the Agent tool's
 loads every `~/.claude/rules/*.md` file into each session and needs no
 frontmatter, so the Cursor `alwaysApply` header goes. The Grok ceiling
 and the trailing `fast` token no longer exist, so the budget ladder
-only moves the last token.
+only moves the last token. The rule's comments say how a value maps
+onto the Agent tool, since every session loads them.
 
 diff --git a/skills/setup-pstack/SKILL.md b/skills/setup-pstack/SKILL.md
-index c894e72..e2c88d4 100644
+index c894e72..4878ce2 100644
 --- a/skills/setup-pstack/SKILL.md
 +++ b/skills/setup-pstack/SKILL.md
 @@ -7,13 +7,13 @@ description: Configure which models pstack uses per role and at what reasoning b
@@ -24,7 +25,7 @@ index c894e72..e2c88d4 100644
  ### 1. Detect available models
  
 -Enumerate the model slugs you can pass to an `Agent` subagent in this session. That is the dependable source. If Cursor also exposes a models API or CLI that lists the user's entitled models, prefer it for completeness. If you cannot detect any, ask the user to paste the slugs they have access to. Never write a real slug you have not confirmed is available. The aliases `inherit-parent` and `auto` are always valid even though they are not detected slugs.
-+Read the Agent tool's schema in this session. Its `model` values (such as `opus`, `sonnet`, `haiku`, `fable`) and `effort` values are the dependable source. A real slug is `<model>-<effort>`, such as `opus-xhigh`, and each pair the schema allows is detected. If you cannot read the schema, ask the user which models they have access to. Never write a real slug you have not confirmed is available. The aliases `inherit-parent` and `auto` are always valid even though they are not detected slugs.
++Read the Agent tool's schema in this session. Its `model` values (such as `opus`, `sonnet`, `haiku`, `fable`) are the dependable source. A real slug is `<model>-<effort>`, such as `opus-xhigh`, where the effort is `low`, `medium`, `high`, `xhigh`, or `max`, and each such pair the schema allows is detected. If you cannot read the schema, ask the user which models they have access to. Never write a real slug you have not confirmed is available. The aliases `inherit-parent` and `auto` are always valid even though they are not detected slugs.
  
  ### 2. Load current state
  
@@ -37,7 +38,7 @@ index c894e72..e2c88d4 100644
  
  **(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` and `auto` (both mean: this role runs on the parent chat model, which is how Auto users stay on Auto) as the options. Prefer AskUserQuestion over free text. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena selects one value from it whose model family differs from the parent's when possible. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
  
-@@ -38,13 +38,9 @@ Every real slug written must be in the detected set. `inherit-parent` and `auto`
+@@ -38,14 +38,11 @@ Every real slug written must be in the detected set. `inherit-parent` and `auto`
  
  ### 5. Write the rule
  
@@ -50,5 +51,7 @@ index c894e72..e2c88d4 100644
 -alwaysApply: true
 ----
  # pstack model configuration. One line per role. Delete a line to fall back to the skill default.
++# A value such as opus-xhigh is <model>-<effort>: pass the Agent tool model and effort.
  # `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Agent `model`). Alias entries in a panel list still count toward its fan-out.
  # budget: large (xhigh)
+ feature, refactoring: sonnet-xhigh

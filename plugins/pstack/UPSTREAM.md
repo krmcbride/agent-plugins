@@ -13,6 +13,7 @@ The pristine upstream copy and every change below live in [`vendor/pstack/`](../
 - `.cursor-plugin`: Cursor's manifest. Claude Code reads the generated `.claude-plugin/plugin.json`.
 - `plugin.json`: agent-plugins.org manifest, which Claude Code ignores. Its metadata moves to `.claude-plugin/plugin.json`.
 - `automations`: Benny runs on Cursor Automations, which Claude Code lacks. Links to it point at upstream.
+- `docs/harness`: Upstream's Claude Code adapter, which agents read at runtime to map Cursor names. This build translates them ahead of time, and the adapter's mappings differ from it.
 - `skills/make-bot-ui`: Builds pages that wake a Grok Bot through a Cursor Automations webhook, which Claude Code lacks.
 
 ## Find-and-replace rules
@@ -25,9 +26,10 @@ Applied in order to `skills/**` and `agents/**` unless a rule names other files.
 | `model-grok` | 30 in 15 files | Grok is not available in Claude Code. Sonnet keeps a cheaper code model and a second family, so diverse panels stay diverse. Claude Code has no per-subagent fast mode, so `-fast` goes. |
 | `model-claude` | 24 in 8 files | `claude-opus-5-5-xhigh` becomes `opus-xhigh`: the Agent tool's `model` alias, then its `effort`. |
 | `model-speed` | 24 in 24 files | Claude Code has no per-subagent fast mode, so a subagent's effort is the only dial. |
-| `model-notation` | 9 in 9 files | Skills that read model roles say how a `<model>-<effort>` value maps onto the Agent tool, so each skill works when run on its own. |
+| `model-notation` | 10 in 10 files | Skills that read model roles say how a `<model>-<effort>` value maps onto the Agent tool, so each skill works when run on its own. |
 | `models-rule-path` | 12 in 9 files | Claude Code loads every `~/.claude/rules/*.md` file into each session, so the model rule lives there. It never reads `.mdc` files. |
 | `task-tool` | 24 in 15 files | Cursor's `Task` tool is Claude Code's `Agent` tool. |
+| `shell-tool` | 3 in 3 files | Cursor's shell tool is `Shell`. Claude Code's is `Bash`. |
 | `ask-question` | 6 in 4 files | Cursor's `AskQuestion` is Claude Code's `AskUserQuestion`. |
 | `readonly-true` | 2 in 2 files | The Agent tool has no `readonly` parameter, so read-only subagents are told not to edit. |
 | `readonly-false` | 5 in 2 files | The Agent tool has no `readonly` parameter, and every Claude Code subagent keeps the session's MCP servers, so Cursor's MCP warnings go. |
@@ -52,7 +54,7 @@ Applied in order to `skills/**` and `agents/**` unless a rule names other files.
 
 Covers what a word-for-word rule cannot: how to run another pstack skill
 when the Skill tool refuses it, what replaces the Agent fields Claude
-Code lacks, that subagents cannot nest, and what to do when a step needs
+Code lacks, how deep subagents nest, and what to do when a step needs
 a Cursor-only feature. Effort is the only per-subagent dial, so the
 fast-mode guidance goes. poteto-mode is the hub every playbook runs
 under, so this one paragraph reaches all of them.
@@ -66,7 +68,8 @@ Claude Code has no models API, so setup-pstack reads the Agent tool's
 loads every `~/.claude/rules/*.md` file into each session and needs no
 frontmatter, so the Cursor `alwaysApply` header goes. The Grok ceiling
 and the trailing `fast` token no longer exist, so the budget ladder
-only moves the last token.
+only moves the last token. The rule's comments say how a value maps
+onto the Agent tool, since every session loads them.
 
 ### [`0003-swarm-worktrees.patch`](../../vendor/pstack/patches/0003-swarm-worktrees.patch)
 
@@ -97,7 +100,9 @@ answers are Cursor UI, Cursor's own marketplace, and a runtime adapter
 this build does not need. It now gives this marketplace's install
 commands, the `/pstack:` prefix, links to this repository and to Claude
 Code's docs, and names Claude Code's built-ins in place of Cursor's.
-Its row for `/make-bot-ui` goes with that dropped skill.
+Its row for `/make-bot-ui` goes with that dropped skill. The README and guide
+still describe Cursor, so poteto-help no longer defers to them on
+installing, starting, or running pstack.
 
 ## Cursor terms left on purpose
 

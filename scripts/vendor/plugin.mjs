@@ -24,9 +24,9 @@ export function paths(name) {
 export const readPin = (p) => JSON.parse(readFileSync(p.pin, "utf8"));
 
 export async function loadConfig(p) {
-  const { drop, rules, generate, scan } = await import(pathToFileURL(p.config).href);
-  for (const [key, value] of Object.entries({ drop, rules, generate, scan })) {
+  const { layout, drop, rules, generate, scan } = await import(pathToFileURL(p.config).href);
+  for (const [key, value] of Object.entries({ layout, drop, rules, generate, scan })) {
     if (value === undefined) throw new Error(`${p.config} must export ${key}`);
   }
-  return { drop, rules, generate, scan };
+  return { layout, drop, rules, generate, scan };
 }
