@@ -4,7 +4,7 @@
 import { cpSync, mkdtempSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { gitRemote as git } from "./git.mjs";
+import { git, gitRemote } from "./git.mjs";
 import { paths, readPin } from "./plugin.mjs";
 import { readTree } from "./tree.mjs";
 
@@ -21,7 +21,8 @@ function withClone(pin, fn) {
   const work = mkdtempSync(join(tmpdir(), "vendor-sync-"));
   try {
     const src = join(work, "src");
-    git(work, "clone", "-q", "--filter=blob:none", "--no-checkout", pin.repo, src);
+    // Only the clone keeps user config. Checkout and log run without it, so autocrlf or a hook cannot change the files.
+    gitRemote(work, "clone", "-q", "--filter=blob:none", "--no-checkout", pin.repo, src);
     return fn(src, work);
   } finally {
     rmSync(work, { recursive: true, force: true });

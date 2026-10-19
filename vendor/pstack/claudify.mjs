@@ -179,8 +179,10 @@ export const rules = [
   },
 ];
 
-// One regex that matches any of these, for allow entries that list whole lines.
-const anyOf = (...patterns) => new RegExp(patterns.map((re) => `(?:${re.source})`).join("|"));
+// One regex for allow entries that list lines. A string matches that exact whole line, which suits a line
+// upstream owns. A regex suits a line a patch writes, since a change there fails the patch anyway.
+const anyOf = (...patterns) =>
+  new RegExp(patterns.map((p) => (typeof p === "string" ? `^${p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$` : `(?:${p.source})`)).join("|"));
 
 export const scan = {
   terms: [
@@ -211,11 +213,11 @@ export const scan = {
       // These are the most-edited files upstream, so the entry covers only these passages, and new Cursor wording still fails.
       lines: anyOf(
         /^\*\*Claude Code\.\*\* Most pstack skills/,
-        /^- Any prose surface, .* \(Cursor's built-in for authoring SKILL\.md files\)\.$/,
+        "- Any prose surface, your reply to the user included → the **unslop** skill. Write the reply per **Writing the reply**. Agent-facing prose also follows the **create-skill** skill (Cursor's built-in for authoring SKILL.md files).",
         /^- Before commit → the `deslop` skill from the `cursor-team-kit` plugin \(`\/deslop`\)\.$/,
-        /^- Shipping UI \/ IDE \/ CLI → the matching control skill\. `cursor-team-kit` publishes/,
-        /^- Any PR-status request .* not Cursor's built-in babysit skill, whose description matches the same words\./,
-        /^- \*\*Pause safely\.\*\* .* a Cursor restart, or imminent context compaction\./,
+        "- Shipping UI / IDE / CLI → the matching control skill. `cursor-team-kit` publishes `control-cli` (CLIs and TUIs) and `control-ui` (browser / Electron / web UIs). For bug fixes, reproduce first on the same surface yourself. Hand to the user only under the narrow Bug fix step 1 exception.",
+        "- Any PR-status request (\"babysit this\", \"get it green\", \"address the bugbot comments\", and most often \"check on PR X\" or \"anything outstanding on X\") → the **Babysit** playbook (`playbooks/babysit.md`), not Cursor's built-in babysit skill, whose description matches the same words. Never triggered by merely opening a PR. Declare its mode before polling. The playbook's step 1 owns the request-to-mode mapping. Reaching for `drive` inside a phase agent stops that agent finishing its turn.",
+        "- **Pause safely.** Suspending in-flight work cleanly so it can be resumed, on an explicit pause, going offline, a Cursor restart, or imminent context compaction. The complement to Session pickup.",
         /^This file maps questions to the skills/,
         /^This build translates Lauren Tan's Cursor plugin for Claude Code/,
         /^- Claude Code has no Custom Modes\. Start each new task with `\/pstack:poteto-mode`\.$/,
