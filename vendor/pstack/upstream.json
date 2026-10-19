@@ -1,0 +1,8 @@
+{
+  "repo": "https://github.com/cursor/plugins",
+  "ref": "main",
+  "path": "pstack",
+  "commit": "d457567332aa6989e753ea289f30ea2bfbc80bc0",
+  "commitDate": "2026-10-19",
+  "version": "0.15.28"
+}

@@ -1,13 +1,29 @@
 # Upstream
 
-This directory is an import of **pstack** by Lauren Tan ([@poteto](https://github.com/poteto)).
+This plugin is generated from upstream by `node scripts/vendor.mjs build pstack`. Do not edit it by hand.
+The pristine upstream copy and every change below live in [`vendor/pstack/`](../../vendor/pstack).
 
 - Source: https://github.com/cursor/plugins/tree/main/pstack
-- Imported commit: [`d457567332aa6989e753ea289f30ea2bfbc80bc0`](https://github.com/cursor/plugins/tree/d457567332aa6989e753ea289f30ea2bfbc80bc0/pstack) (cursor/plugins `main`, 2026-10-19)
-- Last commit touching `pstack/`: `d457567332aa6989e753ea289f30ea2bfbc80bc0` (2026-10-19)
+- Commit: [`d457567332aa6989e753ea289f30ea2bfbc80bc0`](https://github.com/cursor/plugins/tree/d457567332aa6989e753ea289f30ea2bfbc80bc0/pstack) (2026-10-19)
 - Upstream version: 0.15.28
-- License: MIT, Copyright (c) 2026 Lauren Tan. See [`LICENSE`](LICENSE), kept unchanged.
+- License: kept unchanged in [`LICENSE`](LICENSE).
 
-Every file here except this one was copied byte-for-byte from upstream at that commit.
-Changes made for Claude Code land in later, separate commits so `git log -- plugins/pstack`
-shows exactly what differs from upstream.
+## Dropped from upstream
+
+- `.cursor-plugin`: Cursor's manifest. Claude Code reads the generated `.claude-plugin/plugin.json`.
+- `plugin.json`: agent-plugins.org manifest, which Claude Code ignores. Its metadata moves to `.claude-plugin/plugin.json`.
+- `automations`: Benny runs on Cursor Automations, which Claude Code lacks. Links to it point at upstream.
+
+## Find-and-replace rules
+
+Applied in order to `skills/**` and `agents/**` unless a rule names other files.
+
+| Rule | Replacements | Why |
+| --- | --- | --- |
+
+## Patches
+
+## Cursor terms left on purpose
+
+| Term | Files | Why |
+| --- | --- | --- |
