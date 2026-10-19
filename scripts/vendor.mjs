@@ -295,7 +295,12 @@ async function cmdSync(name, ref) {
       return 0;
     }
     const last = git(src, "log", "-1", "--format=%H %cs", "--", pin.path).trim().split(" ");
-    const log = git(src, "log", "--format=%h %cs %s", `${pin.commit}..${commit}`, "--", pin.path).trim();
+    let log;
+    try {
+      log = git(src, "log", "--format=%h %cs %s", `${pin.commit}..${commit}`, "--", pin.path).trim();
+    } catch {
+      log = `(the previous pin ${pin.commit} is not in upstream's history)`;
+    }
     rmSync(p.upstream, { recursive: true, force: true });
     cpSync(join(src, pin.path), p.upstream, { recursive: true });
     const manifest = join(p.upstream, "plugin.json");
