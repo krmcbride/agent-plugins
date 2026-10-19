@@ -65,9 +65,12 @@ async function cmdSavePatch(name, patchName, kind) {
   const file = existing?.file ?? `${String(number).padStart(4, "0")}-${short}.patch`;
   let edited = readTree(p.out);
   edited.delete(LEDGER);
-  // Unless the build stopped at this patch, plugins/<name> also holds every later patch. Revert them first.
-  const later = patches.filter((patch) => patch.number > number);
-  if (later.length && (await build(name)).failed?.file !== file) {
+  for (const path of ignored(p.out, [...edited.keys()])) edited.delete(path);
+  // plugins/<name> holds every patch the build applied. Revert those after this one first.
+  const { failed } = await build(name);
+  if (failed && failed.number < number) throw new Error(`${failed.file} does not apply. Fix that one first.`);
+  const later = patches.filter((patch) => patch.number > number && (!failed || patch.number < failed.number));
+  if (later.length) {
     const reverted = applyPatches(edited, later, { reverse: true });
     if (reverted.failed) throw new Error(`your edits overlap ${reverted.failed.patch.file}, so ${file} cannot be refreshed alone. Edit that patch instead.`);
     edited = reverted.tree;

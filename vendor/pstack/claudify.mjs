@@ -179,6 +179,9 @@ export const rules = [
   },
 ];
 
+// One regex that matches any of these, for allow entries that list whole lines.
+const anyOf = (...patterns) => new RegExp(patterns.map((re) => `(?:${re.source})`).join("|"));
+
 export const scan = {
   terms: [
     { id: "Task", re: /`Task`|\bTask (tool|subagent|call|spawn|schema|`model`)|\ba Task\b/ },
@@ -206,7 +209,18 @@ export const scan = {
       terms: ["readonly", "environment", "cloud-agent", "cursor-modes", "cursor-team-kit", "cursor"],
       files: ["skills/poteto-mode/SKILL.md", "skills/poteto-help/SKILL.md"],
       // These are the most-edited files upstream, so the entry covers only these passages, and new Cursor wording still fails.
-      lines: /^\*\*Claude Code\.\*\*|Cursor's built-in for authoring|`cursor-team-kit`|not Cursor's built-in babysit skill|a Cursor restart|^This file maps questions|^This build translates|has no Custom Modes/,
+      lines: anyOf(
+        /^\*\*Claude Code\.\*\* Most pstack skills/,
+        /^- Any prose surface, .* \(Cursor's built-in for authoring SKILL\.md files\)\.$/,
+        /^- Before commit → the `deslop` skill from the `cursor-team-kit` plugin \(`\/deslop`\)\.$/,
+        /^- Shipping UI \/ IDE \/ CLI → the matching control skill\. `cursor-team-kit` publishes/,
+        /^- Any PR-status request .* not Cursor's built-in babysit skill, whose description matches the same words\./,
+        /^- \*\*Pause safely\.\*\* .* a Cursor restart, or imminent context compaction\./,
+        /^This file maps questions to the skills/,
+        /^This build translates Lauren Tan's Cursor plugin for Claude Code/,
+        /^- Claude Code has no Custom Modes\. Start each new task with `\/pstack:poteto-mode`\.$/,
+        /^- `\/deslop`, `control-cli`, and `control-ui` ship in Cursor's `cursor-team-kit` plugin, which Claude Code does not have\.$/,
+      ),
       why: "The Claude Code passages added by patches name the Cursor feature they replace, and the rest point at features the poteto-mode passage tells agents to skip.",
     },
     {

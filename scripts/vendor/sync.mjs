@@ -3,8 +3,8 @@
 
 import { cpSync, mkdtempSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { git } from "./git.mjs";
+import { dirname, join } from "node:path";
+import { gitRemote as git } from "./git.mjs";
 import { paths, readPin } from "./plugin.mjs";
 import { readTree } from "./tree.mjs";
 
@@ -31,7 +31,7 @@ function withClone(pin, fn) {
 export function sync(name, ref) {
   const p = paths(name);
   const pin = readPin(p);
-  return withClone(pin, (src, work) => {
+  return withClone(pin, (src) => {
     const branch = resolve(src, `origin/${ref ?? pin.ref}`);
     const commit = branch || resolve(src, ref ?? pin.ref);
     if (!commit) throw new Error(`${pin.repo} has no branch, tag, or commit ${ref ?? pin.ref}`);
@@ -49,10 +49,15 @@ export function sync(name, ref) {
     } catch {
       log = `(the previous pin ${pin.commit} is not in upstream's history)`;
     }
-    const staged = join(work, "upstream");
-    cpSync(join(src, pin.path), staged, { recursive: true });
-    rmSync(p.upstream, { recursive: true, force: true });
-    renameSync(staged, p.upstream);
+    // Stage beside the target: rename cannot cross filesystems, and the temp folder may be on another one.
+    const staged = mkdtempSync(join(dirname(p.upstream), ".upstream-"));
+    try {
+      cpSync(join(src, pin.path), staged, { recursive: true });
+      rmSync(p.upstream, { recursive: true, force: true });
+      renameSync(staged, p.upstream);
+    } finally {
+      rmSync(staged, { recursive: true, force: true });
+    }
     // Only a branch is worth following on the next sync. A tag or commit leaves the pinned ref as it was.
     const nextRef = ref && branch ? ref : pin.ref;
     writeFileSync(p.pin, `${JSON.stringify({ ...pin, ref: nextRef, commit, commitDate, version }, null, 2)}\n`);
