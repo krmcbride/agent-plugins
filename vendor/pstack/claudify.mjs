@@ -6,6 +6,7 @@ export const drop = [
   { path: ".cursor-plugin", why: "Cursor's manifest. Claude Code reads the generated `.claude-plugin/plugin.json`." },
   { path: "plugin.json", why: "agent-plugins.org manifest, which Claude Code ignores. Its metadata moves to `.claude-plugin/plugin.json`." },
   { path: "automations", why: "Benny runs on Cursor Automations, which Claude Code lacks. Links to it point at upstream." },
+  { path: "skills/make-bot-ui", why: "Builds pages that wake a Grok Bot through a Cursor Automations webhook, which Claude Code lacks." },
 ];
 
 // Claude Code reads .claude-plugin/plugin.json. Upstream's plugin.json carries the same metadata.
@@ -110,6 +111,25 @@ export const rules = [
     replace: "background: true",
   },
 
+  {
+    id: "mcp-discovery",
+    why: "Cursor lists MCP servers in an available-tools map and an `mcps/` folder. Claude Code names each MCP tool `mcp__<server>__<tool>`.",
+    find: "list the available MCPs from the Cursor environment. Use the available-tools map when present. Otherwise inspect the `mcps/` directory Cursor exposes for enabled MCP servers.",
+    replace: "list the available MCPs from this session's tools. Claude Code names each MCP tool `mcp__<server>__<tool>`, and a deferred tool counts even before you load its schema.",
+  },
+  {
+    id: "loop-command",
+    why: "Claude Code bundles its own `/loop` command.",
+    find: "Cursor's `/loop` command",
+    replace: "Claude Code's `/loop` command",
+  },
+  {
+    id: "cloud-agent-workers",
+    why: "Claude Code has no Cursor cloud agents. A subagent in its own worktree is the nearest equivalent.",
+    find: /\b(Each owner is|each) a Cursor cloud agent\b/g,
+    replace: "$1 a subagent in its own worktree",
+  },
+
   // Paths.
   {
     id: "claude-dirs",
@@ -145,3 +165,68 @@ export const rules = [
     replace: '`~/.claude/projects/<slug>/<session>.jsonl`, with subagent transcripts in `<session>/subagents/`, where `<slug>` is the workspace path with every character other than a letter or digit turned into "-" (so `/Users/you/proj` becomes `-Users-you-proj`)',
   },
 ];
+
+export const scan = {
+  terms: [
+    { id: "Task", re: /`Task`|\bTask (tool|subagent|call|spawn|schema|`model`)|\ba Task\b/ },
+    { id: "AskQuestion", re: /\bAskQuestion\b/ },
+    { id: "generalPurpose", re: /generalPurpose/ },
+    { id: "readonly", re: /readonly(: (true|false)| strips|\/Ask| judge)/ },
+    { id: "environment", re: /environment: "(cloud|local)"|cloud_base_branch/ },
+    { id: "file_attachments", re: /file_attachments/ },
+    { id: "is_background", re: /is_background/ },
+    { id: "plugin-agent", re: /"(poteto-agent|comment-sicko)"/ },
+    { id: "cursor-model", re: /\b(claude-[a-z]+-\d|grok-\d|cursor-grok|composer-|gpt-\d)/ },
+    { id: "mdc-rule", re: /\.mdc\b|alwaysApply/ },
+    { id: "cursor-path", re: /\.cursor\/|\.cursor-plugin/ },
+    { id: "agent-transcripts", re: /agent-transcripts/ },
+    { id: "cursor-team-kit", re: /cursor-team-kit/ },
+    { id: "bugbot", re: /Bugbot/ },
+    { id: "cursor-automations", re: /Cursor [Aa]utomations?|cursor\.sh\/automations|X-Automation-Key/ },
+    { id: "cloud-agent", re: /[Cc]loud agents?/ },
+    { id: "cursor-modes", re: /Custom Modes?|Plan Mode/ },
+    { id: "cursor", re: /\bCursor('s)?\b/ },
+  ],
+  allow: [
+        {
+      terms: ["readonly", "environment", "cloud-agent", "cursor-modes", "cursor-team-kit", "cursor"],
+      files: ["skills/poteto-mode/SKILL.md", "skills/poteto-help/SKILL.md"],
+      why: "The Claude Code passages added by patches name the Cursor feature they replace, and the rest point at features the poteto-mode passage tells agents to skip.",
+    },
+    {
+      terms: ["bugbot"],
+      files: ["skills/poteto-mode/**", "skills/reflect/references/synthesizer.md"],
+      why: "Bugbot posts ordinary GitHub review threads, which the playbooks and the PR watcher triage through `gh`. Without Bugbot on a repo, these steps find nothing.",
+    },
+    {
+      terms: ["cursor-team-kit"],
+      files: ["skills/poteto-mode/playbooks/*.md"],
+      why: "`deslop`, `control-ui`, and `control-cli` have no Claude Code equivalent yet. poteto-mode says to skip such a step with a note. A personal patch can point these at my own skills.",
+    },
+    {
+      terms: ["cursor"],
+      files: ["skills/automate-me/SKILL.md", "skills/reflect/SKILL.md", "skills/poteto-mode/playbooks/authoring-a-skill.md"],
+      why: "These name Cursor's built-in `create-skill`. Claude Code has none, and poteto-mode says to write the skill by hand in the Agent Skills format.",
+    },
+    {
+      terms: ["cursor"],
+      files: ["skills/poteto-mode/playbooks/babysit.md"],
+      why: "Says the playbook replaces Cursor's built-in babysit skill. Claude Code has no such skill, so the sentence is harmless.",
+    },
+    {
+      terms: ["cursor"],
+      files: ["skills/poteto-mode/playbooks/worktree-cleanup.md"],
+      why: "Lists Cursor's macOS cache folder among disk space to reclaim. A missing folder costs nothing.",
+    },
+    {
+      terms: ["environment", "cloud-agent", "cursor"],
+      files: ["skills/poteto-mode/playbooks/orchestrate.md"],
+      why: "Orchestrate is built on Cursor cloud agents and nested spawns. poteto-mode maps cloud workers to worktrees and runs nested coordinators in the chat. A closer port is a candidate patch.",
+    },
+    {
+      terms: ["cursor-model"],
+      files: ["skills/reflect/references/synthesizer.md"],
+      why: "An example commit message that mentions `gpt-4`, not a model choice.",
+    },
+  ],
+};
