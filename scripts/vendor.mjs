@@ -189,15 +189,16 @@ async function build(name, { stopBefore = Infinity } = {}) {
     text(entry).split("\n").forEach((line, index) => {
       for (const term of config.scan.terms) {
         if (!term.re.test(line)) continue;
-        const allow = config.scan.allow.find((a) => a.term === term.id && matches(path, a.files));
+        const allow = config.scan.allow.find((a) => a.terms.includes(term.id) && matches(path, a.files));
         if (allow) used.add(allow);
         else problems.push(`term ${term.id}: ${path}:${index + 1} is not translated or allowed\n    ${line.trim().slice(0, 200)}`);
       }
     });
   }
   for (const allow of config.scan.allow) {
-    if (!config.scan.terms.some(({ id }) => id === allow.term)) problems.push(`allow ${allow.term}: no term has that id`);
-    else if (!used.has(allow)) problems.push(`allow ${allow.term} in ${allow.files.join(", ")}: nothing left to allow. Remove it.`);
+    const unknown = allow.terms.filter((id) => !config.scan.terms.some((term) => term.id === id));
+    if (unknown.length) problems.push(`allow ${unknown.join(", ")}: no scan term has that id`);
+    else if (!used.has(allow)) problems.push(`allow ${allow.terms.join(", ")} in ${allow.files.join(", ")}: nothing left to allow. Remove it.`);
   }
   report.allows = config.scan.allow;
   tree.set(LEDGER, { bytes: Buffer.from(ledger(name, report)), executable: false });
@@ -240,9 +241,9 @@ function ledger(name, { pin, drops, rules, patches, allows }) {
     ]),
     `## Cursor terms left on purpose`,
     ``,
-    `| Term | Files | Why |`,
+    `| Terms | Files | Why |`,
     `| --- | --- | --- |`,
-    ...allows.map(({ term, files, why }) => `| \`${term}\` | ${files.map((f) => `\`${f}\``).join(", ")} | ${why} |`),
+    ...allows.map(({ terms, files, why }) => `| ${terms.map((t) => `\`${t}\``).join(", ")} | ${files.map((f) => `\`${f}\``).join(", ")} | ${why} |`),
     ``,
   ];
   return lines.join("\n");

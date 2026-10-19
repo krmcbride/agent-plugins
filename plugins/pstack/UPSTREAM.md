@@ -13,6 +13,7 @@ The pristine upstream copy and every change below live in [`vendor/pstack/`](../
 - `.cursor-plugin`: Cursor's manifest. Claude Code reads the generated `.claude-plugin/plugin.json`.
 - `plugin.json`: agent-plugins.org manifest, which Claude Code ignores. Its metadata moves to `.claude-plugin/plugin.json`.
 - `automations`: Benny runs on Cursor Automations, which Claude Code lacks. Links to it point at upstream.
+- `skills/make-bot-ui`: Builds pages that wake a Grok Bot through a Cursor Automations webhook, which Claude Code lacks.
 
 ## Find-and-replace rules
 
@@ -34,6 +35,9 @@ Applied in order to `skills/**` and `agents/**` unless a rule names other files.
 | `general-purpose` | 5 in 4 files | Cursor's `generalPurpose` subagent is Claude Code's built-in `general-purpose`. |
 | `plugin-agents` | 4 in 4 files | Claude Code scopes plugin agents by plugin name. |
 | `agent-background` | 1 in 1 file | Claude Code's subagent frontmatter field is `background`. |
+| `mcp-discovery` | 1 in 1 file | Cursor lists MCP servers in an available-tools map and an `mcps/` folder. Claude Code names each MCP tool `mcp__<server>__<tool>`. |
+| `loop-command` | 2 in 2 files | Claude Code bundles its own `/loop` command. |
+| `cloud-agent-workers` | 2 in 2 files | Claude Code has no Cursor cloud agents. A subagent in its own worktree is the nearest equivalent. |
 | `claude-dirs` | 21 in 7 files | Skills, plugins, and plugin manifests live under `.claude` in Claude Code. |
 | `claude-worktrees` | 1 in 1 file | Claude Code puts the worktrees it creates in `<repo>/.claude/worktrees/<name>`. |
 | `transcripts-dir` | 5 in 5 files | Cursor's system prompt names the workspace's `agent-transcripts/` directory. Claude Code's does not, so the skills spell out where Claude Code keeps transcripts. |
@@ -93,8 +97,17 @@ answers are Cursor UI, Cursor's own marketplace, and a runtime adapter
 this build does not need. It now gives this marketplace's install
 commands, the `/pstack:` prefix, links to this repository and to Claude
 Code's docs, and names Claude Code's built-ins in place of Cursor's.
+Its row for `/make-bot-ui` goes with that dropped skill.
 
 ## Cursor terms left on purpose
 
-| Term | Files | Why |
+| Terms | Files | Why |
 | --- | --- | --- |
+| `readonly`, `environment`, `cloud-agent`, `cursor-modes`, `cursor-team-kit`, `cursor` | `skills/poteto-mode/SKILL.md`, `skills/poteto-help/SKILL.md` | The Claude Code passages added by patches name the Cursor feature they replace, and the rest point at features the poteto-mode passage tells agents to skip. |
+| `bugbot` | `skills/poteto-mode/**`, `skills/reflect/references/synthesizer.md` | Bugbot posts ordinary GitHub review threads, which the playbooks and the PR watcher triage through `gh`. Without Bugbot on a repo, these steps find nothing. |
+| `cursor-team-kit` | `skills/poteto-mode/playbooks/*.md` | `deslop`, `control-ui`, and `control-cli` have no Claude Code equivalent yet. poteto-mode says to skip such a step with a note. A personal patch can point these at my own skills. |
+| `cursor` | `skills/automate-me/SKILL.md`, `skills/reflect/SKILL.md`, `skills/poteto-mode/playbooks/authoring-a-skill.md` | These name Cursor's built-in `create-skill`. Claude Code has none, and poteto-mode says to write the skill by hand in the Agent Skills format. |
+| `cursor` | `skills/poteto-mode/playbooks/babysit.md` | Says the playbook replaces Cursor's built-in babysit skill. Claude Code has no such skill, so the sentence is harmless. |
+| `cursor` | `skills/poteto-mode/playbooks/worktree-cleanup.md` | Lists Cursor's macOS cache folder among disk space to reclaim. A missing folder costs nothing. |
+| `environment`, `cloud-agent`, `cursor` | `skills/poteto-mode/playbooks/orchestrate.md` | Orchestrate is built on Cursor cloud agents and nested spawns. poteto-mode maps cloud workers to worktrees and runs nested coordinators in the chat. A closer port is a candidate patch. |
+| `cursor-model` | `skills/reflect/references/synthesizer.md` | An example commit message that mentions `gpt-4`, not a model choice. |
