@@ -1,0 +1,25 @@
+Subject: Run swarm workers in worktrees instead of Cursor cloud agents
+Kind: claudify
+
+Cursor gives each swarm worker its own cloud machine through
+`environment: "cloud"` and `cloud_base_branch`. Claude Code's Agent
+tool has neither, and its nearest equivalent is `isolation: "worktree"`,
+which gives each worker its own checkout. A worker names its starting
+branch in its brief.
+
+diff --git a/skills/swarm/SKILL.md b/skills/swarm/SKILL.md
+index 8663a3f..992c681 100644
+--- a/skills/swarm/SKILL.md
++++ b/skills/swarm/SKILL.md
+@@ -26,9 +26,9 @@ Open a todolist with one entry per phase before launching anything.
+ 
+ ## Phase B: Fan out
+ 
+-Spawn all N workers in one message with `subagent_type: general-purpose`, `environment: "cloud"`, `run_in_background: true`, and the step 4 model, left unset for `auto` or `inherit-parent`. Use `environment: "local"` only when the worker needs access to something on the user's computer.
++Spawn all N workers in one message with `subagent_type: general-purpose`, `isolation: "worktree"`, `run_in_background: true`, and the step 4 model, left unset for `auto` or `inherit-parent`. Leave out `isolation` only when the worker needs uncommitted state in this checkout.
+ 
+-When a worker must start from a non-default pushed branch, pass `cloud_base_branch`.
++When a worker must start from a non-default pushed branch, its brief names that branch and tells it to check it out first.
+ 
+ Every brief stands alone. Include the goal, scope, exact slice or race arm, how to verify, and what to report. Reports use `PASS`, `ISSUES`, or `BLOCKED` with evidence. A worker that can prove a defect reports `ISSUES` and lists every issue it can prove, not only the first.
+ 

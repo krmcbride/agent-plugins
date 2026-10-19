@@ -159,7 +159,7 @@ async function build(name, { stopBefore = Infinity } = {}) {
       git(work, "init", "-q");
       for (const patch of patches) {
         if (patch.number >= stopBefore) break;
-        if (!patch.subject || !KINDS.includes(patch.kind) || !patch.why) {
+        if (!patch.subject || !KINDS.includes(patch.kind) || !patch.why || /\bTODO\b/.test(patch.header)) {
           problems.push(`patch ${patch.file}: header needs Subject:, Kind: (${KINDS.join(" or ")}), a blank line, and a why paragraph`);
         }
         try {
