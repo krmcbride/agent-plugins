@@ -25,7 +25,7 @@ claude plugin install pstack@krmcbride
 plugins/<name>/                   one directory per plugin
 vendor/<name>/                    for a plugin built from upstream: the pristine upstream copy and its pin,
                                   plus the rules and patches that turn it into plugins/<name>
-scripts/vendor.mjs                builds, checks, and syncs vendored plugins
+scripts/vendor.mjs                builds, checks, and syncs vendored plugins (Node 24)
 ```
 
 A vendored plugin is generated, so change it through `vendor/<name>/` and never edit `plugins/<name>/` alone.
@@ -36,6 +36,7 @@ upstream changes, which an agent can follow on its own:
 node scripts/vendor.mjs sync pstack     # replace vendor/pstack/upstream with upstream main
 node scripts/vendor.mjs build pstack    # regenerate plugins/pstack, failing on anything left to translate
 node scripts/vendor.mjs check pstack    # what CI runs: plugins/pstack must match what vendor/pstack builds
+node scripts/vendor.mjs verify pstack   # also in CI: vendor/pstack/upstream must match its pinned commit
 ```
 
 ## Plugins

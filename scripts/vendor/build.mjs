@@ -22,6 +22,11 @@ function transform(upstream, config, pin) {
   for (const { path } of config.drop) {
     if (!keys.some((key) => within(key, path))) problems.push(`drop ${path}: nothing upstream at that path`);
   }
+  for (const top of new Set(keys.map((key) => key.split("/")[0]))) {
+    if (!config.layout.includes(top) && !config.drop.some((d) => d.path === top)) {
+      problems.push(`upstream added ${top}: check whether Claude Code would load it, then drop it or add it to layout`);
+    }
+  }
 
   const rules = config.rules.map((rule) => {
     let hits = 0;
@@ -71,7 +76,7 @@ function scan(tree, { terms, allow }) {
     text(entry).split("\n").forEach((line, index) => {
       for (const term of terms) {
         if (!term.re.test(line)) continue;
-        const entry = allow.find((a) => a.terms.includes(term.id) && matches(path, a.files));
+        const entry = allow.find((a) => a.terms.includes(term.id) && matches(path, a.files) && (!a.lines || a.lines.test(line)));
         if (entry) used.add(entry);
         else problems.push(`term ${term.id}: ${path}:${index + 1} is not translated or allowed\n    ${line.trim().slice(0, 200)}`);
       }

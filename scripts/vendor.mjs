@@ -2,20 +2,29 @@
 // Builds plugins/<name> from a pristine upstream copy in vendor/<name>/upstream plus the changes
 // recorded in vendor/<name>. See USAGE below and .claude/skills/sync-upstream/SKILL.md.
 
+import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { build, LEDGER, treeBefore } from "./vendor/build.mjs";
-import { diffTrees, header, KINDS, listPatches } from "./vendor/patches.mjs";
+import { applyPatches, diffTrees, header, KINDS, listPatches } from "./vendor/patches.mjs";
 import { paths } from "./vendor/plugin.mjs";
-import { sync } from "./vendor/sync.mjs";
+import { sync, verify } from "./vendor/sync.mjs";
 import { readTree, writeTree } from "./vendor/tree.mjs";
 
 const USAGE = `usage:
   node scripts/vendor.mjs build <name>               write plugins/<name>
   node scripts/vendor.mjs check <name>               fail if plugins/<name> is not what build writes
   node scripts/vendor.mjs sync <name> [ref]          replace vendor/<name>/upstream with upstream at ref
+  node scripts/vendor.mjs verify <name>              fail if vendor/<name>/upstream differs from its pinned commit
   node scripts/vendor.mjs save-patch <name> <patch> [--kind claudify|personal]
                                                      record edits made in plugins/<name> as a patch`;
+
+// The paths under dir that the repository's ignore rules match. This uses the user's git config on purpose,
+// since a global excludes file is where .DS_Store usually lives.
+function ignored(dir, paths) {
+  const result = spawnSync("git", ["check-ignore", "--stdin"], { cwd: dir, input: paths.join("\n"), encoding: "utf8" });
+  return result.stdout.split("\n").filter(Boolean);
+}
 
 const report = (problems) => problems.forEach((problem) => console.log(`FAIL ${problem}`));
 
@@ -32,6 +41,8 @@ async function cmdCheck(name) {
   const { tree, problems } = await build(name);
   const out = paths(name).out;
   const onDisk = existsSync(out) ? readTree(out) : new Map();
+  // Files git ignores, such as .DS_Store or node_modules, are local clutter, not hand edits.
+  for (const path of ignored(out, [...onDisk.keys()])) onDisk.delete(path);
   const drifted = [...new Set([...tree.keys(), ...onDisk.keys()])].sort().filter((path) => {
     const [want, have] = [tree.get(path), onDisk.get(path)];
     return !want || !have || !want.bytes.equals(have.bytes) || want.executable !== have.executable;
@@ -52,12 +63,15 @@ async function cmdSavePatch(name, patchName, kind) {
   const existing = patches.find(({ file }) => file === `${short}.patch` || file.slice(5) === `${short}.patch`);
   const number = existing?.number ?? (patches.at(-1)?.number ?? 0) + 1;
   const file = existing?.file ?? `${String(number).padStart(4, "0")}-${short}.patch`;
-  // plugins/<name> holds every later patch too, unless the build stopped at this one.
-  if (existing && patches.some((patch) => patch.number > number) && (await build(name)).failed?.file !== file) {
-    throw new Error(`${file} has later patches applied in plugins/${name}. Refresh a patch only when the build stops at it, or edit the last patch.`);
-  }
-  const edited = readTree(p.out);
+  let edited = readTree(p.out);
   edited.delete(LEDGER);
+  // Unless the build stopped at this patch, plugins/<name> also holds every later patch. Revert them first.
+  const later = patches.filter((patch) => patch.number > number);
+  if (later.length && (await build(name)).failed?.file !== file) {
+    const reverted = applyPatches(edited, later, { reverse: true });
+    if (reverted.failed) throw new Error(`your edits overlap ${reverted.failed.patch.file}, so ${file} cannot be refreshed alone. Edit that patch instead.`);
+    edited = reverted.tree;
+  }
   const diff = diffTrees(await treeBefore(name, number), edited);
   if (!diff) throw new Error(`plugins/${name} has no edits on top of the tree before ${file}`);
   const resolved = kind ?? existing?.kind ?? "claudify";
@@ -71,12 +85,13 @@ async function cmdSavePatch(name, patchName, kind) {
 
 const args = process.argv.slice(2);
 const kindAt = args.indexOf("--kind");
-const kind = kindAt === -1 ? undefined : args.splice(kindAt, 2)[1];
+const kind = kindAt === -1 ? undefined : args.splice(kindAt, 2)[1] ?? "";
 const [command, name, ...rest] = args;
 const commands = {
   build: () => cmdBuild(name),
   check: () => cmdCheck(name),
   sync: () => sync(name, rest[0]),
+  verify: () => verify(name),
   "save-patch": () => cmdSavePatch(name, rest[0], kind),
 };
 if (!commands[command] || !name || (kind !== undefined && !KINDS.includes(kind))) {

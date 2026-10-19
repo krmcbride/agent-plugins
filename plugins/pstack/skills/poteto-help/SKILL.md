@@ -12,7 +12,7 @@ Answer the user's question about pstack, hand them a prompt they can send, and l
 
 A message that asks for work, such as "use pstack to fix this bug", is not a help question. Read [`poteto-mode`](../poteto-mode/SKILL.md), do the work under it, and mention once that starting each task with `/pstack:poteto-mode` keeps it on.
 
-This file maps questions to the skills and guide pages that hold the answers. Those files own the details. Read the file you route to before you quote it, and trust it when it disagrees with this map. The links here point into the installed plugin, which the user may not be able to open, so give the user the file's public copy: `https://github.com/krmcbride/agent-plugins/blob/master/plugins/pstack/` followed by its path.
+This file maps questions to the skills and guide pages that hold the answers. Those files own the details. Read the file you route to before you quote it, and trust it when it disagrees with this map, except on installing, starting, or running pstack. The README and guide describe Cursor, so for those, this file and poteto-mode's Claude Code paragraph win. The links here point into the installed plugin, which the user may not be able to open, so give the user the file's public copy: `https://github.com/krmcbride/agent-plugins/blob/master/plugins/pstack/` followed by its path.
 
 ## Find out what they need
 
