@@ -61,9 +61,10 @@ elif raw=$(gh pr list --author "@me" --state all --limit 1000 \
 fi
 [ -s "$prs" ] || echo "[]" > "$prs"
 
-# Transcripts dir: ~/.cursor/projects/<slugified-repo-path>/agent-transcripts.
-slug=$(printf '%s' "$main_wt" | sed 's#^/##; s#/#-#g')
-transcripts="$HOME/.cursor/projects/$slug/agent-transcripts"
+# Transcript dirs: ~/.claude/projects/<path with each non-alphanumeric char as ->,
+# one for the main worktree and one for each worktree under it.
+slug=$(printf '%s' "$main_wt" | sed 's#[^A-Za-z0-9]#-#g')
+transcripts=$(ls -d "$HOME/.claude/projects/$slug" "$HOME/.claude/projects/$slug"-* 2>/dev/null)
 now=$(date +%s)
 
 echo "# base: $base"
@@ -103,8 +104,9 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	# Most recent chat whose transcript operated in this worktree. Match path
 	# followed by "/" or a quote so glint-482 does not match glint-482-r37.
 	last="-"; last_ts=0
-	if [ -d "$transcripts" ]; then
-		f=$(rg -l -e "${wt}/" -e "${wt}\"" "$transcripts" 2>/dev/null \
+	if [ -n "$transcripts" ]; then
+		# shellcheck disable=SC2086 # one dir per line, and slugs have no spaces
+		f=$(rg -l -e "${wt}/" -e "${wt}\"" $transcripts 2>/dev/null \
 			| xargs stat -f '%m %N' 2>/dev/null | sort -rn | head -1)
 		if [ -n "$f" ]; then last_ts=$(echo "$f" | awk '{print $1}')
 			last=$(date -r "$last_ts" '+%Y-%m-%d' 2>/dev/null); fi

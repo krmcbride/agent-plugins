@@ -39,6 +39,12 @@ export const rules = [
     replace: "$1-$2",
   },
   {
+    id: "model-speed",
+    why: "Claude Code has no per-subagent fast mode, so a subagent's effort is the only dial.",
+    find: "reasoning level and fast or standard speed for the job",
+    replace: "reasoning effort for the job",
+  },
+  {
     id: "model-notation",
     why: "Skills that read model roles say how a `<model>-<effort>` value maps onto the Agent tool, so each skill works when run on its own.",
     files: ["skills/*/SKILL.md"],
@@ -57,7 +63,7 @@ export const rules = [
   {
     id: "task-tool",
     why: "Cursor's `Task` tool is Claude Code's `Agent` tool.",
-    find: /\ba (`?)Task\b|`Task`|\bTask(?= (tool|subagent|call|spawn)\b)/g,
+    find: /\ba (`?)Task\b|`Task`|\bTask(?= (?:(?:tool|subagent|call|spawn|schema)\b|`model`))/g,
     replace: (match, tick) => (match.startsWith("a ") ? `an ${tick}Agent` : match.replace("Task", "Agent")),
   },
   {
