@@ -28,6 +28,8 @@ vendor/<name>/                    for a plugin built from upstream: the pristine
 scripts/vendor.mjs                builds, checks, and syncs vendored plugins (Node 24)
 ```
 
+A plugin with no `vendor/<name>/` directory, such as `review`, is written here and edited in place.
+
 A vendored plugin is generated, so change it through `vendor/<name>/` and never edit `plugins/<name>/` alone.
 [`.claude/skills/sync-upstream/SKILL.md`](.claude/skills/sync-upstream/SKILL.md) is the procedure for pulling in
 upstream changes, which an agent can follow on its own:
@@ -44,6 +46,7 @@ node scripts/vendor.mjs verify pstack   # also in CI: vendor/pstack/upstream mus
 | Plugin | What it is | Upstream |
 | --- | --- | --- |
 | [`pstack`](plugins/pstack) | Lauren Tan's poteto-mode workflows, principles, and review skills | [cursor/plugins/pstack](https://github.com/cursor/plugins/tree/main/pstack) |
+| [`review`](plugins/review) | Ordinary and adversarial code review with a code-shape pass, run by read-only review agents | This repo |
 
 ## Attribution
 

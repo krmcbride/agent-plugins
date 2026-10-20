@@ -12,6 +12,12 @@
       "source": "./plugins/pstack",
       "description": "Lauren Tan's (@poteto) pstack: poteto-mode workflows, principles, and review skills. Imported from cursor/plugins.",
       "category": "developer-tools"
+    },
+    {
+      "name": "review",
+      "source": "./plugins/review",
+      "description": "Ordinary and adversarial code review with a code-shape pass, run by read-only review agents.",
+      "category": "developer-tools"
     }
   ]
 }
