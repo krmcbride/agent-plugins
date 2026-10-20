@@ -1,0 +1,12 @@
+{
+  "name": "review",
+  "description": "Code review for completed implementation work: ordinary and adversarial reviewer-critic review, plus a code-shape pass, run by dedicated read-only review agents.",
+  "author": {
+    "name": "Kevin McBride",
+    "url": "https://github.com/krmcbride"
+  },
+  "homepage": "https://github.com/krmcbride/agent-plugins/tree/master/plugins/review",
+  "repository": "https://github.com/krmcbride/agent-plugins",
+  "license": "MIT",
+  "keywords": ["code-review", "adversarial-review", "code-shape", "architecture", "subagents"]
+}
