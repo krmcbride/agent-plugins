@@ -22,7 +22,19 @@ Adversarial review does not require exceptional risk. Consider it for meaningful
 
 Briefly state the selected approach and the concrete reason; include reviewer depth for either delegated approach. Choosing no delegation cannot cancel an explicit review request or required validation. Do not run ordinary review as a mandatory preliminary pass for adversarial review. If new evidence changes the selection, explain the reason and establish the appropriate packet before changing protocols.
 
-For either delegated approach or the shape pass, also read [Claude dispatch](references/dispatch.md) before launching. Check the required roles and tools for the selected approach. If unavailable, identify the limitation and provide a prepared packet or clearly labeled local or partial assessment; do not silently downgrade a requested independent or adversarial review.
+For either delegated approach or the shape pass, also read [Claude dispatch](references/dispatch.md) and the agent settings below before launching. Check the required roles and tools for the selected approach. If unavailable, identify the limitation and provide a prepared packet or clearly labeled local or partial assessment; do not silently downgrade a requested independent or adversarial review.
+
+## Agent settings
+
+The plugin's settings choose the model alias and effort for each review agent. Pass them when launching that agent, as the dispatch reference describes:
+
+| Agent | Model | Effort |
+| --- | --- | --- |
+| `review:code-reviewer` | `${user_config.code_reviewer_model}` | `${user_config.code_reviewer_effort}` |
+| `review:review-critic` | `${user_config.review_critic_model}` | `${user_config.review_critic_effort}` |
+| `review:shape-reviewer` | `${user_config.shape_reviewer_model}` | `${user_config.shape_reviewer_effort}` |
+
+A cell that is not a single model alias or effort level means that setting was never saved. Omit that argument so the agent's own definition applies.
 
 ## Add the shape pass
 
