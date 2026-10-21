@@ -2,7 +2,7 @@
 name: code-reviewer
 description: >-
   Review-only senior reviewer for completed implementation work. Invoke through the code-review skill with the complete packet and a focused or thorough review assignment.
-model: claude-opus-5-5[1m]
+model: inherit
 effort: high
 # Review-only by instruction. Bash permits independent inspection and
 # validation such as git diff and targeted tests; editing tools are removed.
