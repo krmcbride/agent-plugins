@@ -34,8 +34,9 @@ each agent. Those arguments override the agent's own `model` and `effort`. The A
 to pin the version an alias runs, set `ANTHROPIC_DEFAULT_OPUS_MODEL` (or the matching variable for another alias) in
 your settings' `env`.
 
-Until the settings are saved, the skill shows no values and the agents run on their own definitions:
-`claude-opus-5-5[1m]`, at `high` effort for the reviewers and `xhigh` for the critic.
+Until the settings are saved, the skill shows no values and the agents run on their own definitions: the session's
+model (`model: inherit`), at `high` effort for the reviewers and `xhigh` for the critic. A review started from a Sonnet
+session then runs on Sonnet.
 
 Claude Code namespaces plugin components, so this plugin's `code-review` does not replace the bundled `code-review`
 skill. To use only this one, turn the bundled skill off in `skillOverrides`:

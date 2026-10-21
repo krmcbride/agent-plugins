@@ -2,7 +2,7 @@
 name: shape-reviewer
 description: >-
   Review-only code-shape reviewer for completed implementation work. Invoke through the code-review skill's shape pass with the complete packet.
-model: claude-opus-5-5[1m]
+model: inherit
 effort: high
 # Review-only by instruction. Bash permits measurement and inspection such as
 # git diff, git show, and line counts; editing tools are removed.

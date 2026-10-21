@@ -2,7 +2,7 @@
 name: review-critic
 description: >-
   Review-only critic for the code-review skill's adversarial workflow. Requires the frozen packet, complete reviewer output and exchange history, and the applicable disposition and stopping contract.
-model: claude-opus-5-5[1m]
+model: inherit
 effort: xhigh
 # Review-only by instruction. Bash permits independent inspection and
 # validation; editing tools are removed.
