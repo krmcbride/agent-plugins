@@ -1,6 +1,6 @@
 {
   "name": "review",
-  "description": "Code review for completed implementation work: ordinary and adversarial reviewer-critic review, plus a code-shape pass, run by dedicated read-only review agents.",
+  "description": "Code review for completed implementation work: ordinary and adversarial reviewer-critic review, plus a code-shape pass, run by dedicated review-only agents.",
   "author": {
     "name": "Kevin McBride",
     "url": "https://github.com/krmcbride"
