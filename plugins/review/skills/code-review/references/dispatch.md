@@ -9,11 +9,21 @@
 - Background execution is required, not optional: the agents report progress with SendMessage to `main`, which only background subagents can address, and a foreground call would block you until the pass ends with nothing delivered in between.
 - Preserve the agent ID from the launch result. Continue the same agent with SendMessage to that identifier; it resumes with its full prior context and replies to you. A new Agent call starts a fresh agent without that history.
 - Continue the reviewer across clarification and repairs. Continue the critic within one frozen artifact version and start a fresh critic when the version changes.
-- Both agents receive `review:application-architecture` at startup and cannot load other skills. Supply project-specific architectural constraints in the packet when they are material.
+- Both agents receive `review:application-architecture` at startup. Supply project-specific architectural constraints in the packet when they are material.
 
 Include the artifact version, scope, selected reviewer depth, and immediate assignment. Require a complete, self-contained report as the final response: checkpoints and interim findings are visibility, not the deliverable. You receive every message and deliver every subsequent handoff; reviewers and critics do not choose or delegate another workflow, and they cannot ask the user questions directly.
 
 Keep reviewed inputs stable, including relevant uncommitted and untracked files. Independent authorized work may continue if it does not change those inputs. Follow the adversarial reference's stronger packet-freeze and unaltered-transcript rules throughout that exchange.
+
+## Check the reviewed checkout
+
+The agents keep the session's tools and are review-only by instruction, so confirm they left the reviewed checkout alone. Before each pass, record a fingerprint of it, run from its root:
+
+```sh
+{ git rev-parse HEAD; git symbolic-ref -q HEAD; git status --porcelain --untracked-files=all; git diff HEAD --binary; git ls-files -o --exclude-standard -z | xargs -0 shasum; } | shasum
+```
+
+Run it again when the pass ends, before acting on the report. It covers the commit, the branch, tracked changes, and the content of untracked files, and it ignores files the repository ignores, such as build output from a test run. A different fingerprint, when you changed nothing yourself, means an agent wrote in the checkout. Tell the user what changed, stop the exchange, and treat the pass's results as untrustworthy until the artifact is re-established. Do not revert the change without the user's approval.
 
 ## Observe and wait
 

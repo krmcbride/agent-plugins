@@ -11,14 +11,18 @@ code-shape pass for work that creates or grows production files.
 | Skill | `review:code-review` | Picks the review approach and depth, builds the review packet, and dispatches the agents |
 | Skill | `review:code-shape` | Rubric for module size, single responsibility, and dead weight, with hard stops |
 | Skill | `review:application-architecture` | Guidance on boundaries, domain ownership, and dependency direction |
-| Agent | `review:code-reviewer` | Read-only reviewer; preloads `application-architecture` |
-| Agent | `review:review-critic` | Read-only critic for adversarial review; preloads `application-architecture` |
-| Agent | `review:shape-reviewer` | Read-only code-shape reviewer; preloads `code-shape` and `application-architecture` |
+| Agent | `review:code-reviewer` | Review-only reviewer; preloads `application-architecture` |
+| Agent | `review:review-critic` | Review-only critic for adversarial review; preloads `application-architecture` |
+| Agent | `review:shape-reviewer` | Review-only code-shape reviewer; preloads `code-shape` and `application-architecture` |
 
-The agents have no Edit, Write, or Skill tools. To reproduce a failure, the reviewer and critic write only in a
-disposable copy outside the reviewed checkout, such as a temporary git worktree. The agents run in the background and
-report progress with SendMessage, so the session that dispatches them must be able to receive messages from background
-subagents.
+The agents keep the session's tools, including its MCP servers, and are review-only by instruction rather than by tool
+restriction: Bash alone could write, so removing the editing tools never made them read-only. They never write in the
+reviewed checkout. To reproduce a failure, the reviewer and critic write only in a disposable copy outside it, such as a
+temporary git worktree. The dispatching agent fingerprints the checkout before and after each pass and stops if it
+changed.
+
+The agents run in the background and report progress with SendMessage, so the session that dispatches them must be able
+to receive messages from background subagents.
 
 ## Settings
 

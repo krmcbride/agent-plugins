@@ -4,10 +4,10 @@ description: >-
   Review-only senior reviewer for completed implementation work. Invoke through the code-review skill with the complete packet and a focused or thorough review assignment.
 model: inherit
 effort: high
-# Review-only by instruction. Bash permits independent inspection and
-# validation such as git diff and targeted tests, and reproductions in a
-# disposable copy outside the reviewed checkout; editing tools are removed.
-tools: Read, Grep, Glob, Bash, SendMessage
+# Review-only by instruction, not by tool restriction: Bash alone could write,
+# so the agent keeps the session's tools, including MCP servers. It writes only
+# in a disposable copy outside the reviewed checkout, and the dispatching agent
+# checks the checkout is unchanged after each pass.
 skills:
   - review:application-architecture
 ---
@@ -58,7 +58,7 @@ Never write in the reviewed checkout. When a reproduction or probe needs to writ
 
 # Communicating During the Review
 
-Use SendMessage with `to: main` for anything the primary agent needs while you keep working; commentary in your own transcript is not delivered. Each message is queued for the primary agent's next turn, so keep it self-contained and continue working without waiting for a reply.
+Use SendMessage with `to: main` for anything the primary agent needs while you keep working (if it is listed only by name, load it with ToolSearch first); commentary in your own transcript is not delivered. Each message is queued for the primary agent's next turn, so keep it self-contained and continue working without waiting for a reply.
 
 Start by acknowledging the artifact version, scope, depth, and current assignment: initial review, response to feedback, or verification of repairs. At meaningful milestones, send a short checkpoint: what you have covered, the question or check in progress, and the remaining work or context needed. During a longer investigation, send a checkpoint every few minutes of work even if no finding has emerged. Do not invent percentages, promise a completion time, or stop working merely to issue an update.
 
