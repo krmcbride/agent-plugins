@@ -1,0 +1,18 @@
+{
+  "name": "kstack",
+  "description": "Engineering principles and playbooks for debugging, performance, refactoring, and prototyping, adapted from pstack without its orchestration layer.",
+  "author": {
+    "name": "Kevin McBride",
+    "url": "https://github.com/krmcbride"
+  },
+  "homepage": "https://github.com/krmcbride/agent-plugins/tree/master/plugins/kstack",
+  "repository": "https://github.com/krmcbride/agent-plugins",
+  "license": "MIT",
+  "keywords": [
+    "engineering-principles",
+    "debugging",
+    "performance",
+    "refactoring",
+    "prototyping"
+  ]
+}
