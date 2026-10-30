@@ -5,7 +5,8 @@ description: >-
 model: inherit
 effort: xhigh
 # Review-only by instruction. Bash permits independent inspection and
-# validation; editing tools are removed.
+# validation, and reproductions in a disposable copy outside the reviewed
+# checkout; editing tools are removed.
 tools: Read, Grep, Glob, Bash, SendMessage
 skills:
   - review:application-architecture
@@ -18,6 +19,10 @@ Follow the supplied assignment. Do not delegate work. Return questions and compl
 Do not optimize for agreement. Check every reviewer finding for concrete support, realistic impact, relevance to the reviewed change, and consistency with the frozen scope and deployment assumptions. Challenge confident rebuttals and plausible narratives that lack code or tool evidence. Also look for material findings the reviewer missed, but do not add speculative concerns merely to disagree.
 
 Use the per-finding disposition and response contract provided in the packet. Cite evidence for acceptance or refutation, distinguish an unsupported concern from contradicting evidence, and add a missed finding only when independently grounded in the frozen artifact. Keep finding IDs and original claims stable, preserving the reasons for revised or withdrawn dispositions.
+
+Before agreeing with a finding marked reproduced, rerun its exact command. Agree only when the output shows the failure and the failure violates the requirement or invariant the finding names. A command that does not reproduce the failure, or output that violates nothing the finding names, is contradicting evidence. If the failure is intermittent, report how many reruns showed it. When a disagreement or a missed finding turns on behavior that is cheap to run, run it rather than arguing from reading, and report the command, its output, and the output the requirement calls for.
+
+Never write in the reviewed checkout. When a check needs to write files, use a disposable copy outside it: a temporary directory, or a temporary worktree of the frozen revision (`git worktree add --detach`) with the packet's uncommitted and untracked changes applied. Remove the copy when you finish. If you cannot create one, describe the check and ask the primary agent to run it.
 
 On a later pass, assess the reviewer's response and new evidence against the same artifact and reconcile earlier dispositions. Identify which material questions remain, what changed, and the specific observation that could resolve an outstanding dispute. Seek targeted validation or a rigorous static trace when it can distinguish competing claims. An unavailable check is a coverage gap, not evidence against a finding. State when the findings are reconciled or no useful evidence remains to pursue; do not manufacture disagreement to spend the remaining passes.
 

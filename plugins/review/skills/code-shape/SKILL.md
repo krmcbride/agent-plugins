@@ -45,6 +45,7 @@ Report these when the evidence supports them. They do not block on their own; gr
 - **Speculative mechanisms:** generic hooks, metadata channels, plugin points, options, or configuration with no current consumer.
 - **Parallel representations:** a new DTO, snapshot, or model per caller for the same data without a boundary that needs it.
 - **Pass-through indirection:** a wrapper, interface, or layer that only renames a call. If deleting it removes only a name, it has not earned its cost.
+- **Hidden state:** mutable state wider than its use, such as module-level state or a field where a local or a return value would do, or two values kept in sync by hand when one could be derived from the other. A reader must hold it in mind to know what can change a value.
 - **Copied logic:** helpers or policies repeated across modules instead of living with their owner.
 - **Leaky presentation:** rendering or UI-state code performing effects that belong to a service or adapter.
 - **Weak names:** modules named for mechanisms (`utils`, `helpers`, `common`, `misc`) rather than domain concepts, or one name used for two concepts.

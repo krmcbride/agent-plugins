@@ -34,7 +34,7 @@ Give the critic the identical packet, complete reviewer output, and exchange his
 
 Assess every current reviewer finding by stable ID using exactly one disposition:
 
-- `agree`: the finding is material and supported by cited frozen evidence.
+- `agree`: the finding is material and supported by cited frozen evidence. For a reproduced finding, the critic's rerun of its command shows the failure.
 - `disagree_evidence`: specific code or tool evidence contradicts the finding.
 - `disagree_concern`: an unsupported inference, unrealistic assumption, scope expansion, or missing evidence prevents acceptance.
 
@@ -48,7 +48,7 @@ When the critic disagrees, adds a missed finding, or raises a material evidence 
 
 For `disagree_evidence`, address the cited counterevidence: revise or retract when it refutes the claim, or supply specific evidence explaining why it does not. For `disagree_concern`, identify what observation would confirm or refute the concern and obtain it when feasible. Unsupported claims that cannot be substantiated remain unverified and non-blocking. Assess every `missed_finding` under the same evidence standard, and preserve retractions and their reasons.
 
-Turn an important unresolved dispute into a concrete verification question. Use a targeted test, reproduction, or rigorous static trace that distinguishes the competing claims. The reviewer or critic may perform checks allowed by its effective permissions that leave the reviewed artifact unchanged. When a check needs writable scratch space, you may run the agreed check without modifying the reviewed artifact, relay the exact command and result to both agents, and let them interpret it. A check that cannot execute or does not test the disputed condition leaves a coverage gap; a valid passing or failing result is evidence to interpret. Do not repeat broad validation merely to prolong the exchange.
+Turn an important unresolved dispute into a concrete verification question. Use a targeted test, reproduction, or rigorous static trace that distinguishes the competing claims. The reviewer or critic may perform checks allowed by its effective permissions that leave the reviewed artifact unchanged, writing only in a disposable copy outside the reviewed checkout. When an agent cannot create that copy or its permissions block the check, you may run the agreed check without modifying the reviewed artifact, relay the exact command and result to both agents, and let them interpret it. A check that cannot execute or does not test the disputed condition leaves a coverage gap; a valid passing or failing result is evidence to interpret. Do not repeat broad validation merely to prolong the exchange.
 
 ## Continue only while the exchange adds evidence
 
