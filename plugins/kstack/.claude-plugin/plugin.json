@@ -1,6 +1,6 @@
 {
   "name": "kstack",
-  "description": "Engineering principles and playbooks for debugging, performance, refactoring, and prototyping, adapted from pstack without its orchestration layer.",
+  "description": "Engineering principles, playbooks for debugging, performance, refactoring, and prototyping, and a planning workflow that settles decisions with the user, adapted from pstack without its orchestration layer.",
   "author": {
     "name": "Kevin McBride",
     "url": "https://github.com/krmcbride"
@@ -13,6 +13,7 @@
     "debugging",
     "performance",
     "refactoring",
-    "prototyping"
+    "prototyping",
+    "planning"
   ]
 }

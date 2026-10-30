@@ -22,7 +22,19 @@
     {
       "name": "kstack",
       "source": "./plugins/kstack",
-      "description": "Engineering principles and playbooks for debugging, performance, refactoring, and prototyping, adapted from pstack without its orchestration layer.",
+      "description": "Engineering principles, playbooks for debugging, performance, refactoring, and prototyping, and a planning workflow, adapted from pstack without its orchestration layer.",
+      "category": "developer-tools"
+    },
+    {
+      "name": "git",
+      "source": "./plugins/git",
+      "description": "Git and forge workflows with explicit authorization boundaries, plus read-only GitHub repository research.",
+      "category": "developer-tools"
+    },
+    {
+      "name": "show-me",
+      "source": "./plugins/show-me",
+      "description": "Visual explanations: code-shape sketches, trees, small Mermaid diagrams, and throwaway HTML pages. Adapted from HumanLayer's show-me.",
       "category": "developer-tools"
     }
   ]
