@@ -28,7 +28,7 @@ vendor/<name>/                    for a plugin built from upstream: the pristine
 scripts/vendor.mjs                builds, checks, and syncs vendored plugins (Node 24)
 ```
 
-A plugin with no `vendor/<name>/` directory, such as `review`, is written here and edited in place.
+A plugin with no `vendor/<name>/` directory, such as `review` or `kstack`, is written here and edited in place.
 
 A vendored plugin is generated, so change it through `vendor/<name>/` and never edit `plugins/<name>/` alone.
 [`.claude/skills/sync-upstream/SKILL.md`](.claude/skills/sync-upstream/SKILL.md) is the procedure for pulling in
@@ -47,6 +47,7 @@ node scripts/vendor.mjs verify pstack   # also in CI: vendor/pstack/upstream mus
 | --- | --- | --- |
 | [`pstack`](plugins/pstack) | Lauren Tan's poteto-mode workflows, principles, and review skills | [cursor/plugins/pstack](https://github.com/cursor/plugins/tree/main/pstack) |
 | [`review`](plugins/review) | Ordinary and adversarial code review with a code-shape pass, run by read-only review agents | This repo |
+| [`kstack`](plugins/kstack) | Engineering principles and playbooks for debugging, performance, refactoring, and prototyping, adapted from pstack | This repo |
 
 ## Attribution
 
@@ -55,6 +56,9 @@ node scripts/vendor.mjs verify pstack   # also in CI: vendor/pstack/upstream mus
 translated for Claude Code. Its original `LICENSE` is kept in that directory, and
 [`plugins/pstack/UPSTREAM.md`](plugins/pstack/UPSTREAM.md) records the exact upstream commit and
 every change made to it.
+
+`plugins/kstack` adapts principles and playbooks from the same pstack source under the MIT license. Its
+`LICENSE` keeps Lauren Tan's copyright notice.
 
 ## License
 

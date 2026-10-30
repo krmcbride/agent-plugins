@@ -18,6 +18,12 @@
       "source": "./plugins/review",
       "description": "Ordinary and adversarial code review with a code-shape pass, run by read-only review agents.",
       "category": "developer-tools"
+    },
+    {
+      "name": "kstack",
+      "source": "./plugins/kstack",
+      "description": "Engineering principles and playbooks for debugging, performance, refactoring, and prototyping, adapted from pstack without its orchestration layer.",
+      "category": "developer-tools"
     }
   ]
 }
