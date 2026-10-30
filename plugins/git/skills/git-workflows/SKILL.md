@@ -10,7 +10,7 @@ Keep local Git work provider-neutral. Load provider or stack guidance only when 
 
 ## Scope and authorization
 
-Inspection, explanation, and planning are read-only. Implementation alone does not authorize a commit; commit authorization does not authorize rewriting history or publishing. Use authorization already given in the current conversation for the same action and scope without asking again. A composed request can authorize several operations; identify which it actually covers.
+Inspection, explanation, and planning are read-only. Implementation alone does not authorize a commit; commit authorization does not authorize rewriting history or publishing. Authorization to commit carries forward within a repository and branch: once the user approves committing there, commit later coherent units of work on that branch without asking again. It does not extend to another branch or repository, to amending or rewriting history, or to publishing. Reuse other authorization already given in the current conversation for the same action and target without asking again. A composed request can authorize several operations; identify which it actually covers.
 
 Choose the branch by who the work is for. In the user's own repositories and personal forks, committing directly to the default branch is acceptable when the history shows that practice or the user asks for it. Work destined for a shared repository always uses a feature branch and a pull or merge request.
 
