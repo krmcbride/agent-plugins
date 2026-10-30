@@ -8,15 +8,15 @@ which gives each worker its own checkout. A worker names its starting
 branch in its brief.
 
 diff --git a/skills/swarm/SKILL.md b/skills/swarm/SKILL.md
-index 8663a3f..992c681 100644
+index 8827c2f..8508d6a 100644
 --- a/skills/swarm/SKILL.md
 +++ b/skills/swarm/SKILL.md
 @@ -26,9 +26,9 @@ Open a todolist with one entry per phase before launching anything.
  
  ## Phase B: Fan out
  
--Spawn all N workers in one message with `subagent_type: general-purpose`, `environment: "cloud"`, `run_in_background: true`, and the step 4 model, left unset for `auto` or `inherit-parent`. Use `environment: "local"` only when the worker needs access to something on the user's computer.
-+Spawn all N workers in one message with `subagent_type: general-purpose`, `isolation: "worktree"`, `run_in_background: true`, and the step 4 model, left unset for `auto` or `inherit-parent`. Leave out `isolation` only when the worker needs uncommitted state in this checkout.
+-Spawn all N workers in one message with `subagent_type: general-purpose`, `environment: "cloud"`, `run_in_background: true`, and the step 3 model, left unset for `auto` or `inherit-parent`. Use `environment: "local"` only when the worker needs access to something on the user's computer.
++Spawn all N workers in one message with `subagent_type: general-purpose`, `isolation: "worktree"`, `run_in_background: true`, and the step 3 model, left unset for `auto` or `inherit-parent`. Leave out `isolation` only when the worker needs uncommitted state in this checkout.
  
 -When a worker must start from a non-default pushed branch, pass `cloud_base_branch`.
 +When a worker must start from a non-default pushed branch, its brief names that branch and tells it to check it out first.

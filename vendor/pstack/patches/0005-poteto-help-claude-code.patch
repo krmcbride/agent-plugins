@@ -11,7 +11,7 @@ still describe Cursor, so poteto-help no longer defers to them on
 installing, starting, or running pstack.
 
 diff --git a/skills/poteto-help/SKILL.md b/skills/poteto-help/SKILL.md
-index 569e754..cb3aafc 100644
+index a688978..b5f1fc9 100644
 --- a/skills/poteto-help/SKILL.md
 +++ b/skills/poteto-help/SKILL.md
 @@ -10,9 +10,9 @@ In Claude Code, a model value such as `opus-xhigh` is `<model>-<effort>`: pass t
@@ -39,7 +39,7 @@ index 569e754..cb3aafc 100644
  
  If cost is the worry, say where the tokens go and how to spend fewer. pstack spends extra tokens on subagents and review panels. Rerun `/setup-pstack` and pick a smaller budget or cheaper models. A role set to `auto` or `inherit-parent` runs on the chat's model, which saves tokens when the chat runs on Auto or a cheaper model. A shorter panel list runs fewer subagents, one for each entry. Save `/poteto-mode` for work that needs rigor.
  
--pstack is built for Cursor, and it also installs in Claude Code with `/plugin marketplace add cursor/plugins`, then `/plugin install pstack@cursor-plugins`. There, each command takes a `pstack:` prefix, such as `/pstack:poteto-mode`. The [Claude Code adapter](https://github.com/cursor/plugins/blob/d457567332aa6989e753ea289f30ea2bfbc80bc0/pstack/docs/harness/claude-code.md) maps the Cursor names, and a step that needs a Cursor-only feature, such as Bugbot or Automations, is skipped with a one-line note.
+-pstack is built for Cursor, and it also installs in Claude Code with `/plugin marketplace add cursor/plugins`, then `/plugin install pstack@cursor-plugins`. There, each command takes a `pstack:` prefix, such as `/pstack:poteto-mode`. The [Claude Code adapter](https://github.com/cursor/plugins/blob/4dd1d05818d19792e7cd6e818f1667f95f7e1dbe/pstack/docs/harness/claude-code.md) maps the Cursor names, and a step that needs a Cursor-only feature, such as Bugbot or Automations, is skipped with a one-line note.
 -
 -Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including `/poteto-mode`, `/how`, `/why`, and `/teach`, spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.
 +This build translates Lauren Tan's Cursor plugin for Claude Code, so its skills already use Claude Code's tools, paths, and models. Each command takes a `pstack:` prefix, such as `/pstack:poteto-mode`. A step that needs a Cursor-only feature, such as Automations, is skipped with a one-line note. [`UPSTREAM.md`](../../UPSTREAM.md) lists every change from upstream.
@@ -59,7 +59,7 @@ index 569e754..cb3aafc 100644
  
  ## Pick a skill
  
-@@ -78,7 +75,7 @@ The default answer is `/poteto-mode`, which runs most of the others when its ste
+@@ -79,7 +76,7 @@ The default answer is `/poteto-mode`, which runs most of the others when its ste
  | Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |
  | Settle types and module shape before code that crosses a function boundary | [`/architect`](../architect/SKILL.md) |
  | Get several attempts at one brief, merged into the best one | [`/arena`](../arena/SKILL.md) |
@@ -68,15 +68,15 @@ index 569e754..cb3aafc 100644
  | Have different models review a diff and try to break it | [`/interrogate`](../interrogate/SKILL.md) |
  | Fix a bug test-first when a cheap local test exists | [`/tdd`](../tdd/SKILL.md) |
  | Apply TypeScript rules to `.ts` or `.tsx` work | [`/typescript-best-practices`](../typescript-best-practices/SKILL.md) |
-@@ -97,7 +94,6 @@ The default answer is `/poteto-mode`, which runs most of the others when its ste
+@@ -99,7 +96,6 @@ The default answer is `/poteto-mode`, which runs most of the others when its ste
  | Turn their own working habits into a personal mode skill | [`/automate-me`](../automate-me/SKILL.md) |
  | Turn what a finished task taught into skill edits | [`/reflect`](../reflect/SKILL.md) |
  | Stop agents from repeating the same mistakes in this repo | [`/correct`](../correct/SKILL.md) |
--| Build a page whose buttons wake a Grok Bot over a webhook | [`/make-bot-ui`](https://github.com/cursor/plugins/blob/d457567332aa6989e753ea289f30ea2bfbc80bc0/pstack/skills/make-bot-ui/SKILL.md) |
+-| Build a page whose buttons wake a Grok Bot over a webhook | [`/make-bot-ui`](https://github.com/cursor/plugins/blob/4dd1d05818d19792e7cd6e818f1667f95f7e1dbe/pstack/skills/make-bot-ui/SKILL.md) |
  | Find their way around pstack | `/poteto-help` |
  
  If a skill directory next to this one is missing from the table, read its frontmatter and route by its description. The `principle-*` directories are covered under principles below.
-@@ -113,8 +109,8 @@ Close calls:
+@@ -115,8 +111,8 @@ Close calls:
  
  Not in pstack:
  
@@ -87,8 +87,8 @@ index 569e754..cb3aafc 100644
  - pstack has no `/orchestrate` skill. Orchestrate is a `/poteto-mode` playbook. If the slash menu shows `/orchestrate`, another plugin provides it.
  
  ## Playbooks and principles
-@@ -128,9 +124,9 @@ Playbooks are step lists inside `/poteto-mode`, not skills, so they have no slas
- - "full autopilot on this queue" runs Autopilot-full. "stack them, don't ship" runs Autopilot-stack.
+@@ -130,9 +126,9 @@ Playbooks are step lists inside `/poteto-mode`, not skills, so they have no slas
+ - "full autopilot on this queue" runs Autopilot-full. "autopilot, don't merge" runs Autopilot-stack.
  - "run the eval playbook" runs Eval.
  
 -Without `/poteto-mode`, a phrase such as "babysit this pr" can start Cursor's own skill for the same job instead. The Playbooks section of [`poteto-mode`](../poteto-mode/SKILL.md) lists every playbook and when it applies. [Guide page 6](../../docs/guide/06-verify-and-ship.md) covers opening, babysitting, and landing a PR.
@@ -99,7 +99,7 @@ index 569e754..cb3aafc 100644
  
  Principles are one-rule skills that `/poteto-mode` reads and cites in its replies. The user rarely invokes one. They steer with the names instead, as in "apply prove it works. show me the real output." Typing `/principle-<name>` still loads one on demand. [Guide page 8](../../docs/guide/08-principles.md) lists them.
  
-@@ -138,12 +134,12 @@ Principles are one-rule skills that `/poteto-mode` reads and cites in its replie
+@@ -140,12 +136,12 @@ Principles are one-rule skills that `/poteto-mode` reads and cites in its replie
  
  | Symptom | Fix |
  |---|---|

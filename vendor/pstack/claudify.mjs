@@ -101,8 +101,8 @@ export const rules = [
   {
     id: "readonly-judge",
     why: "The Agent tool has no `readonly` parameter, so the arena judge is told not to edit.",
-    find: "Spawn one readonly judge subagent on that model.",
-    replace: "Spawn one judge subagent on that model, with a brief that says not to edit files.",
+    find: "Spawn one readonly judge subagent.",
+    replace: "Spawn one judge subagent, with a brief that says not to edit files.",
   },
   {
     id: "general-purpose",
@@ -249,12 +249,6 @@ export const scan = {
       terms: ["cursor"],
       files: ["skills/poteto-mode/playbooks/worktree-cleanup.md"],
       why: "Lists Cursor's macOS cache folder among disk space to reclaim. A missing folder costs nothing.",
-    },
-    {
-      terms: ["environment", "cloud-agent", "cursor"],
-      files: ["skills/poteto-mode/playbooks/orchestrate.md"],
-      lines: /^- \*\*Worker \/ verifier\.\*\*|in the Cursor dashboard|^- After a Cursor restart/,
-      why: "Orchestrate is built on Cursor cloud agents and nested spawns. poteto-mode maps cloud workers to worktrees and runs nested coordinators in the chat. A closer port is a candidate patch.",
     },
     {
       terms: ["cursor-model"],
