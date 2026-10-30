@@ -15,8 +15,10 @@ code-shape pass for work that creates or grows production files.
 | Agent | `review:review-critic` | Read-only critic for adversarial review; preloads `application-architecture` |
 | Agent | `review:shape-reviewer` | Read-only code-shape reviewer; preloads `code-shape` and `application-architecture` |
 
-The agents have no Edit, Write, or Skill tools. They run in the background and report progress with SendMessage, so
-the session that dispatches them must be able to receive messages from background subagents.
+The agents have no Edit, Write, or Skill tools. To reproduce a failure, the reviewer and critic write only in a
+disposable copy outside the reviewed checkout, such as a temporary git worktree. The agents run in the background and
+report progress with SendMessage, so the session that dispatches them must be able to receive messages from background
+subagents.
 
 ## Settings
 
