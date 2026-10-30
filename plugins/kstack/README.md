@@ -14,9 +14,15 @@ use its own harness.
 | `kstack:performance` | Baseline, find the limiter, and keep or revert each change; includes a sustained improvement loop and a benchmark checklist |
 | `kstack:refactoring` | Pin behavior, subtract, reshape in small passing steps, and prove the behavior unchanged |
 | `kstack:prototyping` | Settle a design or behavioral question with a throwaway sketch instead of asking |
+| `kstack:implementation-workflow` | Plan substantial work with the user as an outcome-level contract, execute it through the harness, and verify the result |
+| `kstack:decision-interview` | Separate discoverable facts from user-owned decisions and settle the decisions one question at a time |
 
 Every skill can be invoked by Claude from its description. The principles skill lists every principle in one short
 index and loads a reference only when it applies, so the 21 principles cost one entry in the skill list.
+
+`implementation-workflow` says what it needs, small modules and a final review against the contract, without naming
+the skills that supply it. With the [review](../review) plugin installed, its `code-review` and `code-shape` skills
+trigger from their own descriptions.
 
 ## Differences from pstack
 
@@ -29,7 +35,11 @@ index and loads a reference only when it applies, so the 21 principles cost one 
 - The `tdd` skill and the runtime and trace forensics playbooks are folded into `debugging`; `benchmark-checklist`
   and the hillclimb playbook are folded into `performance`.
 
-kstack is written here, not generated from `vendor/`. It was adapted from pstack at upstream commit
+`implementation-workflow` and `decision-interview` are not from pstack. They take the place of pstack's
+`figure-it-out` and multi-phase plan playbooks: the user owns consequential decisions and checks an outcome-level
+contract, and no tracker or decision log runs beside the harness.
+
+kstack is written here, not generated from `vendor/`. The pstack-derived skills were adapted from pstack at upstream commit
 `d457567332aa6989e753ea289f30ea2bfbc80bc0` (version 0.15.28). To find upstream changes worth porting, diff the
 matching principle or playbook files in `vendor/pstack/upstream/skills/` from that commit to the current pin.
 

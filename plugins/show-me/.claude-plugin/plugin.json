@@ -1,0 +1,17 @@
+{
+  "name": "show-me",
+  "description": "Explain the current topic visually with code-shape sketches, call and component trees, diffs of a shape, small Mermaid diagrams, and focused throwaway HTML pages.",
+  "author": {
+    "name": "Kevin McBride",
+    "url": "https://github.com/krmcbride"
+  },
+  "homepage": "https://github.com/krmcbride/agent-plugins/tree/master/plugins/show-me",
+  "repository": "https://github.com/krmcbride/agent-plugins",
+  "license": "MIT",
+  "keywords": [
+    "visualization",
+    "diagrams",
+    "mermaid",
+    "html"
+  ]
+}

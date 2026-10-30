@@ -1,0 +1,18 @@
+{
+  "name": "git",
+  "description": "Git and forge workflows: commits, history rewrites, branch publication, GitHub pull requests and stacks, GitLab stacked merge requests, and read-only research of GitHub repositories.",
+  "author": {
+    "name": "Kevin McBride",
+    "url": "https://github.com/krmcbride"
+  },
+  "homepage": "https://github.com/krmcbride/agent-plugins/tree/master/plugins/git",
+  "repository": "https://github.com/krmcbride/agent-plugins",
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "github",
+    "gitlab",
+    "pull-requests",
+    "stacked-prs"
+  ]
+}
