@@ -36,6 +36,6 @@ Each entry names the situation it applies to. When one applies, read its referen
 - [Attack the Premise](references/attack-the-premise.md): two or more fixes sharing one premise have failed the same check. Test the premise before writing another fix.
 - [Prove It Works](references/prove-it-works.md): before declaring work done. Check the real artifact, not a proxy, a self-report, or "it compiles".
 - [Test Behavior, Not Implementation](references/test-behavior-not-implementation.md): writing, changing, or keeping a test. Assert what the code's users can observe.
-- [Explain the Number](references/explain-the-number.md): before trusting, reporting, or acting on a measured number. Name what limits it and rule out that it measured something else.
+- [Explain the Number](references/explain-the-number.md): before measuring, and before trusting, reporting, or acting on a measured number. Name what limits it and rule out that it measured something else.
 
 The `debugging`, `performance`, `refactoring`, and `prototyping` skills apply these principles to whole tasks.

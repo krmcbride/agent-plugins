@@ -40,7 +40,7 @@ trigger from their own descriptions.
 contract, and no tracker or decision log runs beside the harness.
 
 kstack is written here, not generated from `vendor/`. The pstack-derived skills were adapted from pstack at upstream commit
-`d457567332aa6989e753ea289f30ea2bfbc80bc0` (version 0.15.28). To find upstream changes worth porting, diff the
+`4dd1d05818d19792e7cd6e818f1667f95f7e1dbe` (version 0.15.36). To find upstream changes worth porting, diff the
 matching principle or playbook files in `vendor/pstack/upstream/skills/` from that commit to the current pin.
 
 ## Install
