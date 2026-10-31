@@ -18,7 +18,9 @@ use its own harness.
 | `kstack:decision-interview` | Separate discoverable facts from user-owned decisions and settle the decisions one question at a time |
 
 Every skill can be invoked by Claude from its description. The principles skill lists every principle in one short
-index and loads a reference only when it applies, so the 21 principles cost one entry in the skill list.
+index and loads a reference only when it applies, so the 21 principles cost one entry in the skill list. To make sure
+the principles shape a piece of work, start the message with `/kstack:engineering-principles`. Claude then reads the
+references that apply before starting and names the principles that changed its decisions.
 
 `implementation-workflow` says what it needs, small modules and a final review against the contract, without naming
 the skills that supply it. With the [review](../review) plugin installed, its `code-review` and `code-shape` skills
