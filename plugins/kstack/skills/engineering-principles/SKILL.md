@@ -8,7 +8,7 @@ description: >-
 
 Each entry names the situation it applies to. When one applies, read its reference before acting on it; the index line is a reminder, not the principle. They inform judgment and are not a checklist to recite.
 
-When the user invokes this skill directly, they want these principles applied to the work in their message. Before starting, pick the entries whose situations that work will meet and read their references. When you report, name each principle that changed a decision and the choice it changed. Cite only principles whose reference you read.
+When the user runs this skill as a slash command, they want these principles applied to the work in their message. Before starting, pick the entries whose situations that work will meet and read their references. When you report, name each principle that changed a decision and the choice it changed. Cite only principles whose reference you read.
 
 ## Design
 
