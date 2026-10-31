@@ -1,0 +1,42 @@
+/* Blueprint: navy drafting grid, monospace type, light lines. */
+
+:root {
+  --font-ui: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  --font-mono: var(--font-ui);
+  --page-bg: #0f2c55;
+  --page-fg: #e6f0ff;
+  --page-muted: #a9bcd9;
+  --page-grid:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  --page-grid-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+
+  --blue-fill: #1d4f7e;   --blue-stroke: #7dd3fc;
+  --teal-fill: #15504f;   --teal-stroke: #5eead4;
+  --purple-fill: #2a3a7a; --purple-stroke: #a5b4fc;
+  --yellow-fill: #3b4a4a; --yellow-stroke: #fcd34d;
+  --orange-fill: #4a3b3a; --orange-stroke: #fdba74;
+  --tan-fill: #33425a;    --tan-stroke: #d6c7a8;
+  --pink-fill: #48305e;   --pink-stroke: #f0abfc;
+
+  --breaks-fill: #5a2840;   --breaks-stroke: #fb7185; --breaks-text: #ffe4e6;
+  --maybreak-fill: #503a2c; --maybreak-stroke: #fb923c; --maybreak-text: #ffedd5;
+  --repeats-stroke: #c4b5fd;
+}
+
+/* Pele reads these through inheritance. --pele-bg must be the page colour: edge labels are boxes filled with it. */
+:root {
+  --pele-bg: #0f2c55;
+  --pele-fg: #e6f0ff;
+  --pele-muted: #a9bcd9;
+  --pele-line: #dbe7ff;
+  --pele-surface: #173a6b;
+  --pele-surface-alt: #12315c;
+  --pele-border: #8fb3e6;
+  --pele-accent: #7dd3fc;
+  --pele-radius: 2px;
+  --pele-font: var(--font-ui);
+  --pele-font-mono: var(--font-mono);
+}

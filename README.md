@@ -28,7 +28,7 @@ vendor/<name>/                    for a plugin built from upstream: the pristine
 scripts/vendor.mjs                builds, checks, and syncs vendored plugins (Node 24)
 ```
 
-A plugin with no `vendor/<name>/` directory, such as `review`, `kstack`, `git`, or `show-me`, is written here and
+A plugin with no `vendor/<name>/` directory, such as `review`, `kstack`, `git`, or `visualize`, is written here and
 edited in place.
 
 A vendored plugin is generated, so change it through `vendor/<name>/` and never edit `plugins/<name>/` alone.
@@ -50,7 +50,7 @@ node scripts/vendor.mjs verify pstack   # also in CI: vendor/pstack/upstream mus
 | [`review`](plugins/review) | Ordinary and adversarial code review with a code-shape pass, run by read-only review agents | This repo |
 | [`kstack`](plugins/kstack) | Engineering principles, playbooks for debugging, performance, refactoring, and prototyping, and a planning workflow | This repo, partly adapted from pstack |
 | [`git`](plugins/git) | Git and forge workflows with explicit authorization boundaries, plus read-only GitHub repository research | This repo |
-| [`show-me`](plugins/show-me) | Visual explanations: code-shape sketches, trees, small Mermaid diagrams, and throwaway HTML pages | This repo, adapted from [humanlayer/skills/show-me](https://github.com/humanlayer/skills/tree/main/plugins/show-me) |
+| [`visualize`](plugins/visualize) | Skills for a human viewer: `show-me` explains a topic with code-shape sketches, trees, Mermaid diagrams rendered with Pele, and throwaway HTML pages | This repo; `show-me` is adapted from [humanlayer/skills/show-me](https://github.com/humanlayer/skills/tree/main/plugins/show-me) |
 
 ## Attribution
 
@@ -63,8 +63,9 @@ every change made to it.
 `plugins/kstack` adapts principles and playbooks from the same pstack source under the MIT license. Its
 `LICENSE` keeps Lauren Tan's copyright notice.
 
-`plugins/show-me` adapts HumanLayer's [show-me](https://github.com/humanlayer/skills/tree/main/plugins/show-me)
-skill under the MIT license. Its `LICENSE` keeps HumanLayer's copyright notice.
+The `show-me` skill in `plugins/visualize` adapts HumanLayer's
+[show-me](https://github.com/humanlayer/skills/tree/main/plugins/show-me) skill under the MIT license. The plugin's
+`LICENSE` keeps HumanLayer's copyright notice.
 
 ## License
 
