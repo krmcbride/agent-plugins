@@ -1,0 +1,36 @@
+/* Light: plain white page, system sans, soft phase fills. */
+
+:root {
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  --page-bg: #ffffff;
+  --page-fg: #1c1c1c;
+  --page-muted: #656565;
+
+  --blue-fill: #c3e0ff;   --blue-stroke: #5b9bd5;
+  --teal-fill: #bfe3df;   --teal-stroke: #4fa79c;
+  --purple-fill: #e3d5ff; --purple-stroke: #9b7fd6;
+  --yellow-fill: #f0dcbf; --yellow-stroke: #c9a45a;
+  --orange-fill: #f0d3bf; --orange-stroke: #d08a5a;
+  --tan-fill: #e5d9ce;    --tan-stroke: #a8927c;
+  --pink-fill: #ffcbe6;   --pink-stroke: #d77aab;
+
+  --breaks-fill: #ffecee;   --breaks-stroke: #e72e3b; --breaks-text: #cd2834;
+  --maybreak-fill: #fff3e6; --maybreak-stroke: #e8730c; --maybreak-text: #b85a06;
+  --repeats-stroke: #9b35d6;
+}
+
+/* Pele reads these through inheritance. --pele-bg must be the page colour: edge labels are boxes filled with it. */
+:root {
+  --pele-bg: #ffffff;
+  --pele-fg: #1c1c1c;
+  --pele-muted: #656565;
+  --pele-line: #808080;
+  --pele-surface: #fcfcfc;
+  --pele-surface-alt: #f1f1f1;
+  --pele-border: #a9a9a9;
+  --pele-accent: #205ea6;
+  --pele-radius: 4px;
+  --pele-font: var(--font-ui);
+  --pele-font-mono: var(--font-mono);
+}

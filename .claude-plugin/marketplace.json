@@ -32,9 +32,9 @@
       "category": "developer-tools"
     },
     {
-      "name": "show-me",
-      "source": "./plugins/show-me",
-      "description": "Visual explanations: code-shape sketches, trees, small Mermaid diagrams, and throwaway HTML pages. Adapted from HumanLayer's show-me.",
+      "name": "visualize",
+      "source": "./plugins/visualize",
+      "description": "Skills for a human viewer: show-me explains a topic with code-shape sketches, trees, Mermaid diagrams rendered with Pele, and throwaway HTML pages. show-me is adapted from HumanLayer's.",
       "category": "developer-tools"
     }
   ]
