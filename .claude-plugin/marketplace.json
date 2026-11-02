@@ -14,21 +14,9 @@
       "category": "developer-tools"
     },
     {
-      "name": "review",
-      "source": "./plugins/review",
-      "description": "Ordinary and adversarial code review with a code-shape pass, run by read-only review agents.",
-      "category": "developer-tools"
-    },
-    {
       "name": "kstack",
       "source": "./plugins/kstack",
-      "description": "Engineering principles, playbooks for debugging, performance, refactoring, and prototyping, and a planning workflow, adapted from pstack without its orchestration layer.",
-      "category": "developer-tools"
-    },
-    {
-      "name": "git",
-      "source": "./plugins/git",
-      "description": "Git and forge workflows with explicit authorization boundaries, plus read-only GitHub repository research.",
+      "description": "Personal skills: engineering principles and playbooks adapted from pstack, planning and decision workflows, code review with review-only agents, Git and forge workflows, and GitHub repository research.",
       "category": "developer-tools"
     },
     {
