@@ -30,15 +30,15 @@ The plugin's settings choose the model alias and effort for each review agent. P
 
 | Agent | Model | Effort |
 | --- | --- | --- |
-| `review:code-reviewer` | `${user_config.code_reviewer_model}` | `${user_config.code_reviewer_effort}` |
-| `review:review-critic` | `${user_config.review_critic_model}` | `${user_config.review_critic_effort}` |
-| `review:shape-reviewer` | `${user_config.shape_reviewer_model}` | `${user_config.shape_reviewer_effort}` |
+| `kstack:code-reviewer` | `${user_config.code_reviewer_model}` | `${user_config.code_reviewer_effort}` |
+| `kstack:review-critic` | `${user_config.review_critic_model}` | `${user_config.review_critic_effort}` |
+| `kstack:shape-reviewer` | `${user_config.shape_reviewer_model}` | `${user_config.shape_reviewer_effort}` |
 
 A cell that is not a single model alias or effort level means that setting was never saved. Omit that argument so the agent's own definition applies.
 
 ## Add the shape pass
 
-The approaches above review correctness, and their calibration filters out code-shape problems. Review shape in its own pass against the `review:code-shape` rubric. Run it for completed implementation work that creates production files or grows existing ones, and whenever the user asks. For a small, bounded edit, measure the touched files against the rubric's size budget yourself and delegate only if one approaches it or another hard stop is plausible.
+The approaches above review correctness, and their calibration filters out code-shape problems. Review shape in its own pass against the `kstack:code-shape` rubric. Run it for completed implementation work that creates production files or grows existing ones, and whenever the user asks. For a small, bounded edit, measure the touched files against the rubric's size budget yourself and delegate only if one approaches it or another hard stop is plausible.
 
 When both apply, run the shape pass first so the correctness review examines the final structure. Launch the shape reviewer as described in the dispatch reference with the packet below, without a depth assignment, plus any user-accepted exceptions to code-shape hard stops. Resolve every introduced hard stop before continuing: repair it and have the same shape reviewer verify the repair, or record the user's accepted reason. Address findings within existing implementation authority or report them to the user. The shared blocking rule below governs correctness findings; code-shape hard stops block under their own rubric.
 

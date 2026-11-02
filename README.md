@@ -28,8 +28,7 @@ vendor/<name>/                    for a plugin built from upstream: the pristine
 scripts/vendor.mjs                builds, checks, and syncs vendored plugins (Node 24)
 ```
 
-A plugin with no `vendor/<name>/` directory, such as `review`, `kstack`, `git`, or `show-me`, is written here and
-edited in place.
+A plugin with no `vendor/<name>/` directory, such as `kstack` or `show-me`, is written here and edited in place.
 
 A vendored plugin is generated, so change it through `vendor/<name>/` and never edit `plugins/<name>/` alone.
 [`.claude/skills/sync-upstream/SKILL.md`](.claude/skills/sync-upstream/SKILL.md) is the procedure for pulling in
@@ -47,9 +46,7 @@ node scripts/vendor.mjs verify pstack   # also in CI: vendor/pstack/upstream mus
 | Plugin | What it is | Upstream |
 | --- | --- | --- |
 | [`pstack`](plugins/pstack) | Lauren Tan's poteto-mode workflows, principles, and review skills | [cursor/plugins/pstack](https://github.com/cursor/plugins/tree/main/pstack) |
-| [`review`](plugins/review) | Ordinary and adversarial code review with a code-shape pass, run by read-only review agents | This repo |
-| [`kstack`](plugins/kstack) | Engineering principles, playbooks for debugging, performance, refactoring, and prototyping, and a planning workflow | This repo, partly adapted from pstack |
-| [`git`](plugins/git) | Git and forge workflows with explicit authorization boundaries, plus read-only GitHub repository research | This repo |
+| [`kstack`](plugins/kstack) | Personal skills: engineering principles and playbooks, planning and decision workflows, code review with review-only agents, Git and forge workflows, and GitHub repository research | This repo, partly adapted from pstack |
 | [`show-me`](plugins/show-me) | Visual explanations: code-shape sketches, trees, small Mermaid diagrams, and throwaway HTML pages | This repo, adapted from [humanlayer/skills/show-me](https://github.com/humanlayer/skills/tree/main/plugins/show-me) |
 
 ## Attribution

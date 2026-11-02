@@ -1,6 +1,6 @@
 {
   "name": "kstack",
-  "description": "Engineering principles, playbooks for debugging, performance, refactoring, and prototyping, and a planning workflow that settles decisions with the user, adapted from pstack without its orchestration layer.",
+  "description": "Personal skills for Claude Code: engineering principles and playbooks adapted from pstack, planning and decision workflows, code review with review-only agents, Git and forge workflows, and GitHub repository research.",
   "author": {
     "name": "Kevin McBride",
     "url": "https://github.com/krmcbride"
@@ -14,6 +14,89 @@
     "performance",
     "refactoring",
     "prototyping",
-    "planning"
-  ]
+    "planning",
+    "code-review",
+    "adversarial-review",
+    "code-shape",
+    "git",
+    "github",
+    "pull-requests"
+  ],
+  "userConfig": {
+    "code_reviewer_model": {
+      "type": "string",
+      "title": "Code reviewer model",
+      "description": "Model alias the code reviewer agent runs on. The ANTHROPIC_DEFAULT_*_MODEL environment variables choose what each alias resolves to.",
+      "options": [
+        "opus",
+        "sonnet",
+        "haiku",
+        "fable"
+      ],
+      "default": "opus"
+    },
+    "code_reviewer_effort": {
+      "type": "string",
+      "title": "Code reviewer effort",
+      "description": "Reasoning effort for the code reviewer agent. A model that lacks a level runs at the highest one it supports below it.",
+      "options": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default": "high"
+    },
+    "review_critic_model": {
+      "type": "string",
+      "title": "Review critic model",
+      "description": "Model alias the review critic agent runs on. The ANTHROPIC_DEFAULT_*_MODEL environment variables choose what each alias resolves to.",
+      "options": [
+        "opus",
+        "sonnet",
+        "haiku",
+        "fable"
+      ],
+      "default": "opus"
+    },
+    "review_critic_effort": {
+      "type": "string",
+      "title": "Review critic effort",
+      "description": "Reasoning effort for the review critic agent. A model that lacks a level runs at the highest one it supports below it.",
+      "options": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default": "xhigh"
+    },
+    "shape_reviewer_model": {
+      "type": "string",
+      "title": "Shape reviewer model",
+      "description": "Model alias the shape reviewer agent runs on. The ANTHROPIC_DEFAULT_*_MODEL environment variables choose what each alias resolves to.",
+      "options": [
+        "opus",
+        "sonnet",
+        "haiku",
+        "fable"
+      ],
+      "default": "opus"
+    },
+    "shape_reviewer_effort": {
+      "type": "string",
+      "title": "Shape reviewer effort",
+      "description": "Reasoning effort for the shape reviewer agent. A model that lacks a level runs at the highest one it supports below it.",
+      "options": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default": "high"
+    }
+  }
 }
