@@ -1,0 +1,57 @@
+/* Layout and class colours shared by every theme. A theme file sets the variables. */
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--page-bg);
+  background-image: var(--page-grid, none);
+  background-size: var(--page-grid-size, auto);
+  color: var(--page-fg);
+  font-family: var(--font-ui);
+}
+header { max-width: 1200px; margin: 0 auto; padding: 28px 16px 4px; text-align: center; }
+h1 { margin: 0; font-size: 22px; font-weight: 500; letter-spacing: 0.02em; }
+.legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; margin: 14px 0 0; padding: 0; list-style: none; font-size: 13px; color: var(--page-muted); }
+.legend li { display: flex; align-items: center; gap: 7px; }
+.legend .swatch { width: 18px; height: 12px; border: 1.5px solid var(--pele-border); border-radius: 2px; background: var(--pele-surface); }
+main { max-width: 1200px; margin: 0 auto; padding: 8px 16px 40px; }
+figure { margin: 24px 0 0; }
+figure + figure { margin-top: 40px; padding-top: 32px; border-top: 1px dashed var(--pele-border); }
+figure .diagram { display: flex; justify-content: center; }
+figure .diagram svg { max-width: 100%; height: auto; }
+figure pre.source { margin: 0; padding: 12px; overflow-x: auto; font: 13px/1.5 var(--font-mono); background: var(--pele-surface); border: 1px solid var(--pele-border); border-radius: 4px; }
+figure.rendered pre.source { display: none; }
+.error { margin: 0 0 8px; padding: 10px 12px; font-size: 13px; color: var(--breaks-text); background: var(--breaks-fill); border: 1px solid var(--breaks-stroke); border-radius: 4px; white-space: pre-wrap; }
+
+/* Phase colours. In Mermaid: `class A,B blue` or `A:::blue`. !important beats the style attribute a classDef writes. */
+.pele .blue :is(rect, circle, ellipse, polygon, path) { fill: var(--blue-fill) !important; stroke: var(--blue-stroke) !important; }
+.pele .teal :is(rect, circle, ellipse, polygon, path) { fill: var(--teal-fill) !important; stroke: var(--teal-stroke) !important; }
+.pele .purple :is(rect, circle, ellipse, polygon, path) { fill: var(--purple-fill) !important; stroke: var(--purple-stroke) !important; }
+.pele .yellow :is(rect, circle, ellipse, polygon, path) { fill: var(--yellow-fill) !important; stroke: var(--yellow-stroke) !important; }
+.pele .orange :is(rect, circle, ellipse, polygon, path) { fill: var(--orange-fill) !important; stroke: var(--orange-stroke) !important; }
+.pele .tan :is(rect, circle, ellipse, polygon, path) { fill: var(--tan-fill) !important; stroke: var(--tan-stroke) !important; }
+.pele .pink :is(rect, circle, ellipse, polygon, path) { fill: var(--pink-fill) !important; stroke: var(--pink-stroke) !important; }
+
+/* Marks go after the phases so they show over a phase colour. */
+.pele .breaks :is(rect, circle, ellipse, polygon, path) { fill: var(--breaks-fill) !important; stroke: var(--breaks-stroke) !important; stroke-width: 2.5px !important; }
+.pele .breaks text { fill: var(--breaks-text) !important; }
+.pele .mayBreak :is(rect, circle, ellipse, polygon, path) { fill: var(--maybreak-fill) !important; stroke: var(--maybreak-stroke) !important; stroke-width: 2.5px !important; }
+.pele .mayBreak text { fill: var(--maybreak-text) !important; }
+.pele .bugPath :is(rect, circle, ellipse, polygon, path) { stroke: var(--breaks-stroke) !important; stroke-width: 2.5px !important; }
+.pele .repeats :is(rect, circle, ellipse, polygon, path) { stroke: var(--repeats-stroke) !important; stroke-width: 2.5px !important; stroke-dasharray: 6 3; }
+.pele .pele-edge.badEdge { stroke: var(--breaks-stroke); stroke-width: 2px; }
+.pele .pele-edge.badEdge .pele-marker { fill: var(--breaks-stroke); }
+
+.legend .blue .swatch { background: var(--blue-fill); border-color: var(--blue-stroke); }
+.legend .teal .swatch { background: var(--teal-fill); border-color: var(--teal-stroke); }
+.legend .purple .swatch { background: var(--purple-fill); border-color: var(--purple-stroke); }
+.legend .yellow .swatch { background: var(--yellow-fill); border-color: var(--yellow-stroke); }
+.legend .orange .swatch { background: var(--orange-fill); border-color: var(--orange-stroke); }
+.legend .tan .swatch { background: var(--tan-fill); border-color: var(--tan-stroke); }
+.legend .pink .swatch { background: var(--pink-fill); border-color: var(--pink-stroke); }
+.legend .breaks .swatch { background: var(--breaks-fill); border: 2px solid var(--breaks-stroke); }
+.legend .mayBreak .swatch { background: var(--maybreak-fill); border: 2px solid var(--maybreak-stroke); }
+.legend .bugPath .swatch { border: 2px solid var(--breaks-stroke); }
+.legend .repeats .swatch { border: 2px dashed var(--repeats-stroke); }
+.pele .pele-edge-label.badEdge text { fill: var(--breaks-stroke); }

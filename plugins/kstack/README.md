@@ -40,6 +40,12 @@ reply-style rules, and the scripts behind them. Claude Code decides how to use i
 | `kstack:git-workflows` | Commits, temporary-commit message amendments, history rewrites, branch publication, GitHub pull requests and `gh stack` chains, and GitLab `glab stack` merge requests, each with its own reference loaded on demand |
 | `kstack:researching-github-repositories` | Answers questions about GitHub repositories from `gh` metadata or a disposable shallow clone, read-only |
 
+### Visualize
+
+| Skill | What it does |
+| --- | --- |
+| `kstack:show-me` | Explain the current topic with the smallest view that makes the point: a code-shape sketch, tree, table, rendered Mermaid diagram, or throwaway HTML page |
+
 Every skill can be invoked by Claude from its description. The principles skill lists every principle in one short
 index and loads a reference only when it applies, so the 21 principles cost one entry in the skill list. To make sure
 the principles shape a piece of work, start the message with `/kstack:engineering-principles`. Claude then reads the
@@ -94,6 +100,26 @@ does not authorize a rewrite, and neither authorizes publishing. `researching-gi
 source and history without touching the user's checkouts. The skills expect `gh`, and `glab` for GitLab stacks.
 Publishing uses whatever credentials those tools already have.
 
+## show-me
+
+`show-me` triggers when the user says "show me" to understand or compare something, or asks for a diagram, tree,
+sketch, or mockup, but not when "show me" only means open, list, or retrieve something.
+
+Claude Code's desktop app and terminals show Mermaid only as source, so `show-me` renders diagrams with
+[Pele](https://pele.run). `skills/show-me/scripts/diagram-page.mjs` needs Node and no npm packages. It writes one HTML
+page with a fixed layout and theme, embeds the Mermaid source, and loads Pele 1.9.0 from jsDelivr, pinned by its SRI
+hash, to render it in the browser. Viewing the page needs the network; offline, it shows the source instead.
+
+The themes in `skills/show-me/themes/` are `blueprint`, a navy drafting grid with monospace type, and `light`. Each
+colours states by phase and marks bad states, the states on the path into them, and the arrows into them.
+[`references/themes.md`](skills/show-me/references/themes.md) lists the classes. They match the classes of pstack's
+`statechart` command, so its charts render unchanged.
+
+`show-me` is adapted from HumanLayer's [show-me](https://github.com/humanlayer/skills/tree/main/plugins/show-me) at
+upstream commit `bba9d13`, not from pstack. Claude can invoke it from its description, where upstream sets
+`disable-model-invocation`; it adds a table view, rendered diagrams with labeling guidance, and checks on HTML pages;
+and visuals stay in the conversation rather than being kept or published.
+
 ## Differences from pstack
 
 - No `poteto-mode` router, playbook todo lists, or required reply format.
@@ -119,10 +145,12 @@ matching principle or playbook files in `vendor/pstack/upstream/skills/` from th
 /plugin install kstack@krmcbride
 ```
 
-kstack replaces the earlier `review@krmcbride` and `git@krmcbride` plugins. Their skills and agents are now named
-`kstack:…`.
+kstack replaces the earlier `review@krmcbride`, `git@krmcbride`, and `show-me@krmcbride` plugins. Their skills and
+agents are now named `kstack:…`.
 
 ## License
 
 MIT. kstack adapts work by Lauren Tan ([@poteto](https://github.com/poteto)) from
-[cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack); see [LICENSE](LICENSE).
+[cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack), and `show-me` adapts work by HumanLayer from
+[humanlayer/skills](https://github.com/humanlayer/skills); see [LICENSE](LICENSE). Pele is MIT-licensed by kepano and
+is loaded from a CDN, not copied here.
