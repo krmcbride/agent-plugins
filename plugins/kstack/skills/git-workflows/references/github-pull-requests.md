@@ -16,4 +16,4 @@ Verify URL, base/head, remote commit, draft state, title/body, and checks for ea
 
 Read authoritative inline threads, including resolved and outdated ones, and compare them with the current patch. Outdated does not mean addressed. Place authorized fixes on the branch or lowest stack layer that owns them.
 
-An authorized reply should state what changed and its verification. Resolve a thread only when its fix is verified and resolution is within scope. Apply the entrypoint's separate boundaries for fixes, publication, and review actions.
+An authorized reply should state what changed and its verification, with paragraphs unwrapped as in descriptions. Resolve a thread only when its fix is verified and resolution is within scope. Apply the entrypoint's separate boundaries for fixes, publication, and review actions.

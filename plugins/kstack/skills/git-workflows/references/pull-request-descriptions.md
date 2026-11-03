@@ -17,15 +17,14 @@ Follow the applicable repository template and contribution instructions, includi
 ```markdown
 ## Summary
 
-Explain the concrete problem, why it matters, and the resulting behavior.
-Include the key rationale when the approach needs explanation.
+Explain the concrete problem, why it matters, and the resulting behavior. Include the key rationale when the approach needs explanation.
 
 ## Validation
 
-State the relevant checks performed and their results. Explain what the
-evidence covers and any material validation gaps. Include reproduction
-steps or visual evidence when they help assess the change.
+State the relevant checks performed and their results. Explain what the evidence covers and any material validation gaps. Include reproduction steps or visual evidence when they help assess the change.
 ```
+
+Write each paragraph and list item on a single line, without a fixed-width wrap. GitHub renders a newline inside a description paragraph as a visible line break, so prose wrapped like a commit body appears ragged. Break lines only between blocks, between list items, and inside code blocks.
 
 A small PR can use a sentence or two per section. For larger changes, group detail under the optional sections below. Use short prose for motivation and rationale, and bullets for parallel changes or checks. Include relevant shared issue or design links while keeping enough context in the body for it to stand alone.
 
