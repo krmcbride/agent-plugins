@@ -16,13 +16,7 @@
     {
       "name": "kstack",
       "source": "./plugins/kstack",
-      "description": "Personal skills: engineering principles and playbooks adapted from pstack, planning and decision workflows, code review with review-only agents, Git and forge workflows, and GitHub repository research.",
-      "category": "developer-tools"
-    },
-    {
-      "name": "show-me",
-      "source": "./plugins/show-me",
-      "description": "Visual explanations: code-shape sketches, trees, small Mermaid diagrams, and throwaway HTML pages. Adapted from HumanLayer's show-me.",
+      "description": "Personal skills: engineering principles and playbooks adapted from pstack, planning and decision workflows, code review with review-only agents, Git and forge workflows, GitHub repository research, and visual explanations with rendered diagrams.",
       "category": "developer-tools"
     }
   ]

@@ -1,6 +1,6 @@
 {
   "name": "kstack",
-  "description": "Personal skills for Claude Code: engineering principles and playbooks adapted from pstack, planning and decision workflows, code review with review-only agents, Git and forge workflows, and GitHub repository research.",
+  "description": "Personal skills for Claude Code: engineering principles and playbooks adapted from pstack, planning and decision workflows, code review with review-only agents, Git and forge workflows, GitHub repository research, and visual explanations with rendered diagrams.",
   "author": {
     "name": "Kevin McBride",
     "url": "https://github.com/krmcbride"
