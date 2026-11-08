@@ -1,7 +1,7 @@
 ---
 name: engineering-principles
 description: >-
-  Engineering principles for design, change, debugging, and verification, each indexed by the situation it applies to. Use when choosing a data shape or type design, placing validation, sizing a diff or refactor, sequencing a migration or multi-step change, debugging after a failed fix, writing or keeping a test, trusting a measured number, or deciding that work is done.
+  Engineering principles for design, change, debugging, and verification, each indexed by the situation it applies to. Use when choosing a data shape or type design, placing validation or a module boundary, sizing a diff or refactor, sequencing a migration or multi-step change, debugging after a failed fix, writing or keeping a test, trusting a measured number, or deciding that work is done.
 ---
 
 # Engineering Principles
@@ -16,6 +16,7 @@ When the user runs this skill as a slash command, they want these principles app
 - [Model the Domain](references/model-the-domain.md): stateful logic, or code that branches a lot or repeats a shape assumption across files. Encode the domain in a structure instead of scattered conditionals.
 - [Type System Discipline](references/type-system-discipline.md): designing types or a signature in a typed language. Make illegal states unrepresentable, brand primitives, and parse external data at boundaries.
 - [Boundary Discipline](references/boundary-discipline.md): wiring validation, error handling, or framework adapters. Guard at system boundaries, trust internal types, and keep business logic pure.
+- [Own Boundaries and Dependency Direction](references/own-boundaries-and-dependency-direction.md): starting or restructuring an application, adding a module or adapter, or calling across modules. Give each capability one owner, keep its state private, and point dependencies toward policy.
 - [Minimize Reader Load](references/minimize-reader-load.md): shaping or reviewing code that is hard to trace. Count layers and hidden state, collapse one-caller wrappers, and shrink mutable scope.
 - [Make Operations Idempotent](references/make-operations-idempotent.md): commands, lifecycle steps, or loops that run amid crashes and retries. Converge to the same end state from any partial run.
 - [Separate Before Serializing Shared State](references/separate-before-serializing-shared-state.md): concurrent actors that might write the same file, branch, key, or object. Eliminate the sharing before reaching for a lock.
