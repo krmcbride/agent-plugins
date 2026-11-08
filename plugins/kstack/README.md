@@ -14,7 +14,7 @@ reply-style rules, and the scripts behind them. Claude Code decides how to use i
 
 | Skill | What it does |
 | --- | --- |
-| `kstack:engineering-principles` | An index of 21 principles, each named by the situation it applies to, with one reference file per principle |
+| `kstack:engineering-principles` | An index of 22 principles, each named by the situation it applies to, with one reference file per principle |
 | `kstack:debugging` | Reproduce, root-cause, fix, and verify a defect, or diagnose a runtime symptom or captured profile |
 | `kstack:performance` | Baseline, find the limiter, and keep or revert each change; includes a sustained improvement loop and a benchmark checklist |
 | `kstack:refactoring` | Pin behavior, subtract, reshape in small passing steps, and prove the behavior unchanged |
@@ -28,16 +28,15 @@ reply-style rules, and the scripts behind them. Claude Code decides how to use i
 | --- | --- | --- |
 | Skill | `kstack:code-review` | Picks the review approach and depth, builds the review packet, and dispatches the agents |
 | Skill | `kstack:code-shape` | Rubric for module size, single responsibility, and dead weight, with hard stops |
-| Skill | `kstack:application-architecture` | Guidance on boundaries, domain ownership, and dependency direction |
-| Agent | `kstack:code-reviewer` | Review-only reviewer; preloads `application-architecture` |
-| Agent | `kstack:review-critic` | Review-only critic for adversarial review; preloads `application-architecture` |
-| Agent | `kstack:shape-reviewer` | Review-only code-shape reviewer; preloads `code-shape` and `application-architecture` |
+| Agent | `kstack:code-reviewer` | Review-only reviewer; preloads the `engineering-principles` index |
+| Agent | `kstack:review-critic` | Review-only critic for adversarial review |
+| Agent | `kstack:shape-reviewer` | Review-only code-shape reviewer; preloads `code-shape` and the `engineering-principles` index |
 
 ### Git
 
 | Skill | What it does |
 | --- | --- |
-| `kstack:git-workflows` | Commits, temporary-commit message amendments, history rewrites, branch publication, GitHub pull requests and `gh stack` chains, and GitLab `glab stack` merge requests, each with its own reference loaded on demand |
+| `kstack:git-workflows` | Commits, history rewrites, branch publication, GitHub pull requests and `gh stack` chains, and GitLab `glab stack` merge requests, each with its own reference loaded on demand |
 | `kstack:researching-github-repositories` | Answers questions about GitHub repositories from `gh` metadata or a disposable shallow clone, read-only |
 
 ### Visualize
@@ -46,10 +45,10 @@ reply-style rules, and the scripts behind them. Claude Code decides how to use i
 | --- | --- |
 | `kstack:show-me` | Explain the current topic with the smallest view that makes the point: a code-shape sketch, tree, table, rendered Mermaid diagram, or throwaway HTML page |
 
-Every skill can be invoked by Claude from its description. The principles skill lists every principle in one short
-index and loads a reference only when it applies, so the 21 principles cost one entry in the skill list. To make sure
-the principles shape a piece of work, start the message with `/kstack:engineering-principles`. Claude then reads the
-references that apply before starting and names the principles that changed its decisions.
+Claude can invoke every skill except `show-me` from its description. The principles skill lists every principle in
+one short index and loads a reference only when it applies, so the 22 principles cost one entry in the skill list. To
+make sure the principles shape a piece of work, start the message with `/kstack:engineering-principles`. Claude then
+reads the references that apply before starting and names the principles that changed its decisions.
 
 `implementation-workflow` says what it needs, small modules and a final review against the contract, without naming
 the skills that supply it. `code-review` and `code-shape` trigger from their own descriptions.
@@ -95,17 +94,17 @@ skill off in `skillOverrides`:
 
 ## Git
 
-`git-workflows` keeps authorization boundaries explicit: a request to implement does not authorize a commit, a commit
-does not authorize a rewrite, and neither authorizes publishing. `researching-github-repositories` reads upstream
-source and history without touching the user's checkouts. The skills expect `gh`, and `glab` for GitLab stacks.
-Publishing uses whatever credentials those tools already have.
+`git-workflows` commits completed work without asking, but rewriting history and publishing each need the user's
+authorization. `researching-github-repositories` reads upstream source and history without touching the user's
+checkouts. The skills expect `gh`, and `glab` for GitLab stacks. Publishing uses whatever credentials those tools
+already have.
 
 ## show-me
 
-`show-me` triggers when the user says "show me" to understand or compare something, or asks for a diagram, tree,
-sketch, or mockup, but not when "show me" only means open, list, or retrieve something.
+`show-me` runs only as `/kstack:show-me`, for a quick visual in the conversation. It prefers text views, draws a
+diagram with an inline-rendering tool when the client has one, and writes an HTML page only when asked.
 
-Claude Code's desktop app and terminals show Mermaid only as source, so `show-me` renders diagrams with
+Claude Code's desktop app and terminals show Mermaid only as source, so otherwise `show-me` renders diagrams with
 [Pele](https://pele.run). `skills/show-me/scripts/diagram-page.mjs` needs Node and no npm packages. It writes one HTML
 page with a fixed layout and theme, embeds the Mermaid source, and loads Pele 1.9.0 from jsDelivr, pinned by its SRI
 hash, to render it in the browser. Viewing the page needs the network; offline, it shows the source instead.
@@ -116,9 +115,9 @@ colours states by phase and marks bad states, the states on the path into them, 
 `statechart` command, so its charts render unchanged.
 
 `show-me` is adapted from HumanLayer's [show-me](https://github.com/humanlayer/skills/tree/main/plugins/show-me) at
-upstream commit `bba9d13`, not from pstack. Claude can invoke it from its description, where upstream sets
-`disable-model-invocation`; it adds a table view, rendered diagrams with labeling guidance, and checks on HTML pages;
-and visuals stay in the conversation rather than being kept or published.
+upstream commit `bba9d13`, not from pstack. Like upstream, it sets `disable-model-invocation`. It adds a table view,
+rendered diagrams with labeling guidance, and checks on HTML pages, and visuals stay in the conversation rather than
+being kept or published.
 
 ## Differences from pstack
 
