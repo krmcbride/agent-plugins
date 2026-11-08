@@ -1,7 +1,7 @@
 ---
 name: git-workflows
 description: >-
-  Create explicitly requested Git commits, rewrite history, publish branches, or plan, inspect, publish, and update GitHub pull requests and stacked reviews using gh stack or GitLab glab stack.
+  Commit completed work, rewrite history, publish branches, or plan, inspect, publish, and update GitHub pull requests and stacked reviews using gh stack or GitLab glab stack.
 ---
 
 # Git Workflows
@@ -10,11 +10,11 @@ Keep local Git work provider-neutral. Load provider or stack guidance only when 
 
 ## Scope and authorization
 
-Inspection, explanation, and planning are read-only. Implementation alone does not authorize a commit; commit authorization does not authorize rewriting history or publishing. Authorization to commit carries forward within a repository and branch: once the user approves committing there, commit later coherent units of work on that branch without asking again. It does not extend to another branch or repository, to amending or rewriting history, or to publishing. Reuse other authorization already given in the current conversation for the same action and target without asking again. A composed request can authorize several operations; identify which it actually covers.
+Inspection, explanation, and planning are read-only. Commit your own work without asking once a coherent unit is complete and its checks pass, unless the user asked to keep changes uncommitted. Commit only the paths and hunks you changed, and leave the user's staged and unstaged work alone. Committing does not authorize rewriting history or publishing; those need the user's authorization. Reuse authorization already given in the current conversation for the same action and target without asking again. A composed request can authorize several operations; identify which it actually covers.
 
-Choose the branch by who the work is for. In the user's own repositories and personal forks, committing directly to the default branch is acceptable when the history shows that practice or the user asks for it. Work destined for a shared repository always uses a feature branch and a pull or merge request.
+Choose the branch by who the work is for. In the user's own repositories and personal forks, committing directly to the default branch is acceptable when the history shows that practice or the user asks for it. Work destined for a shared repository always uses a feature branch and a pull or merge request, so create one before committing if you are on its default branch.
 
-For a rewrite, establish the exact commits or branch range, explain which IDs will change, and preserve a recovery path. Permission for a new commit does not cover amendments or rebases. A message-only amendment must preserve trees and unrelated staged or unstaged work.
+For a rewrite, establish the exact commits or branch range, explain which IDs will change, and preserve a recovery path. Authorization for one rewrite does not cover later amendments or rebases.
 
 Remote writes must be within the authorized publication scope. Do not infer permission to force-push, merge, reply to feedback, submit a review, or resolve threads from permission to push or open a pull request. Leave merging to the user unless explicitly requested and permitted by the host.
 
@@ -27,9 +27,8 @@ Create a branch from a remote-tracking branch with `git switch --no-track -c <br
 ## Load the selected workflow
 
 - **New commit:** read [creating commits](references/creating-commits.md) and [message guidelines](references/commit-message-guidelines.md).
-- **Temporary message amendment:** read [amending temporary commits](references/amending-temporary-commits.md) and [message guidelines](references/commit-message-guidelines.md).
-- **GitHub pull request:** read [GitHub pull requests](references/github-pull-requests.md). Also read [stacked pull requests](references/github-stacked-prs.md) for a gh stack chain, and the commit references if a new commit is authorized.
-- **GitLab stacked merge requests:** read [stacked merge requests](references/gitlab-stacked-mrs.md) for a glab stack chain, and the commit references when creating layer commits is authorized.
+- **GitHub pull request:** read [GitHub pull requests](references/github-pull-requests.md). Also read [stacked pull requests](references/github-stacked-prs.md) for a gh stack chain, and the commit references before creating a commit.
+- **GitLab stacked merge requests:** read [stacked merge requests](references/gitlab-stacked-mrs.md) for a glab stack chain, and the commit references before creating layer commits.
 
 Paths here are relative to this skill directory. Read the relevant guidance before the corresponding action; unrelated modes need not be loaded.
 

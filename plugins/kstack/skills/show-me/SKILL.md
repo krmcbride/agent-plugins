@@ -1,12 +1,13 @@
 ---
 name: show-me
 description: >-
-  Use when the user says "show me" to understand or compare something visually, or asks for a code-shape sketch, call or component tree, state, sequence, flow, or ER diagram, architecture map, UI mockup, or visual explanation of the current topic. Do not use when "show me" merely means open, retrieve, list, or inspect an item.
+  Explain the current topic with a quick visual in the conversation: pseudocode, a call, component, or file tree, a table, a diff of a shape, or a state, sequence, flow, or ER diagram.
+disable-model-invocation: true
 ---
 
 # Show Me
 
-Help the user understand the current topic visually. Skip the preamble and keep prose brief. Pick the smallest view that makes the key point clear, and place each view next to the short text it supports.
+The user ran this command to understand the current topic visually, in the conversation. Skip the preamble and keep prose brief. Pick the smallest view that makes the key point clear, and place each view next to the short text it supports. Prefer text views; draw a diagram only when text cannot carry the point.
 
 ## Text views
 
@@ -97,7 +98,9 @@ Label it for the reader:
 - Keep to about 20 arrows. Merge states that act the same and leave out steps the reader does not need, but keep every state on a path to a bad state.
 - Colour states by phase, and mark bad states and the states on the path into them, with the classes in [references/themes.md](references/themes.md).
 
-Claude Code's desktop app and terminals show Mermaid only as source, so render it with Pele. Write each diagram to a `.mmd` file in a new `mktemp -d` scratch directory, then build one page for them:
+If the client offers a tool that renders SVG or HTML inline in the conversation, draw the diagram with it and skip the page below.
+
+Otherwise render the Mermaid with Pele, because Claude Code's desktop app and terminals show Mermaid only as source. Write each diagram to a `.mmd` file in a new `mktemp -d` scratch directory, then build one page for them:
 
 ```sh
 node ${CLAUDE_SKILL_DIR}/scripts/diagram-page.mjs --theme blueprint --title "How an upload finishes" \
@@ -110,7 +113,7 @@ The page loads Pele 1.9.0 from jsDelivr, pinned by hash, so it needs the network
 
 ## HTML page
 
-For a UI layout, mockup, state comparison, or concept too dense for text or a diagram, write one focused, self-contained HTML file: a diagram, an infographic, or a short slide deck, whichever fits the point.
+Only when the user asks for a page, mockup, or artifact, write one focused, self-contained HTML file: a UI layout, state comparison, infographic, or short slide deck, whichever fits the point.
 
 - Match the product's colors, type, spacing, and components when depicting a product; otherwise use a restrained neutral style that works in light and dark. Use real labels and data, and support narrow and wide widths.
 - For charts, follow the `dataviz` skill.

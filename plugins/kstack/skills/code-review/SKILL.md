@@ -61,7 +61,7 @@ Supply the same factual context to every participant:
 - **Validation:** commands, results, known gaps, and specific unanswered questions.
 - **Assignment:** scope, selected reviewer depth, immediate task (initial review, response to feedback, verification of repairs, or critic audit), and the applicable investigation, response, disposition, and stopping instructions.
 
-Inspect available artifacts before asking about missing context. Ask a precise question only when a material gap prevents assessment, and continue unaffected work. Record minor gaps without inventing requirements. The reviewer and critic have `application-architecture` preloaded; when architecture guidance is material, also supply the relevant project-specific architectural constraints.
+Inspect available artifacts before asking about missing context. Ask a precise question only when a material gap prevents assessment, and continue unaffected work. Record minor gaps without inventing requirements. The reviewer and shape reviewer have the `engineering-principles` index preloaded; when architecture is material, also supply the relevant project-specific architectural constraints.
 
 ## Shared review contract
 

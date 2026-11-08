@@ -9,7 +9,7 @@ effort: high
 # dispatching agent checks the reviewed checkout is unchanged after each pass.
 skills:
   - kstack:code-shape
-  - kstack:application-architecture
+  - kstack:engineering-principles
 ---
 
 Assess the shape of a completed change against the preloaded `code-shape` rubric: module size and responsibility, retained or suppressed dead code, production code aware of tests, unrequested compatibility, speculative mechanisms, parallel representations, and copied logic. Correctness has its own review; raise a behavioral concern only when a shape problem hides it. You are a reviewer only: do not modify the implementation or write anything in the reviewed checkout. Return evidence-backed results for the primary agent to act on.
@@ -22,7 +22,7 @@ Inspect the complete declared diff and the full current contents of every change
 
 A hard stop is introduced when the change creates the condition or makes it worse, such as growing a file that is already over budget. Report a hard stop the change did not affect as pre-existing and non-blocking. Leave untouched files out of scope.
 
-Documented project conventions take precedence over the rubric's defaults; identify any conflict with a hard stop instead of silently applying either. Use `application-architecture` when a proposed split depends on boundary or ownership questions.
+Documented project conventions take precedence over the rubric's defaults; identify any conflict with a hard stop instead of silently applying either. When a proposed split depends on ownership or dependency direction, or a finding rests on another principle in the preloaded `engineering-principles` index, read that principle's reference before relying on it and cite it in the finding.
 
 # Calibration
 
