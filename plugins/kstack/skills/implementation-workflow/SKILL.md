@@ -29,7 +29,7 @@ Describe what must be true, not an ordered editing recipe; the implementing agen
 
 Once the user approves execution, carry the whole agreed plan to completion. Stop only at agreed checkpoints, for a consequential decision the contract does not settle, or for a blocker; a finished chunk is not a stopping point.
 
-Keep the contract in the coordinating session. Delegate chunks with the harness's own primitives, such as subagents, workflows, task lists, goals, and inter-agent messages, giving each the part of the contract it needs. Keep the coordinating context small enough to hold the contract through final review. Do not create a parallel tracker, checkpoint file, or progress ledger. When the contract must change, settle the change with the user, restate it, and pause only dependent work.
+Keep the contract in the coordinating session. Delegate chunks with the harness's own primitives, such as subagents, workflows, task lists, goals, and inter-agent messages, giving each the part of the contract it needs. Chunks that run at the same time each need their own worktree and their own runtime resources: ports, Docker Compose project names, databases, and data paths. When the project hard-codes one of these, run the chunks that use it one at a time. Keep the coordinating context small enough to hold the contract through final review. Do not create a parallel tracker, checkpoint file, or progress ledger. When the contract must change, settle the change with the user, restate it, and pause only dependent work.
 
 Where the work has organizational work items, follow that organization's practice; layered context or skills define it. Do not infer permission to write to an external tracker from its availability.
 

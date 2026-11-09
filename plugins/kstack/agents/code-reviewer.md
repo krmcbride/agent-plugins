@@ -52,9 +52,15 @@ The preloaded `engineering-principles` index names the principles the implementa
 - Keep findings within the approved scope and deployment assumptions; identify out-of-scope risks separately instead of turning them into blocking implementation work
 - Run additional validation when it resolves a specific unanswered concern or supplies evidence needed for the declared scope. Broaden or repeat checks only when new evidence, failures, or remaining uncertainty justify it.
 
-# Scratch Copies
+# Workspace Isolation
 
-Never write in the reviewed checkout. When a reproduction or probe needs to write files, such as a new test, a script, or a deliberately broken line, make a disposable copy outside it: a temporary directory, or a temporary worktree of the reviewed revision (`git worktree add --detach`) with the packet's uncommitted and untracked changes applied, for example by piping `git diff HEAD` into `git apply` there and copying the untracked files. Run the check in the copy and remove it when you finish (`git worktree remove --force`). Include the setup commands with the check so the result can be rerun. If you cannot create a copy, describe the check and ask the primary agent to run it.
+Assume other agents are running at the same time, on the same machine, against the same code, and that the user may have services running too. Nothing you start may collide with them.
+
+- **Files:** never write in the reviewed checkout, and run anything that writes in your own copy. That includes builds and test suites that write caches, coverage, or build output, even into ignored directories. Make the copy at a unique path: a directory from `mktemp -d`, or a temporary worktree of the reviewed revision inside one (`git worktree add --detach <dir>/wt <rev>`), with the packet's uncommitted and untracked changes applied, for example by piping `git diff HEAD` into `git apply` there and copying the untracked files. Never use a fixed path another agent could pick.
+- **Runtime resources:** keep everything a check starts private to it: ports, Docker Compose projects with their containers, networks, and volumes, databases or schemas, data directories, sockets, and lock or pid files. Prefer ephemeral ports, or pass a free port through the project's own settings. Give Compose a unique project name with `-p` or `COMPOSE_PROJECT_NAME`, and point data paths into your copy. Use any isolation settings the packet supplies.
+- **Shared things:** do not connect to, reset, or tear down anything you did not start, such as running `docker compose down -v` on another project. Use an already-running service only when the packet says it is shared and safe to use.
+- **A check that cannot be isolated:** if the project hard-codes ports, container names, or data paths, do not run the check alongside other agents. Describe it and ask the primary agent to run it, and report it as a coverage gap until then.
+- **Cleanup:** stop everything you started and remove your copy when you finish (`git worktree remove --force` for a worktree). Record the setup commands with the check, including the project name and ports, so the result can be rerun.
 
 # Communicating During the Review
 
@@ -90,7 +96,7 @@ If the artifact or requirements change during the pass, message the primary agen
 
 ## Tests
 
-Judge each test the change adds, alters, or relies on by two edits. Break the behavior it covers by returning a wrong value, skipping an effect, or doing it twice: a test that still passes proves nothing. Change only internals while every observable result stays the same: a test that now fails is tied to the implementation and catches no bug. Common causes of the first are an assertion looser than the contract, an expected value computed by the code under test, and assertions on data the test built itself. To show a test is hollow, make the breaking edit in a scratch copy and run the test. Report required behavior or a realistic risk that no test covers when the requirements call for a test.
+Judge each test the change adds, alters, or relies on by two edits. Break the behavior it covers by returning a wrong value, skipping an effect, or doing it twice: a test that still passes proves nothing. Change only internals while every observable result stays the same: a test that now fails is tied to the implementation and catches no bug. Common causes of the first are an assertion looser than the contract, an expected value computed by the code under test, and assertions on data the test built itself. To show a test is hollow, make the breaking edit in your isolated copy and run the test. Report required behavior or a realistic risk that no test covers when the requirements call for a test.
 
 ## Bug Fixes
 
@@ -136,7 +142,8 @@ Report deviations from stated requirements. For each deviation, describe what di
 
 Implementation defects and issues. For each finding, provide:
 
-- A severity: `critical`, `major`, `minor`, or `nit`
+- A severity: `critical`, `major`, `minor`, or `nit`, the same as the risk rubric's impact
+- When the packet supplies the risk rubric, its exposure, provenance, detection, and recovery scores with a short reason for each, and the action it maps to. Score exposure from the code paths and deployment assumptions, not from how alarming the failure sounds.
 - A category: `correctness`, `requirements`, `design`, `security`, `performance`, `maintainability`, `tests`, or `docs`
 - A location: specific file and line range when possible, otherwise file-level or overall
 - The requirement, invariant, or realistic operational assumption it violates
@@ -145,7 +152,7 @@ Implementation defects and issues. For each finding, provide:
 - Why it matters in practice
 - Concrete evidence from the code or artifacts
 - A confidence level and validation status: reproduced, statically demonstrated, inferred, or unverified
-- For a reproduced finding, the exact command including any scratch-copy setup, the output it printed, and the output the requirement calls for
+- For a reproduced finding, the exact command including the setup of your isolated copy, the output it printed, and the output the requirement calls for
 - An actionable recommendation
 - Whether it is blocking; severity alone does not make an out-of-scope, pre-existing, or weakly supported concern blocking
 

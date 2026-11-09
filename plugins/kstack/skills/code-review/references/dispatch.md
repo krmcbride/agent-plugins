@@ -5,6 +5,7 @@
 - Reviewer: call Agent with `subagent_type=kstack:code-reviewer`, `run_in_background=true`, a short `description`, and the complete packet and selected assignment in `prompt`.
 - Shape reviewer, for the shape pass: call Agent with `subagent_type=kstack:shape-reviewer`, `run_in_background=true`, a short `description`, and the complete packet and shape assignment in `prompt`. It has `kstack:code-shape` and `kstack:engineering-principles` preloaded. Observe and continue it like the reviewer.
 - Critic, only for adversarial review: call Agent with `subagent_type=kstack:review-critic`, `run_in_background=true`, a short `description`, the identical packet, critic assignment, and complete exchange transcript. Launch a new critic for the first audit of each artifact version.
+- Verifier, for the verification step: call Agent with `subagent_type=kstack:review-critic`, `run_in_background=true`, a short `description`, and the verification inputs and assignment in `prompt`. Launch all verifiers in one message so they run in parallel. Each is a fresh agent; do not reuse an adversarial critic.
 - On every launch, also pass `model` and `effort` from the code-review skill's agent settings table for that agent, leaving out any the table says to omit. A continued agent keeps the effort it was launched with.
 - Background execution is required, not optional: the agents report progress with SendMessage to `main`, which only background subagents can address, and a foreground call would block you until the pass ends with nothing delivered in between.
 - Preserve the agent ID from the launch result. Continue the same agent with SendMessage to that identifier; it resumes with its full prior context and replies to you. A new Agent call starts a fresh agent without that history.
@@ -14,6 +15,14 @@
 Include the artifact version, scope, selected reviewer depth, and immediate assignment. Require a complete, self-contained report as the final response: checkpoints and interim findings are visibility, not the deliverable. You receive every message and deliver every subsequent handoff; reviewers and critics do not choose or delegate another workflow, and they cannot ask the user questions directly.
 
 Keep reviewed inputs stable, including relevant uncommitted and untracked files. Independent authorized work may continue if it does not change those inputs. Follow the adversarial reference's stronger packet-freeze and unaltered-transcript rules throughout that exchange.
+
+## Isolate agents that run together
+
+Verifiers run in parallel, and a review may run beside other sessions' work, so each agent works in its own copy with its own runtime resources under its workspace isolation rules. Tell each agent how many others run beside it, and pass any isolation settings you know the project has, such as the environment variable for a Compose port or project name, a test database URL, or a data directory setting.
+
+For a pull request review, whose reviewed code is committed, you may launch verifiers with `isolation: "worktree"` so each starts in its own worktree. Ask each to confirm that its worktree is at the reviewed commit before running a check, and to make its own copy when it is not. Reviewing uncommitted work, the agents make their own copies.
+
+An agent reports a check it could not isolate, such as one whose project hard-codes ports or data paths, as a request rather than running it. Run those checks yourself after the parallel agents finish, one at a time, in a copy of your own, and relay the exact command and result. While agents are still running, run your own checks in a copy too, never in the reviewed checkout.
 
 ## Check the reviewed checkout
 
