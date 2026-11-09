@@ -63,9 +63,11 @@ critic per finding, or per group of findings with one root cause, tries to refut
 step by step. It sees the claim and the code but not the reviewer's reasoning or scores. Each finding is scored on
 impact, exposure, provenance, detection, and recovery, and mapped to an action: `block`, `raise`, `ask`, `mention`, or
 `drop`. The report ranks findings by action and lists what was dropped and why. This always runs when reviewing another
-author's pull request, which is reviewed in a disposable worktree, has no repair loop, and ends in draft comments the
-user may post. The design follows evidence that a run settles a finding better than agreement between agents, that
-LLM judges rarely reject what they are shown, and that a finder tends to overstate severity.
+author's pull request. That review assumes the session was started for it: it checks out the pull request's head in the
+session's own checkout, so the session's diff and terminal show the author's changes, then leaves that checkout
+unchanged. It has no repair loop and ends in draft comments the user may post. The design follows evidence that a run
+settles a finding better than agreement between agents, that LLM judges rarely reject what they are shown, and that a
+finder tends to overstate severity.
 
 The agents keep the session's tools, including its MCP servers, and are review-only by instruction rather than by tool
 restriction: Bash alone could write, so removing the editing tools never made them read-only. They never write in the
