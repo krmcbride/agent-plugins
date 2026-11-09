@@ -16,6 +16,7 @@ Launch one `kstack:review-critic` per unit, in parallel, as the dispatch referen
 - **Artifact:** the same exact refs, diff, or snapshot the reviewer had.
 - **The claim:** for each finding in the unit, its ID, location, failure scenario, and any command the reviewer ran with its output. Leave out the reviewer's severity, confidence, risk scores, and argument for why it matters, so the verifier judges the code rather than the reasoning.
 - **The rubric:** the risk rubric, verbatim.
+- **Isolation:** that other verifiers run beside it, and any project isolation settings, as the dispatch reference describes.
 
 ## Verification assignment
 
@@ -31,7 +32,7 @@ A finding the verifier can neither prove nor refute is `unverified`, not confirm
 
 ## Settle the result
 
-Check the deciding evidence yourself before using it: rerun each `reproduced` command, in a disposable copy when it writes files, and read each `refuted` citation. Then settle each finding:
+Check the deciding evidence yourself before using it: rerun each `reproduced` command in a copy of your own, after the verifiers finish or with its own runtime resources, and read each `refuted` citation. Then settle each finding:
 
 - When the verifier and reviewer agree on the status, use it.
 - When they disagree and one side has a valid run that tests the disputed condition, the run decides.

@@ -71,9 +71,11 @@ finder tends to overstate severity.
 
 The agents keep the session's tools, including its MCP servers, and are review-only by instruction rather than by tool
 restriction: Bash alone could write, so removing the editing tools never made them read-only. They never write in the
-reviewed checkout. To reproduce a failure, the reviewer and critic write only in a disposable copy outside it, such as a
-temporary git worktree. The dispatching agent fingerprints the checkout before and after each pass and stops if it
-changed.
+reviewed checkout. The reviewer and critic assume other agents run beside them, so any check that writes, including a
+build or test run, runs in their own copy at a unique path, and anything it starts gets its own ports, Docker Compose
+project name, and data paths. A check the project cannot isolate, such as one with a hard-coded port, goes back to the
+dispatching agent to run one at a time. The dispatching agent fingerprints the checkout before and after each pass and
+stops if it changed.
 
 The agents run in the background and report progress with SendMessage, so the session that dispatches them must be able
 to receive messages from background subagents.

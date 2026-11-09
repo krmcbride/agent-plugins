@@ -16,6 +16,14 @@ Include the artifact version, scope, selected reviewer depth, and immediate assi
 
 Keep reviewed inputs stable, including relevant uncommitted and untracked files. Independent authorized work may continue if it does not change those inputs. Follow the adversarial reference's stronger packet-freeze and unaltered-transcript rules throughout that exchange.
 
+## Isolate agents that run together
+
+Verifiers run in parallel, and a review may run beside other sessions' work, so each agent works in its own copy with its own runtime resources under its workspace isolation rules. Tell each agent how many others run beside it, and pass any isolation settings you know the project has, such as the environment variable for a Compose port or project name, a test database URL, or a data directory setting.
+
+For a pull request review, whose reviewed code is committed, you may launch verifiers with `isolation: "worktree"` so each starts in its own worktree. Ask each to confirm that its worktree is at the reviewed commit before running a check, and to make its own copy when it is not. Reviewing uncommitted work, the agents make their own copies.
+
+An agent reports a check it could not isolate, such as one whose project hard-codes ports or data paths, as a request rather than running it. Run those checks yourself after the parallel agents finish, one at a time, in a copy of your own, and relay the exact command and result. While agents are still running, run your own checks in a copy too, never in the reviewed checkout.
+
 ## Check the reviewed checkout
 
 The agents keep the session's tools and are review-only by instruction, so confirm they left the reviewed checkout alone. Before each pass, record a fingerprint of it, run from its root:
