@@ -67,7 +67,7 @@ Classify each finding using its latest claim and evidence for this artifact vers
 - `rejected`: the reviewer retracts the finding, or specific refuting evidence resolves it. Retain the retraction or refutation; contradictory unresolved interpretations remain disputed.
 - `out_of_scope`: the concern may be valid, but a cited clause of the frozen scope or assumptions excludes it from this change.
 
-Return the ship/no-ship recommendation, overall risk, confidence, and reviewed coverage. For each material finding retain its stable ID, origin and original claim, critic disposition and evidence, reviewer response when needed, final classification and rationale, and validation status. Include context gaps, unresolved evidence questions, and ordered next actions within the approved scope. A thorough exchange may still have a concise final report; keep the complete transcript available for audit.
+Return the ship/no-ship recommendation, overall risk, confidence, and reviewed coverage. For each material finding retain its stable ID, origin and original claim, critic disposition and evidence, reviewer response when needed, final classification and rationale, validation status, and its risk rubric scores and action. Where the critic's evidence lowers a score, use the lower score and say why. Include context gaps, unresolved evidence questions, and ordered next actions within the approved scope. A thorough exchange may still have a concise final report; keep the complete transcript available for audit.
 
 Apply the entry point's blocking standard. Agreement is not proof, and a disputed finding is not automatically false or blocking. State whether the independent evidence supports action rather than concealing uncertainty behind the classification.
 

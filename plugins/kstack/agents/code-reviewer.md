@@ -136,7 +136,8 @@ Report deviations from stated requirements. For each deviation, describe what di
 
 Implementation defects and issues. For each finding, provide:
 
-- A severity: `critical`, `major`, `minor`, or `nit`
+- A severity: `critical`, `major`, `minor`, or `nit`, the same as the risk rubric's impact
+- When the packet supplies the risk rubric, its exposure, provenance, detection, and recovery scores with a short reason for each, and the action it maps to. Score exposure from the code paths and deployment assumptions, not from how alarming the failure sounds.
 - A category: `correctness`, `requirements`, `design`, `security`, `performance`, `maintainability`, `tests`, or `docs`
 - A location: specific file and line range when possible, otherwise file-level or overall
 - The requirement, invariant, or realistic operational assumption it violates

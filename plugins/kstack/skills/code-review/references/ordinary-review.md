@@ -8,4 +8,4 @@ Use evidence to accept or challenge findings. Before acting on a blocking findin
 
 If the review exposes consequential uncertainty for which a critic would add value, return to the entry point's selection step. An ordinary review can serve as the initial adversarial review only if its complete output and stable IDs cover the same frozen artifact, requirements, selected depth, and material evidence questions. Otherwise continue the reviewer with the missing scope or evidence questions before introducing a critic; do not run overlapping reviews of changing inputs.
 
-Return the outcome, material findings, validation, and coverage gaps. Reconcile interim findings and distinguish completed independent review from a local or partial assessment.
+When the findings will be posted or acted on, verify them as the entry point's verification step describes before reporting. Return the outcome, material findings, validation, and coverage gaps. Reconcile interim findings and distinguish completed independent review from a local or partial assessment.

@@ -29,7 +29,7 @@ reply-style rules, and the scripts behind them. Claude Code decides how to use i
 | Skill | `kstack:code-review` | Picks the review approach and depth, builds the review packet, and dispatches the agents |
 | Skill | `kstack:code-shape` | Rubric for module size, single responsibility, and dead weight, with hard stops |
 | Agent | `kstack:code-reviewer` | Review-only reviewer; preloads the `engineering-principles` index |
-| Agent | `kstack:review-critic` | Review-only critic for adversarial review |
+| Agent | `kstack:review-critic` | Review-only critic for adversarial review, and verifier of individual findings |
 | Agent | `kstack:shape-reviewer` | Review-only code-shape reviewer; preloads `code-shape` and the `engineering-principles` index |
 
 ### Git
@@ -57,6 +57,15 @@ the skills that supply it. `code-review` and `code-shape` trigger from their own
 
 `code-review` chooses between no delegated review, an ordinary review, and an adversarial review in which a critic
 audits the reviewer's findings. It adds a separate code-shape pass for work that creates or grows production files.
+
+Findings from an ordinary review that will be posted or acted on are verified before they are reported. One fresh
+critic per finding, or per group of findings with one root cause, tries to refute it, then reproduces it or traces it
+step by step. It sees the claim and the code but not the reviewer's reasoning or scores. Each finding is scored on
+impact, exposure, provenance, detection, and recovery, and mapped to an action: `block`, `raise`, `ask`, `mention`, or
+`drop`. The report ranks findings by action and lists what was dropped and why. This always runs when reviewing another
+author's pull request, which is reviewed in a disposable worktree, has no repair loop, and ends in draft comments the
+user may post. The design follows evidence that a run settles a finding better than agreement between agents, that
+LLM judges rarely reject what they are shown, and that a finder tends to overstate severity.
 
 The agents keep the session's tools, including its MCP servers, and are review-only by instruction rather than by tool
 restriction: Bash alone could write, so removing the editing tools never made them read-only. They never write in the
