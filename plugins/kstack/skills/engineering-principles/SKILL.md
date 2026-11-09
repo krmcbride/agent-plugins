@@ -19,7 +19,7 @@ When the user runs this skill as a slash command, they want these principles app
 - [Own Boundaries and Dependency Direction](references/own-boundaries-and-dependency-direction.md): starting or restructuring an application, adding a module or adapter, or calling across modules. Give each capability one owner, keep its state private, and point dependencies toward policy.
 - [Minimize Reader Load](references/minimize-reader-load.md): shaping or reviewing code that is hard to trace. Count layers and hidden state, collapse one-caller wrappers, and shrink mutable scope.
 - [Make Operations Idempotent](references/make-operations-idempotent.md): commands, lifecycle steps, or loops that run amid crashes and retries. Converge to the same end state from any partial run.
-- [Separate Before Serializing Shared State](references/separate-before-serializing-shared-state.md): concurrent actors, including parallel agents, that might write the same file, branch, key, or object, or use the same port, container, database, or data path. Eliminate the sharing before reaching for a lock.
+- [Separate Before Serializing Shared State](references/separate-before-serializing-shared-state.md): concurrent actors that might write the same file, branch, key, or object. Eliminate the sharing before reaching for a lock.
 - [Exhaust the Design Space](references/exhaust-the-design-space.md): a novel interaction or architectural decision with no precedent. Compare two or three prototypes before committing.
 
 ## Change
