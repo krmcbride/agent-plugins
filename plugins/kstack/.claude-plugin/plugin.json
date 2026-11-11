@@ -71,7 +71,7 @@
         "xhigh",
         "max"
       ],
-      "default": "xhigh"
+      "default": "high"
     },
     "shape_reviewer_model": {
       "type": "string",

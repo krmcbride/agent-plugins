@@ -86,8 +86,10 @@ lists them in `/config`:
 | Setting | Options | Default |
 | --- | --- | --- |
 | `code_reviewer_model`, `review_critic_model`, `shape_reviewer_model` | `opus`, `sonnet`, `haiku`, `fable` | `opus` |
-| `code_reviewer_effort`, `shape_reviewer_effort` | `low`, `medium`, `high`, `xhigh`, `max` | `high` |
-| `review_critic_effort` | `low`, `medium`, `high`, `xhigh`, `max` | `xhigh` |
+| `code_reviewer_effort`, `review_critic_effort`, `shape_reviewer_effort` | `low`, `medium`, `high`, `xhigh`, `max` | `high` |
+
+Every verifier is a critic, so the critic's effort is paid once per finding. Raise an effort above `high` only where a
+review has shown the gain: current models think far longer at `xhigh` and `max` for a small improvement.
 
 Claude Code fills the saved values into the `code-review` skill, and the dispatching agent passes them when it launches
 each agent. Those arguments override the agent's own `model` and `effort`. The Agent tool accepts only model aliases, so
@@ -95,7 +97,7 @@ to pin the version an alias runs, set `ANTHROPIC_DEFAULT_OPUS_MODEL` (or the mat
 your settings' `env`.
 
 Until the settings are saved, the skill shows no values and the agents run on their own definitions: the session's
-model (`model: inherit`), at `high` effort for the reviewers and `xhigh` for the critic. A review started from a Sonnet
+model (`model: inherit`), at `high` effort. A review started from a Sonnet
 session then runs on Sonnet.
 
 `kstack:code-review` does not replace Claude Code's bundled `code-review` skill. To use only this one, turn the bundled
