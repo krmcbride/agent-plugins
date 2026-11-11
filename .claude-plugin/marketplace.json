@@ -8,15 +8,15 @@
   "version": "0.1.0",
   "plugins": [
     {
-      "name": "pstack",
-      "source": "./plugins/pstack",
-      "description": "Lauren Tan's (@poteto) pstack: poteto-mode workflows, principles, and review skills. Imported from cursor/plugins.",
+      "name": "kstack",
+      "source": "./plugins/kstack",
+      "description": "Personal skills and review agents: engineering principles and playbooks adapted from pstack, planning and decision workflows, code review with verified, risk-scored findings, Git and forge workflows, GitHub repository research, and visual explanations with rendered diagrams.",
       "category": "developer-tools"
     },
     {
-      "name": "kstack",
-      "source": "./plugins/kstack",
-      "description": "Personal skills: engineering principles and playbooks adapted from pstack, planning and decision workflows, code review with review-only agents, Git and forge workflows, GitHub repository research, and visual explanations with rendered diagrams.",
+      "name": "pstack",
+      "source": "./plugins/pstack",
+      "description": "Lauren Tan's (@poteto) pstack: poteto-mode workflows, principles, and review skills. Imported from cursor/plugins.",
       "category": "developer-tools"
     }
   ]
