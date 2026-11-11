@@ -107,10 +107,10 @@ skill off in `skillOverrides`:
 
 ## Git
 
-`git-workflows` commits completed work without asking, but rewriting history and publishing each need the user's
-authorization. `researching-github-repositories` reads upstream source and history without touching the user's
-checkouts. The skills expect `gh`, and `glab` for GitLab stacks. Publishing uses whatever credentials those tools
-already have.
+`git-workflows` commits completed work without asking, and may reshape commits it made in the session that have not
+been pushed. Any other history rewrite, and all publishing, needs the user's authorization.
+`researching-github-repositories` reads upstream source and history without touching the user's checkouts. The skills
+expect `gh`, and `glab` for GitLab stacks. Publishing uses whatever credentials those tools already have.
 
 ## show-me
 
