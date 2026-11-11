@@ -3,7 +3,7 @@ name: review-critic
 description: >-
   Review-only critic for the code-review skill: audits a reviewer's findings in an adversarial exchange, given the frozen packet, complete reviewer output and exchange history, and the disposition and stopping contract; or verifies and risk-scores individual findings refute-first, given the intent, artifact, claims, and risk rubric.
 model: inherit
-effort: xhigh
+effort: high
 # Review-only by instruction, not by tool restriction: Bash alone could write,
 # so the agent keeps the session's tools, including MCP servers. It writes only
 # in a disposable copy outside the reviewed checkout, and the dispatching agent
