@@ -8,6 +8,8 @@ description: >-
 
 The structure changes; the behavior does not. If the cleanup reveals a missing feature or a real bug, split it out and land the structural change first against the pinned behavior. A redesign that changes behavior is a feature; name it as one. A refactor large enough to need a plan and checkpoints is planned with the user before it starts.
 
+Within the refactor's scope the code is yours: how it is structured is your call, so merge repeated code and delete what the reshape replaces instead of adding beside it. Outside that scope, report what you find and leave the code alone.
+
 1. **Pin the behavior first.** Learn the contract of the affected code, then write a characterization test, snapshot, or equivalence harness that captures current behavior before any structure moves. If the area has no coverage, write the pin before touching structure. Type checks and lint are not a pin.
 2. **Name the structure the code is missing**, per [Model the Domain](../engineering-principles/references/model-the-domain.md). Boring code stays when its shape is already clear and local. The reshape must delete branches, duplicated rules, or invalid states, not add indirection.
 3. **Name the target shape:** the module layout, types, and call graph you would build today, per [Foundational Thinking](../engineering-principles/references/foundational-thinking.md) and [Redesign from First Principles](../engineering-principles/references/redesign-from-first-principles.md). When the target crosses module boundaries, sketch the types and signatures before moving code.
