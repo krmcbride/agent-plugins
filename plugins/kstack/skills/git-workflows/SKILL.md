@@ -10,11 +10,11 @@ Keep local Git work provider-neutral. Load provider or stack guidance only when 
 
 ## Scope and authorization
 
-Inspection, explanation, and planning are read-only. Commit your own work without asking once a coherent unit is complete and its checks pass, unless the user asked to keep changes uncommitted. Commit only the paths and hunks you changed, and leave the user's staged and unstaged work alone. Committing does not authorize rewriting history or publishing; those need the user's authorization. Reuse authorization already given in the current conversation for the same action and target without asking again. A composed request can authorize several operations; identify which it actually covers.
+Inspection, explanation, and planning are read-only. Commit your own work without asking once a coherent unit is complete and its checks pass, unless the user asked to keep changes uncommitted. Commit only the paths and hunks you changed, and leave the user's staged and unstaged work alone. You may amend, squash, reorder, or drop commits you created in this session that have not been pushed. Any other rewrite, and all publishing, needs the user's authorization; committing does not provide it. Reuse authorization already given in the current conversation for the same action and target without asking again. A composed request can authorize several operations; identify which it actually covers.
 
 Choose the branch by who the work is for. In the user's own repositories and personal forks, committing directly to the default branch is acceptable when the history shows that practice or the user asks for it. Work destined for a shared repository always uses a feature branch and a pull or merge request, so create one before committing if you are on its default branch.
 
-For a rewrite, establish the exact commits or branch range, explain which IDs will change, and preserve a recovery path. Authorization for one rewrite does not cover later amendments or rebases.
+For a rewrite that needs authorization, establish the exact commits or branch range, explain which IDs will change, and preserve a recovery path. Authorization for one rewrite does not cover later amendments or rebases.
 
 Remote writes must be within the authorized publication scope. Do not infer permission to force-push, merge, reply to feedback, submit a review, or resolve threads from permission to push or open a pull request. Leave merging to the user unless explicitly requested and permitted by the host.
 
