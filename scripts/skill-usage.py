@@ -72,7 +72,9 @@ def scan(path, usage, references, seen):
     session = path.stem
     with path.open(errors="replace") as lines:
         for line in lines:
-            if '"Skill"' not in line and "command-name" not in line and "/references/" not in line:
+            # A cheap test before parsing. No trailing slash on the folder: a
+            # command may name it bare, as in "cd .../references && cat x.md".
+            if '"Skill"' not in line and "command-name" not in line and "/references" not in line:
                 continue
             try:
                 entry = json.loads(line)
