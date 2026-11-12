@@ -3,7 +3,8 @@
 
 Reads the session transcripts under ~/.claude/projects and reports, per skill:
 how often the model loaded it with the Skill tool, how often the user ran it as
-a slash command, how many of its reference files were read, and in how many
+a slash command, how many of its reference files were read (with the Read tool or
+named in a shell command), and in how many
 sessions any of that happened.
 
 Skills preloaded into a subagent by its definition never appear as a Skill tool
@@ -21,8 +22,15 @@ import time
 from collections import Counter, defaultdict
 from pathlib import Path
 
+READERS = {"Read", "Bash"}
 COMMAND = re.compile(r"<command-name>/([\w:.-]+)</command-name>")
-REFERENCE = re.compile(r"/skills/([\w.-]+)/references/([\w./-]+)$")
+# Only installed skills count: a plugin cache, a user or project skills folder,
+# or the shared agent pool. A path in a checkout where skills are being edited
+# is development work, not a session using the skill.
+REFERENCE = re.compile(
+    r"/\.(?:claude/plugins/[^\s\"']*?/skills|claude/skills|agents/skills)"
+    r"/([\w.-]+)/references/([\w/-]+\.\w+)"
+)
 
 
 def walk(node):
@@ -66,11 +74,13 @@ def scan(path, usage, references, seen):
                     tool_input = node.get("input") or {}
                     if node.get("name") == "Skill" and tool_input.get("skill"):
                         record(usage, tool_input["skill"], "loaded", session)
-                    elif node.get("name") == "Read":
-                        found = REFERENCE.search(str(tool_input.get("file_path", "")))
-                        if found:
-                            record(usage, found.group(1), "references", session)
-                            references[(found.group(1), found.group(2))] += 1
+                    elif node.get("name") in READERS:
+                        # A session may read files with the Read tool or with a
+                        # shell command such as cat, so look in both.
+                        text = str(tool_input.get("file_path") or tool_input.get("command") or "")
+                        for skill, name in set(REFERENCE.findall(text)):
+                            record(usage, skill, "references", session)
+                            references[(skill, name)] += 1
 
 
 def unseen(seen, key):
