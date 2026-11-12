@@ -73,6 +73,7 @@ plugins/pstack/                   generated from vendor/pstack; never edited dir
 vendor/pstack/                    the pristine upstream copy and its pin, plus the rules and patches
                                   that turn it into plugins/pstack
 scripts/vendor.mjs                builds, checks, and syncs vendored plugins (Node 24)
+scripts/skill-usage.py            counts which skills recent Claude Code sessions loaded (Python 3)
 ```
 
 A vendored plugin is changed through `vendor/<name>/`, never by editing `plugins/<name>/` alone.
