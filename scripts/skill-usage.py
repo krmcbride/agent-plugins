@@ -31,8 +31,12 @@ INSTALLED = r"/\.(?:claude/plugins/[^\s\"']*?/skills|claude/skills|agents/skills
 REFERENCE = re.compile(INSTALLED + r"/([\w.-]+)/references/([\w/-]+\.\w+)")
 # A shell command may enter the references folder and name the files bare:
 # cd .../skills/<skill>/references && cat one.md two.md
-REFERENCE_DIR = re.compile(INSTALLED + r"/([\w.-]+)/references/?(?![\w/.-])")
-BARE_FILE = re.compile(r"(?<![\w/.-])([\w-]+\.md)(?![\w/.-])")
+REFERENCE_DIR = re.compile(r"([^\s\"']*" + INSTALLED + r"/([\w.-]+)/references)/?(?![\w/.-])")
+BARE_FILE = re.compile(r"(?<![\w/.$}-])([\w-]+\.md)(?![\w/.-])")
+# It may also loop over names without their extension:
+# for f in one two; do cat "$f.md"; done
+LOOP_USE = re.compile(r"\$\{?(\w+)\}?\.md")
+LOOP_ITEMS = r"\bfor\s+%s\s+in\s+([^;\n]+)"
 
 
 def references_in(text):
@@ -41,8 +45,16 @@ def references_in(text):
     for folder in REFERENCE_DIR.finditer(text):
         # Bare names belong to that folder only for the rest of the same line.
         rest = text[folder.end():].split("\n", 1)[0]
-        for name in BARE_FILE.findall(rest):
-            found.add((folder.group(1), name))
+        names = set(BARE_FILE.findall(rest))
+        for variable in LOOP_USE.findall(rest):
+            for items in re.findall(LOOP_ITEMS % re.escape(variable), text):
+                names.update(item.strip("\"'") + ".md" for item in items.split())
+        # Where the folder still exists, keep only the files really in it. That
+        # drops a name from elsewhere on the line, such as a project README.
+        directory = Path(folder.group(1)).expanduser()
+        if directory.is_dir():
+            names = {name for name in names if (directory / name).is_file()}
+        found.update((folder.group(2), name) for name in names)
     return found
 
 
