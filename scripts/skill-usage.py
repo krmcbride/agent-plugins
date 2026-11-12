@@ -1,0 +1,132 @@
+#!/usr/bin/env python3
+"""Count which skills Claude Code sessions loaded, from the transcripts on disk.
+
+Reads the session transcripts under ~/.claude/projects and reports, per skill:
+how often the model loaded it with the Skill tool, how often the user ran it as
+a slash command, how many of its reference files were read, and in how many
+sessions any of that happened.
+
+Skills preloaded into a subagent by its definition never appear as a Skill tool
+call, so they are not counted.
+
+    python3 scripts/skill-usage.py                 # the last 14 days
+    python3 scripts/skill-usage.py --days 30 --match kstack
+    python3 scripts/skill-usage.py --references    # also list reference files read
+"""
+
+import argparse
+import json
+import re
+import time
+from collections import Counter, defaultdict
+from pathlib import Path
+
+COMMAND = re.compile(r"<command-name>/([\w:.-]+)</command-name>")
+REFERENCE = re.compile(r"/skills/([\w.-]+)/references/([\w./-]+)$")
+
+
+def walk(node):
+    """Yield every dict and string in a transcript entry, however deeply nested.
+
+    Subagent and progress entries wrap messages in further layers, so the tool
+    calls are not always at the same depth.
+    """
+    if isinstance(node, dict):
+        yield node
+        for value in node.values():
+            yield from walk(value)
+    elif isinstance(node, list):
+        for value in node:
+            yield from walk(value)
+    elif isinstance(node, str):
+        yield node
+
+
+def bare(name):
+    """Drop a plugin prefix: kstack:code-review and code-review are one skill."""
+    return name.rsplit(":", 1)[-1]
+
+
+def scan(path, usage, references, seen):
+    session = path.stem
+    with path.open(errors="replace") as lines:
+        for line in lines:
+            if '"Skill"' not in line and "command-name" not in line and "/references/" not in line:
+                continue
+            try:
+                entry = json.loads(line)
+            except ValueError:
+                continue
+            for node in walk(entry):
+                if isinstance(node, str):
+                    for name in COMMAND.findall(node):
+                        if unseen(seen, ("slash", entry.get("uuid"), name)):
+                            record(usage, name, "slash", session)
+                elif node.get("type") == "tool_use" and unseen(seen, ("tool", node.get("id"))):
+                    tool_input = node.get("input") or {}
+                    if node.get("name") == "Skill" and tool_input.get("skill"):
+                        record(usage, tool_input["skill"], "loaded", session)
+                    elif node.get("name") == "Read":
+                        found = REFERENCE.search(str(tool_input.get("file_path", "")))
+                        if found:
+                            record(usage, found.group(1), "references", session)
+                            references[(found.group(1), found.group(2))] += 1
+
+
+def unseen(seen, key):
+    """True the first time a key appears; resumed sessions repeat earlier entries."""
+    if None in key:
+        return True
+    if key in seen:
+        return False
+    seen.add(key)
+    return True
+
+
+def record(usage, name, kind, session):
+    row = usage[bare(name)]
+    row[kind] += 1
+    row["sessions"].add(session)
+    row["names"].add(name)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    parser.add_argument("--days", type=float, default=14, help="how far back to look (default 14)")
+    parser.add_argument("--root", type=Path, default=Path.home() / ".claude" / "projects")
+    parser.add_argument("--match", default="", help="only skills whose name contains this text")
+    parser.add_argument("--references", action="store_true", help="list the reference files read")
+    args = parser.parse_args()
+
+    cutoff = time.time() - args.days * 86400
+    paths = [p for p in args.root.rglob("*.jsonl") if p.stat().st_mtime >= cutoff]
+    usage = defaultdict(lambda: {"loaded": 0, "slash": 0, "references": 0, "sessions": set(), "names": set()})
+    references = Counter()
+    seen = set()
+    for path in paths:
+        scan(path, usage, references, seen)
+
+    rows = {
+        name: row
+        for name, row in usage.items()
+        if any(args.match in full for full in row["names"]) and (row["loaded"] or row["references"] or ":" in "".join(row["names"]))
+    }
+    print(f"{len(paths)} transcripts changed in the last {args.days:g} days under {args.root}\n")
+    if not rows:
+        print("No skill use found.")
+        return
+    width = max(len(name) for name in rows)
+    print(f"{'skill':<{width}}  loaded  slash  refs  sessions")
+    for name, row in sorted(rows.items(), key=lambda item: (-item[1]["loaded"], item[0])):
+        print(f"{name:<{width}}  {row['loaded']:>6}  {row['slash']:>5}  {row['references']:>4}  {len(row['sessions']):>8}")
+    print("\nloaded: Skill tool calls by the model. slash: typed as a command. refs: reference files read.")
+
+    if args.references:
+        print()
+        for (skill, name), count in sorted(references.items(), key=lambda item: (item[0][0], -item[1])):
+            if skill in rows:
+                print(f"{count:>4}  {skill}/{name}")
+
+
+if __name__ == "__main__":
+    main()
