@@ -1,12 +1,14 @@
 ---
 name: engineering-principles
 description: >-
-  Engineering principles for design, change, debugging, and verification, each indexed by the situation it applies to. Use when choosing a data shape or type design, placing validation or a module boundary, sizing a diff or refactor, sequencing a migration or multi-step change, debugging after a failed fix, writing or keeping a test, trusting a measured number, or deciding that work is done.
+  Engineering principles for design, change, debugging, and verification, each indexed by the situation it applies to. Use before writing or changing production code, and when choosing a data shape or type design, placing validation or a module boundary, sizing a diff or refactor, sequencing a migration or multi-step change, debugging after a failed fix, writing or keeping a test, trusting a measured number, or deciding that work is done.
 ---
 
 # Engineering Principles
 
 Each entry names the situation it applies to. When one applies, read its reference before acting on it; the index line is a reminder, not the principle. They inform judgment and are not a checklist to recite.
+
+When you load this skill before starting implementation, scan the index for the situations the work will meet and read those references first. A small change may meet only one or two.
 
 When the user runs this skill as a slash command, they want these principles applied to the work in their message. Before starting, pick the entries whose situations that work will meet and read their references. When you report, name each principle that changed a decision and the choice it changed. Cite only principles whose reference you read.
 

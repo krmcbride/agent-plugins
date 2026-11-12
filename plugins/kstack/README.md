@@ -46,12 +46,15 @@ reply-style rules, and the scripts behind them. Claude Code decides how to use i
 | `kstack:show-me` | Explain the current topic with the smallest view that makes the point: a code-shape sketch, tree, table, rendered Mermaid diagram, or throwaway HTML page |
 
 Claude can invoke every skill except `show-me` from its description. The principles skill lists every principle in
-one short index and loads a reference only when it applies, so the 22 principles cost one entry in the skill list. To
-make sure the principles shape a piece of work, start the message with `/kstack:engineering-principles`. Claude then
-reads the references that apply before starting and names the principles that changed its decisions.
+one short index and loads a reference only when it applies, so the 22 principles cost one entry in the skill list. Its
+description asks to be loaded before production code is written or changed, and `implementation-workflow` loads it when
+execution starts. Skills that depend on a description alone load unreliably, so to make sure the principles shape a
+piece of work, start the message with `/kstack:engineering-principles` or name the skill in your own instructions.
+Claude then reads the references that apply before starting and names the principles that changed its decisions.
 
-`implementation-workflow` says what it needs, small modules and a final review against the contract, without naming
-the skills that supply it. `code-review` and `code-shape` trigger from their own descriptions.
+`implementation-workflow` names `decision-interview` and `engineering-principles`. For the rest it says what it needs,
+small modules and a final review against the contract, without naming the skills that supply it. `code-review` and
+`code-shape` trigger from their own descriptions.
 
 ## Review
 
