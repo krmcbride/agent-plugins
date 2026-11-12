@@ -27,10 +27,23 @@ COMMAND = re.compile(r"<command-name>/([\w:.-]+)</command-name>")
 # Only installed skills count: a plugin cache, a user or project skills folder,
 # or the shared agent pool. A path in a checkout where skills are being edited
 # is development work, not a session using the skill.
-REFERENCE = re.compile(
-    r"/\.(?:claude/plugins/[^\s\"']*?/skills|claude/skills|agents/skills)"
-    r"/([\w.-]+)/references/([\w/-]+\.\w+)"
-)
+INSTALLED = r"/\.(?:claude/plugins/[^\s\"']*?/skills|claude/skills|agents/skills)"
+REFERENCE = re.compile(INSTALLED + r"/([\w.-]+)/references/([\w/-]+\.\w+)")
+# A shell command may enter the references folder and name the files bare:
+# cd .../skills/<skill>/references && cat one.md two.md
+REFERENCE_DIR = re.compile(INSTALLED + r"/([\w.-]+)/references/?(?![\w/.-])")
+BARE_FILE = re.compile(r"(?<![\w/.-])([\w-]+\.md)(?![\w/.-])")
+
+
+def references_in(text):
+    """Return the (skill, file) pairs a file path or shell command names."""
+    found = set(REFERENCE.findall(text))
+    for folder in REFERENCE_DIR.finditer(text):
+        # Bare names belong to that folder only for the rest of the same line.
+        rest = text[folder.end():].split("\n", 1)[0]
+        for name in BARE_FILE.findall(rest):
+            found.add((folder.group(1), name))
+    return found
 
 
 def walk(node):
@@ -78,7 +91,7 @@ def scan(path, usage, references, seen):
                         # A session may read files with the Read tool or with a
                         # shell command such as cat, so look in both.
                         text = str(tool_input.get("file_path") or tool_input.get("command") or "")
-                        for skill, name in set(REFERENCE.findall(text)):
+                        for skill, name in references_in(text):
                             record(usage, skill, "references", session)
                             references[(skill, name)] += 1
 
