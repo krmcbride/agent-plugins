@@ -1,6 +1,6 @@
 # Risk Rubric
 
-Include this rubric verbatim in every reviewer and verifier assignment. Score each finding on every axis from the evidence in hand, and give the reason for each score in a few words. Severity alone hides why a finding matters; these axes say who meets the failure, how often, and what it costs.
+Score each finding on every axis from the evidence in hand, and give the reason for each score in a few words. Severity alone hides why a finding matters; these axes say who meets the failure, how often, and what it costs.
 
 | Axis | Values, most to least serious |
 | --- | --- |

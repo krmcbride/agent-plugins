@@ -12,6 +12,8 @@
 - Continue the reviewer across clarification and repairs. Continue the critic within one frozen artifact version and start a fresh critic when the version changes.
 - The reviewer and shape reviewer receive the `kstack:engineering-principles` index at startup and read a principle's reference when a finding rests on it. Supply project-specific architectural constraints in the packet when they are material.
 
+A long packet may go in a file instead of the prompt. Write it once to a scratch file outside the reviewed checkout, name its path in every participant's prompt, and leave the file unchanged for the pass, so each participant reads identical text; a changed packet is a new file. Keep the immediate assignment and the risk rubric in the prompt itself.
+
 Include the artifact version, scope, selected reviewer depth, and immediate assignment. Require a complete, self-contained report as the final response: checkpoints and interim findings are visibility, not the deliverable. You receive every message and deliver every subsequent handoff; reviewers and critics do not choose or delegate another workflow, and they cannot ask the user questions directly.
 
 Keep reviewed inputs stable, including relevant uncommitted and untracked files. Independent authorized work may continue if it does not change those inputs. Follow the adversarial reference's stronger packet-freeze and unaltered-transcript rules throughout that exchange.
