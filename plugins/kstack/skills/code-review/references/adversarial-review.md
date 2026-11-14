@@ -6,7 +6,7 @@ Build the entry point's packet and add the specific assumptions, failure paths, 
 
 Give each agent the same packet and its own assignment below: the reviewer gets the selected depth and the initial reviewer assignment, and the critic gets the finding dispositions and the stopping contract.
 
-Leave the critic and the exchange out of the reviewer's initial assignment. The reviewer reviews as it would alone: one that expects an audit can lean on it or hold back a borderline finding, and the critic is better at removing weak findings than at restoring missing ones. The reviewer learns of the critique when it arrives.
+Leave the critic and the exchange out of the reviewer's initial assignment, and call its task an initial review, not an adversarial one. The reviewer reviews as it would alone: one that expects an audit can lean on it or hold back a borderline finding, and the critic is better at removing weak findings than at restoring missing ones. The reviewer learns of the critique when it arrives.
 
 ## Relay the complete exchange
 
@@ -20,13 +20,9 @@ You may resolve access or execution problems and perform an agreed targeted chec
 
 ## Initial reviewer assignment
 
-Ask the reviewer to find the strongest material reasons the change should not ship yet:
+Give the reviewer the assignment an ordinary review gets: the packet, the selected depth, and that depth's investigation and stopping contract. The packet's list of assumptions, failure paths, and decisions to challenge is the only addition. The reviewer's own instructions already have it verify the claims, try to falsify them, ground each finding in evidence, and keep original claims when it revises them, so do not restate those or set a goal such as finding reasons not to ship.
 
-- Verify the implementation and validation claims against the frozen artifacts.
-- Challenge consequential assumptions, realistic failure paths, and violated invariants rather than preferences or speculative requirements.
-- Inspect the full declared diff at the selected depth and trace surrounding behavior where needed to assess the selected risks, reporting any remaining coverage gaps.
-- Ground each finding in code or tool evidence, identify inference and uncertainty, and separate introduced defects, directly relevant pre-existing risks, out-of-scope concerns, and missing evidence.
-- Assign stable IDs such as `R1` and `R2`. Preserve each original claim and its provenance when revising or retracting it.
+Ask for finding IDs in the form `R1`, `R2`, which keeps them distinct from the critic's.
 
 A clean initial review still goes to the critic to check for missed findings. It does not trigger a code edit.
 
