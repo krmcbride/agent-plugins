@@ -4,7 +4,9 @@
 
 Build the entry point's packet and add the specific assumptions, failure paths, or decisions to challenge. Freeze the requirements, scope, assumptions, and artifact for the exchange. Start a fresh reviewer and a separate fresh critic without inherited primary conversation history. Preserve their handles: continue both within this artifact version, retain the reviewer across repairs, and start a fresh critic for each new artifact version.
 
-Give each agent the same packet and the applicable assignment below, including the selected reviewer depth, finding dispositions, response requirements, and the stopping contract.
+Give each agent the same packet and its own assignment below: the reviewer gets the selected depth and the initial reviewer assignment, and the critic gets the finding dispositions and the stopping contract.
+
+Leave the critic and the exchange out of the reviewer's initial assignment. The reviewer reviews as it would alone: one that expects an audit can lean on it or hold back a borderline finding, and the critic is better at removing weak findings than at restoring missing ones. The reviewer learns of the critique when it arrives.
 
 ## Relay the complete exchange
 
@@ -30,7 +32,9 @@ A clean initial review still goes to the critic to check for missed findings. It
 
 ## Critic assignment
 
-Give the critic the identical packet, complete reviewer output, and exchange history. Audit the review against the artifact; do not optimize for agreement or rewrite the implementation.
+Give the critic the identical packet, complete reviewer output, and exchange history. Audit the review against the artifact; do not optimize for agreement or rewrite the implementation. State the task and its contract only. Do not describe the reviewer's conclusions in the assignment or point the critic at particular claims, which would confine its search to what the reviewer already examined.
+
+On its first pass for an artifact version, have the critic read the packet and inspect the declared diff for plausible critical or major defects before it reads the reviewer's output, then audit the findings. Supply that output as a file for this pass, not inline, so the critic can look first. This is a bounded look for what a second reader would catch, not a second full review.
 
 Assess every current reviewer finding by stable ID using exactly one disposition:
 
@@ -71,4 +75,10 @@ Return the ship/no-ship recommendation, overall risk, confidence, and reviewed c
 
 Apply the entry point's blocking standard. Agreement is not proof, and a disputed finding is not automatically false or blocking. State whether the independent evidence supports action rather than concealing uncertainty behind the classification.
 
-After authorized fixes, identify the new artifact version, update its packet, preserve finding IDs, and continue the same reviewer to verify the repairs. Start a fresh critic for the new version. Start a completely fresh reviewer only when the user requests an independent second adversarial look.
+After authorized fixes, identify the new artifact version, update its packet, and preserve finding IDs. Continue the same reviewer to verify the repairs, and start a fresh critic for the new version, when any of these holds:
+
+- a repaired finding's action was `block` or `raise`;
+- a repair changes behavior on a path the packet names as a risk;
+- the new version carries changes the exchange never examined, such as fixes for feedback that arrived from elsewhere during the freeze.
+
+Otherwise the repairs may rest on their own tests. Start a completely fresh reviewer only when the user requests an independent second adversarial look. In the final report, say which changes made after the reviewed version were reviewed again and which were not.
