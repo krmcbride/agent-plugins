@@ -59,8 +59,9 @@ small modules and a final review against the contract, without naming the skills
 ## Review
 
 `code-review` chooses between no delegated review, an ordinary review, and an adversarial review in which a critic
-audits the reviewer's findings. The reviewer is not told that a critic follows, and the critic inspects the diff itself
-before it reads the review. It adds a separate code-shape pass for work that creates or grows production files.
+audits the reviewer's findings. The reviewer gets an ordinary review assignment and is not told that a critic follows,
+and the critic inspects the diff itself before it reads the review. It adds a separate code-shape pass for work that
+creates or grows production files.
 
 Findings from an ordinary review that will be posted or acted on are verified before they are reported. One fresh
 critic per finding, or per group of findings with one root cause, tries to refute it, then reproduces it or traces it
