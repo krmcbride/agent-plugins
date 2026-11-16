@@ -8,7 +8,7 @@ Write for repository maintainers evaluating the proposed change and future maint
 
 When updating an existing title or body, preserve content added by other people or tools, such as reviewer notes, bot summaries, or appended links. Revise only the parts the current author owns.
 
-Include information that helps these readers understand, evaluate, validate, deploy, or maintain the change. Exclude local work tracking, such as task-tracker IDs or lists of completed tasks, and accounts of how the authoring agents planned, delegated, or reviewed the work. Shared issue references that the repository or organization expects, such as a ticket prefix in the title, are not local tracking. Carry relevant rationale, validation evidence, and unresolved concerns into the description in project terms.
+Include information that helps these readers understand, evaluate, validate, deploy, or maintain the change. Exclude local work tracking, such as task-tracker IDs or lists of completed tasks, and accounts of how the authoring agents planned, delegated, or reviewed the work. Shared issue references that the repository or organization expects, such as a ticket prefix in the title, are not local tracking. Carry relevant rationale, validation evidence, and unresolved concerns into the description in project terms. Credit an agent or tool for the change, in a footer, badge, or title tag, only when the user asks for it, the harness supplies the line, or the repository's template or contribution instructions call for it; other pull requests carrying one is not a reason.
 
 ## Default body
 
