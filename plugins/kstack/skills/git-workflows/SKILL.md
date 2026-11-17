@@ -1,7 +1,7 @@
 ---
 name: git-workflows
 description: >-
-  Commit completed work, rewrite history, publish branches, or plan, inspect, publish, and update GitHub pull requests and stacked reviews using gh stack or GitLab glab stack.
+  Commit completed work, rewrite history, publish branches, or plan, inspect, publish, and update GitHub pull requests and stacked reviews using gh stack.
 ---
 
 # Git Workflows
@@ -18,7 +18,7 @@ For a rewrite that needs authorization, establish the exact commits or branch ra
 
 Remote writes must be within the authorized publication scope. Do not infer permission to force-push, merge, reply to feedback, submit a review, or resolve threads from permission to push or open a pull request. Leave merging to the user unless explicitly requested and permitted by the host.
 
-For publication, use the host's approved provider workflow, such as one backed by `gh` or `glab`. Publish only the selected non-default feature branch or explicitly selected branch set; publishing to the default branch requires explicit authorization for that exact action. If policy or credentials block publication, complete independently authorized local work and report the blocker. Do not bypass it with another credential, remote, or transport.
+For publication, use the host's approved provider workflow, such as one backed by `gh`. Publish only the selected non-default feature branch or explicitly selected branch set; publishing to the default branch requires explicit authorization for that exact action. If policy or credentials block publication, complete independently authorized local work and report the blocker. Do not bypass it with another credential, remote, or transport.
 
 Read local branch names from Git immediately before publishing. Tools may rename a branch after the current context recorded it, and the current name governs. For ordinary single-branch publication, push the intended commit to an explicit remote ref, such as `git push <remote> HEAD:refs/heads/<feature-branch>`, and select explicit source and target branches when creating a pull or merge request. For a multi-branch workflow, follow its selected guidance and verify every affected branch and request; do not rely on local upstream tracking.
 
@@ -28,7 +28,6 @@ Create a branch from a remote-tracking branch with `git switch --no-track -c <br
 
 - **New commit:** read [creating commits](references/creating-commits.md) and [message guidelines](references/commit-message-guidelines.md).
 - **GitHub pull request:** read [GitHub pull requests](references/github-pull-requests.md). Also read [stacked pull requests](references/github-stacked-prs.md) for a gh stack chain, and the commit references before creating a commit.
-- **GitLab stacked merge requests:** read [stacked merge requests](references/gitlab-stacked-mrs.md) for a glab stack chain, and the commit references before creating layer commits.
 
 Paths here are relative to this skill directory. Read the relevant guidance before the corresponding action; unrelated modes need not be loaded.
 
