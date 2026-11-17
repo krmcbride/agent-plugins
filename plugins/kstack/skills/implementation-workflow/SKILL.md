@@ -10,7 +10,7 @@ Help the user turn an implementation discussion into an agreed contract, then de
 
 ## Plan with the user
 
-Inspect relevant code and tests, explore alternatives, and keep settled decisions with their rationale. Use `decision-interview` when consequential user-owned choices remain; investigate discoverable facts and leave routine implementation choices to the implementing agent. Planning does not authorize implementation unless the request includes it.
+Inspect relevant code and tests, and check the host for open pull or merge requests that already cover the work, raising any with the user before planning around them. Explore alternatives, and keep settled decisions with their rationale. Use `decision-interview` when consequential user-owned choices remain; investigate discoverable facts and leave routine implementation choices to the implementing agent. Planning does not authorize implementation unless the request includes it.
 
 ## Agree the contract
 
