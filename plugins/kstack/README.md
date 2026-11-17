@@ -36,7 +36,7 @@ reply-style rules, and the scripts behind them. Claude Code decides how to use i
 
 | Skill | What it does |
 | --- | --- |
-| `kstack:git-workflows` | Commits, history rewrites, branch publication, GitHub pull requests and `gh stack` chains, and GitLab `glab stack` merge requests, each with its own reference loaded on demand |
+| `kstack:git-workflows` | Commits, history rewrites, branch publication, and GitHub pull requests and `gh stack` chains, each with its own reference loaded on demand |
 | `kstack:researching-github-repositories` | Answers questions about GitHub repositories from `gh` metadata or a disposable shallow clone, read-only |
 
 ### Visualize
@@ -117,7 +117,7 @@ skill off in `skillOverrides`:
 `git-workflows` commits completed work without asking, and may reshape commits it made in the session that have not
 been pushed. Any other history rewrite, and all publishing, needs the user's authorization.
 `researching-github-repositories` reads upstream source and history without touching the user's checkouts. The skills
-expect `gh`, and `glab` for GitLab stacks. Publishing uses whatever credentials those tools already have.
+expect `gh`. Publishing uses whatever credentials it already has.
 
 ## show-me
 
