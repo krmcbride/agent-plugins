@@ -12,7 +12,7 @@ Include information that helps these readers understand, evaluate, validate, dep
 
 ## Default body
 
-Follow the applicable repository template and contribution instructions, including inherited account or organization templates. When no format is prescribed, use `Summary` and `Validation` as the baseline:
+Follow the applicable repository template and contribution instructions, including inherited account or organization templates. Keep a template's sections and their order; where a section does not apply, say so in a word instead of deleting it. When no format is prescribed, use `Summary` and `Validation` as the baseline:
 
 ```markdown
 ## Summary
@@ -26,15 +26,15 @@ State the relevant checks performed and their results. Explain what the evidence
 
 Write each paragraph and list item on a single line, without a fixed-width wrap. GitHub renders a newline inside a description paragraph as a visible line break, so prose wrapped like a commit body appears ragged. Break lines only between blocks, between list items, and inside code blocks.
 
-A small PR can use a sentence or two per section. For larger changes, group detail under the optional sections below. Use short prose for motivation and rationale, and bullets for parallel changes or checks. Include relevant shared issue or design links while keeping enough context in the body for it to stand alone.
+Keep the body as short as the change allows. A small PR can use a sentence or two per section; for larger changes, group detail under the optional sections below. Say what the diff cannot show and leave out what it already does: excerpts of the changed code, and lists or summaries by file or commit. Use short prose for motivation and rationale, and bullets for parallel changes or checks. Include relevant shared issue or design links while keeping enough context in the body for it to stand alone.
 
 Distinguish completed verification from planned, skipped, or unavailable checks. Check a template checkbox only after verifying its statement, and briefly explain any left unchecked. Report validation appropriate to the change; the section does not require adding or running irrelevant tests.
 
 ## Optional sections
 
-Add sections only when they answer a concrete reviewer need; omit empty sections and routine checklist boilerplate unless the repository requires it.
+Add sections to the default body only when they answer a concrete reviewer need; omit empty sections and routine checklist boilerplate unless the repository requires it.
 
-- **Changes:** place after Summary when several substantial behaviors or design decisions need an overview. Group concise bullets by behavior or concern rather than listing files or commits.
+- **Changes:** place after Summary when several substantial behaviors or design decisions need an overview. Group concise bullets by behavior or concern.
 - **Compatibility / migration:** explain changed defaults, state migrations, breaking behavior, or required user action.
 - **Review notes:** identify important invariants, difficult tradeoffs, specific feedback sought, or a useful reading order.
-- **Rollout:** explain deployment sequencing, feature flags, or recovery considerations when operationally relevant.
+- **Rollout:** explain deployment sequencing, any required merge order with other PRs, feature flags, or recovery considerations when operationally relevant.
