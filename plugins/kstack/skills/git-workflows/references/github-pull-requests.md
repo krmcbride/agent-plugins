@@ -2,9 +2,11 @@
 
 ## Establish the publication target
 
-Resolve the canonical base repository/branch and exact source repository/branch from the intended diff, remotes, and existing PRs. Confirm the remote head matches the intended local commit before creating or updating the PR.
+Resolve the canonical base repository/branch and exact source repository/branch from the intended diff, remotes, and existing PRs. When the base is the default branch, take its name from the host, not from local refs. Confirm the remote head matches the intended local commit before creating or updating the PR.
 
-Reuse a matching PR. Create new PRs as drafts unless the user requests ready for review. For a selected `gh stack` chain, also read [stacked PRs](github-stacked-prs.md); each layer targets the branch below it.
+Reuse a PR that already exists for this branch. Before creating one, search open PRs for the same issue reference and the same area of change. If another PR already covers the work, stop and report it and how this change differs. Do not push to it, build on it, or open a second PR until the user decides.
+
+Create new PRs as drafts unless the user requests ready for review. For a selected `gh stack` chain, also read [stacked PRs](github-stacked-prs.md); each layer targets the branch below it.
 
 ## Describe and verify the change
 
