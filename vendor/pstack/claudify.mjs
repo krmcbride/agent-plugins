@@ -31,26 +31,27 @@ export const rules = [
   {
     id: "model-families",
     why: "Cursor groups slugs by vendor prefix. Claude Code models group by alias.",
-    find: /Families go by prefix: `claude-\*`, and `grok-\*` with `cursor-grok-\*` and `composer-\*`\. A refused `composer-\*` entry runs on (?:`[^`]+`|[^.`]+)\./g,
-    replace: "Families go by model alias: `opus-*`, `sonnet-*`, `haiku-*`, `fable-*`.",
+    find: "Families go by prefix, and the longest match wins: `claude-fable-*`, `claude-*`, and `gemini-*`, after dropping a leading `cursor-`. Any other slug's family is its text before the first hyphen.",
+    replace: "Families go by model alias: `fable-*`, `opus-*`, `sonnet-*`, `haiku-*`.",
   },
   {
-    id: "model-grok",
-    why: "Grok is not available in Claude Code. Sonnet keeps a cheaper code model and a second family, so diverse panels stay diverse. Claude Code has no per-subagent fast mode, so `-fast` goes.",
-    find: /\bgrok-4\.7-(low|medium|high|xhigh|max)-fast\b/g,
+    id: "agent-model",
+    why: "A subagent's frontmatter takes `model` and `effort` as separate fields, and a Cursor slug in `model` would reach the API.",
+    files: ["agents/**"],
+    find: /^model: claude-(opus|sonnet|haiku|fable)-\d+-\d+-(low|medium|high|xhigh|max)(?:-fast)?$/m,
+    replace: "model: $1\neffort: $2",
+  },
+  {
+    id: "model-gemini",
+    why: "Gemini is not available in Claude Code. Sonnet takes its seat, so a three-model panel keeps three models.",
+    find: /\bgemini-4-carbon-(low|medium|high|xhigh|max)\b/g,
     replace: "sonnet-$1",
   },
   {
     id: "model-claude",
-    why: "`claude-opus-5-5-xhigh` becomes `opus-xhigh`: the Agent tool's `model` alias, then its `effort`.",
-    find: /\bclaude-(opus|sonnet|haiku|fable)-\d+-\d+-(low|medium|high|xhigh|max)\b/g,
+    why: "`claude-opus-5-5-xhigh-fast` becomes `opus-xhigh`: the Agent tool's `model` alias, then its `effort`. Claude Code has no per-subagent fast mode, so `-fast` goes.",
+    find: /\bclaude-(opus|sonnet|haiku|fable)-\d+-\d+-(low|medium|high|xhigh|max)(?:-fast)?\b/g,
     replace: "$1-$2",
-  },
-  {
-    id: "model-speed",
-    why: "Claude Code has no per-subagent fast mode, so a subagent's effort is the only dial.",
-    find: "reasoning level and fast or standard speed for the job",
-    replace: "reasoning effort for the job",
   },
   {
     id: "model-notation",
@@ -75,12 +76,6 @@ export const rules = [
     replace: (match, tick) => (match.startsWith("a ") ? `an ${tick}Agent` : match.replace("Task", "Agent")),
   },
   {
-    id: "shell-tool",
-    why: "Cursor's shell tool is `Shell`. Claude Code's is `Bash`.",
-    find: /\bShell(?=, Grep)/g,
-    replace: "Bash",
-  },
-  {
     id: "ask-question",
     why: "Cursor's `AskQuestion` is Claude Code's `AskUserQuestion`.",
     find: /\bAskQuestion\b/g,
@@ -95,14 +90,23 @@ export const rules = [
   {
     id: "readonly-false",
     why: "The Agent tool has no `readonly` parameter, and every Claude Code subagent keeps the session's MCP servers, so Cursor's MCP warnings go.",
-    find: / \(`readonly: false`\)|, and readonly strips MCPs| with `readonly: false` \(agent mode\)\. \*\*Do not use readonly\/Ask mode\.\*\* It strips MCP access, which disables the MCP-backed investigators and the synthesizer's citation spot-checks/g,
-    replace: (match) => (match.includes("investigators") ? ", which keeps MCP access for the MCP-backed investigators and the synthesizer's citation spot-checks" : ""),
+    find: /, agent mode \(readonly strips MCP\)|, in agent mode because readonly strips MCP access/g,
+    replace: "",
   },
   {
     id: "readonly-judge",
     why: "The Agent tool has no `readonly` parameter, so the arena judge is told not to edit.",
-    find: "Spawn one readonly judge subagent.",
-    replace: "Spawn one judge subagent, with a brief that says not to edit files.",
+    find: "spawn one readonly judge from",
+    replace: "spawn one judge, with a brief that says not to edit files, from",
+  },
+  {
+    id: "other-vendor",
+    why: "Every Claude Code model comes from one vendor, so a second opinion or a judge runs on another model.",
+    find: /on another vendor's model|The judge is never from the parent's vendor, and Fable counts as Claude for that check, so use the first entry from another vendor\.|the vendor check did not run/g,
+    replace: (match) =>
+      match.startsWith("on another") ? "on another model"
+      : match.startsWith("The judge") ? "The judge never runs on the parent's model, so use the first entry on another model."
+      : "the model check did not run",
   },
   {
     id: "general-purpose",
@@ -124,12 +128,6 @@ export const rules = [
     replace: "background: true",
   },
 
-  {
-    id: "mcp-discovery",
-    why: "Cursor lists MCP servers in an available-tools map and an `mcps/` folder. Claude Code names each MCP tool `mcp__<server>__<tool>`.",
-    find: "list the available MCPs from the Cursor environment. Use the available-tools map when present. Otherwise inspect the `mcps/` directory Cursor exposes for enabled MCP servers.",
-    replace: "list the available MCPs from this session's tools. Claude Code names each MCP tool `mcp__<server>__<tool>`, and a deferred tool counts even before you load its schema.",
-  },
   {
     id: "loop-command",
     why: "Claude Code bundles its own `/loop` command.",
@@ -213,11 +211,9 @@ export const scan = {
       // These are the most-edited files upstream, so the entry covers only these passages, and new Cursor wording still fails.
       lines: anyOf(
         /^\*\*Claude Code\.\*\* Most pstack skills/,
-        "- Any prose surface, your reply to the user included → the **unslop** skill. Write the reply per **Writing the reply**. Agent-facing prose also follows the **create-skill** skill (Cursor's built-in for authoring SKILL.md files).",
-        /^- Before commit → the `deslop` skill from the `cursor-team-kit` plugin \(`\/deslop`\)\.$/,
-        "- Shipping UI / IDE / CLI → the matching control skill. `cursor-team-kit` publishes `control-cli` (CLIs and TUIs) and `control-ui` (browser / Electron / web UIs). For bug fixes, reproduce first on the same surface yourself. Hand to the user only under the narrow Bug fix step 1 exception.",
-        "- Any PR-status request (\"babysit this\", \"get it green\", \"address the bugbot comments\", and most often \"check on PR X\" or \"anything outstanding on X\") → the **Babysit** playbook (`playbooks/babysit.md`), not Cursor's built-in babysit skill, whose description matches the same words. Never triggered by merely opening a PR. Declare its mode before polling. The playbook's step 1 owns the request-to-mode mapping. Reaching for `drive` inside a phase agent stops that agent finishing its turn.",
-        "- **Pause safely.** Suspending in-flight work cleanly so it can be resumed, on an explicit pause, going offline, a Cursor restart, or imminent context compaction. The complement to Session pickup.",
+        "- Before commit → `/deslop` from the `cursor-team-kit` plugin. Before review → **no-comments**.",
+        "- Shipping UI / IDE / CLI → `control-ui` or `control-cli` from `cursor-team-kit`.",
+        "- PR status → the **Babysit** playbook, not Cursor's built-in babysit skill. Landing a green stack → the **Shipping** playbook.",
         /^This file maps questions to the skills/,
         /^This build translates Lauren Tan's Cursor plugin for Claude Code/,
         /^- Claude Code has no Custom Modes\. Start each new task with `\/pstack:poteto-mode`\.$/,
@@ -227,7 +223,7 @@ export const scan = {
     },
     {
       terms: ["bugbot"],
-      files: ["skills/poteto-mode/**", "skills/reflect/references/synthesizer.md"],
+      files: ["skills/poteto-mode/**"],
       why: "Bugbot posts ordinary GitHub review threads, which the playbooks and the PR watcher triage through `gh`. Without Bugbot on a repo, these steps find nothing.",
     },
     {
@@ -237,23 +233,13 @@ export const scan = {
     },
     {
       terms: ["cursor"],
-      files: ["skills/automate-me/SKILL.md", "skills/reflect/SKILL.md", "skills/poteto-mode/playbooks/authoring-a-skill.md"],
+      files: ["skills/automate-me/SKILL.md", "skills/poteto-mode/playbooks/authoring-a-skill.md"],
       why: "These name Cursor's built-in `create-skill`. Claude Code has none, and poteto-mode says to write the skill by hand in the Agent Skills format.",
-    },
-    {
-      terms: ["cursor"],
-      files: ["skills/poteto-mode/playbooks/babysit.md"],
-      why: "Says the playbook replaces Cursor's built-in babysit skill. Claude Code has no such skill, so the sentence is harmless.",
     },
     {
       terms: ["cursor"],
       files: ["skills/poteto-mode/playbooks/worktree-cleanup.md"],
       why: "Lists Cursor's macOS cache folder among disk space to reclaim. A missing folder costs nothing.",
-    },
-    {
-      terms: ["cursor-model"],
-      files: ["skills/reflect/references/synthesizer.md"],
-      why: "An example commit message that mentions `gpt-4`, not a model choice.",
     },
   ],
 };
