@@ -29,8 +29,6 @@ Create a branch from a remote-tracking branch with `git switch --no-track -c <br
 - **New commit:** read [creating commits](references/creating-commits.md) and [message guidelines](references/commit-message-guidelines.md).
 - **GitHub pull request:** read [GitHub pull requests](references/github-pull-requests.md). Also read [stacked pull requests](references/github-stacked-prs.md) for a gh stack chain, and the commit references before creating a commit.
 
-Paths here are relative to this skill directory. Read the relevant guidance before the corresponding action; unrelated modes need not be loaded.
-
 ## Verify and stop at the authorized boundary
 
 Inspect the complete intended diff and preserve unrelated user work. Ask only when the file, commit, or remote boundary cannot be resolved from the request and evidence. Verify the resulting commit or remote state before reporting success. After partial failure, inspect what succeeded before retrying; do not discard work or rewrite additional history as a shortcut.

@@ -46,4 +46,4 @@ When the goal is a target on one metric rather than a single fix:
 
 ## Report
 
-Lead with the verdict: faster, slower, no measurable difference, or inconclusive. Give the number with its unit, the run count, the range, and the limiter, for example "p50 41 ms → 33 ms, median of 7 runs per side, range 32 to 35 ms after, bound by JSON parsing on one core". For a sustained run, add baseline to final with the percent change, attempts kept and reverted, the decision log's path, and the best idea not yet tried.
+Report as the benchmark checklist's Report section describes, for example "p50 41 ms → 33 ms, median of 7 runs per side, range 32 to 35 ms after, bound by JSON parsing on one core". For a sustained run, add baseline to final with the percent change, attempts kept and reverted, the decision log's path, and the best idea not yet tried.
