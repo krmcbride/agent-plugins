@@ -28,23 +28,23 @@ A clean initial review still goes to the critic to check for missed findings. It
 
 ## Critic assignment
 
-Give the critic the identical packet, complete reviewer output, and exchange history. Audit the review against the artifact; do not optimize for agreement or rewrite the implementation. State the task and its contract only. Do not describe the reviewer's conclusions in the assignment or point the critic at particular claims, which would confine its search to what the reviewer already examined.
+Give the critic the identical packet, complete reviewer output, and exchange history. State the task and its contract only. The critic's own instructions already cover how to audit, how to inspect the diff before the review on its first pass, and how to reconcile later passes, so do not restate those. Do not describe the reviewer's conclusions in the assignment or point the critic at particular claims, which would confine its search to what the reviewer already examined.
 
-On its first pass for an artifact version, have the critic read the packet and inspect the declared diff for plausible critical or major defects before it reads the reviewer's output, then audit the findings. Supply that output as a file for this pass, not inline, so the critic can look first. This is a bounded look for what a second reader would catch, not a second full review.
+For the first pass on an artifact version, supply the reviewer's output as a file, not inline, so the critic can look at the diff first.
 
-Assess every current reviewer finding by stable ID using exactly one disposition:
+Ask for exactly one disposition for every current reviewer finding, by stable ID:
 
 - `agree`: the finding is material and supported by cited frozen evidence. For a reproduced finding, the critic's rerun of its command shows the failure.
 - `disagree_evidence`: specific code or tool evidence contradicts the finding.
 - `disagree_concern`: an unsupported inference, unrealistic assumption, scope expansion, or missing evidence prevents acceptance.
 
-Retain the rationale and supporting or contradicting evidence for every disposition. Identify pre-existing and out-of-scope concerns explicitly. Add `missed_finding` entries only when independently grounded in the frozen artifact, using stable IDs such as `C1` and `C2`.
+Ask for `missed_finding` entries under stable IDs such as `C1` and `C2`.
 
-On later passes, reconcile the reviewer's responses and new evidence with earlier dispositions. Report what changed, which claims remain unresolved, and the specific evidence question another response could settle. An agreeing critic with no missed finding or unresolved material question can end the exchange without a ceremonial reviewer reply.
+An agreeing critic with no missed finding or unresolved material question can end the exchange without a ceremonial reviewer reply.
 
 ## Reviewer response and targeted verification
 
-When the critic disagrees, adds a missed finding, or raises a material evidence question, continue the original reviewer with the complete critique and exchange history. Require a response for every affected ID while retaining the status of unaffected findings.
+When the critic disagrees, adds a missed finding, or raises a material evidence question, continue the original reviewer with the complete critique and exchange history.
 
 For `disagree_evidence`, address the cited counterevidence: revise or retract when it refutes the claim, or supply specific evidence explaining why it does not. For `disagree_concern`, identify what observation would confirm or refute the concern and obtain it when feasible. Unsupported claims that cannot be substantiated remain unverified and non-blocking. Assess every `missed_finding` under the same evidence standard, and preserve retractions and their reasons.
 

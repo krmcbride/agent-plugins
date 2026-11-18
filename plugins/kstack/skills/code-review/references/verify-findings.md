@@ -20,15 +20,12 @@ Launch one `kstack:review-critic` per unit, in parallel, as the dispatch referen
 
 ## Verification assignment
 
-Ask the verifier to refute each finding in its unit:
+The critic's own instructions cover the method: refute first, then prove by a run or a step-by-step trace, score every rubric axis from evidence it checked, and report commands that can be rerun. The assignment names the unit's findings and defines the one status to return for each:
 
-- Look for the code, test, type, configuration, or caller that makes the failure impossible or harmless under the stated intent and deployment assumptions.
-- If it cannot refute the finding, try to prove it: rerun the reviewer's command, or write the smallest failing test or repro in a disposable copy outside the reviewed checkout. When a run is impractical, trace the failure step by step from an entry point the intent covers.
-- Return exactly one status per finding: `reproduced` (a run shows the failure), `demonstrated` (a complete trace shows it), `refuted` (specific evidence shows the failure cannot happen or violates nothing the intent requires), or `unverified` (neither; name the observation that would settle it).
-- Score the finding on every axis of the rubric with a reason for each, and name its action. Score only from evidence the verifier checked.
-- Report the exact commands, their output, and the output the intent requires, so the result can be rerun.
-
-A finding the verifier can neither prove nor refute is `unverified`, not confirmed.
+- `reproduced`: a run shows the failure.
+- `demonstrated`: a complete trace shows it.
+- `refuted`: specific evidence shows the failure cannot happen or violates nothing the intent requires.
+- `unverified`: neither, so the finding is not confirmed; the verifier names the observation that would settle it.
 
 ## Settle the result
 
