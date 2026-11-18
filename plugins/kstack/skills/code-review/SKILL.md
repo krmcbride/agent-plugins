@@ -1,7 +1,7 @@
 ---
 name: code-review
 description: >-
-  Assess and orchestrate code review for explicit review requests, another author's pull request, and completed implementation work. Consider local verification, independent ordinary review, and adversarial reviewer-critic review before choosing the approach warranted by the change, verify and risk-score findings before they are posted or acted on, and add a code-shape pass for implementation work that creates or grows production code.
+  Review code for an explicit review request, another author's pull request, or completed implementation work. Selects local, independent, or adversarial review as the change warrants, verifies findings before they are posted or acted on, and adds a code-shape pass when production code is created or grows.
 ---
 
 # Code Review
