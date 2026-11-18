@@ -80,4 +80,4 @@ Keep the reviewed inputs stable during a pass, and freeze the artifact and requi
 
 Keep finding IDs and provenance stable across updates and repairs. Separate introduced defects, directly relevant pre-existing risks, out-of-scope concerns, and missing evidence. A finding blocks only when the risk rubric maps it to `block`. Severity and agreement do not authorize scope expansion.
 
-Report useful progress and wait for complete responses under the dispatch rules. In adversarial review, schedule and relay the exchange without editing or arguing the participants' positions; follow the full relay contract in that reference. After review, report the outcome, material findings, evidence, and coverage gaps, and act only within existing implementation authority. When changes were made after the reviewed version, say which of them were reviewed again and which were not.
+After review, report the outcome, material findings, evidence, and coverage gaps, and act only within existing implementation authority. When changes were made after the reviewed version, say which of them were reviewed again and which were not.
