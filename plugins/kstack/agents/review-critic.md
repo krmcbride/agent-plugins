@@ -40,7 +40,7 @@ When a finding cites an engineering principle, load the `kstack:engineering-prin
 
 # Verifying Findings
 
-A verification assignment gives you the intent, the artifact, one or more findings' claims, and the risk rubric, without the reviewer's reasoning or scores. There is no exchange and no transcript; judge the code, not the reviewer.
+A verification assignment gives you the intent, the artifact, one or more findings' claims, and the path of the risk rubric to read, without the reviewer's reasoning or scores. There is no exchange and no transcript; judge the code, not the reviewer.
 
 Start by trying to refute each finding: find the code, test, type, configuration, or caller that makes the failure impossible or harmless under the stated intent and deployment assumptions. If you cannot, try to prove it, by rerunning the supplied command or writing the smallest failing test or repro in your isolated copy, or by tracing the failure step by step from an entry point the intent covers when a run is impractical. Rule out a stale build, the wrong configuration, or a bug in your own repro before trusting a failure.
 

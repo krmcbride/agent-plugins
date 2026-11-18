@@ -10,7 +10,7 @@
 - Background execution is required, not optional: the agents report progress with SendMessage to `main`, which only background subagents can address, and a foreground call would block you until the pass ends with nothing delivered in between.
 - Preserve the agent ID from the launch result. Continue the same agent with SendMessage to that identifier; it resumes with its full prior context and replies to you. A new Agent call starts a fresh agent without that history.
 
-A long packet may go in a file instead of the prompt. Write it once to a scratch file outside the reviewed checkout, name its path in every participant's prompt, and leave the file unchanged for the pass, so each participant reads identical text; a changed packet is a new file. Keep the immediate assignment and the risk rubric in the prompt itself.
+A long packet may go in a file instead of the prompt. Write it once to a scratch file outside the reviewed checkout, name its path in every participant's prompt, and leave the file unchanged for the pass, so each participant reads identical text; a changed packet is a new file. Keep the immediate assignment in the prompt itself.
 
 Independent authorized work may continue during a pass if it does not change the reviewed inputs, including relevant uncommitted and untracked files.
 

@@ -70,7 +70,7 @@ Supply the same factual context to every participant:
 - **Artifact:** exact base/head refs and diff, or a snapshot of working changes including relevant untracked files. Name the version and relevant files; refs alone do not freeze uncommitted work.
 - **Validation:** commands, results, known gaps, and specific unanswered questions.
 - **Assignment:** scope, selected reviewer depth, immediate task (initial review, response to feedback, verification of repairs, or critic audit), and the applicable investigation, response, disposition, and stopping instructions.
-- **Risk rubric:** the text of [the risk rubric](references/risk-rubric.md), verbatim, for the code reviewer and every critic, so each finding carries the same scores and action.
+- **Risk rubric:** the path of [the risk rubric](references/risk-rubric.md), `${CLAUDE_SKILL_DIR}/references/risk-rubric.md`, for the code reviewer and every critic to read, so each finding carries the same scores and action. Paste its text instead for an agent that reports it cannot read the path.
 
 Inspect available artifacts before asking about missing context. Ask a precise question only when a material gap prevents assessment, and continue unaffected work. Record minor gaps without inventing requirements. The reviewer and shape reviewer have the `engineering-principles` index preloaded; when architecture is material, also supply the relevant project-specific architectural constraints.
 

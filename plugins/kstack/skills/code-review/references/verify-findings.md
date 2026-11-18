@@ -15,7 +15,7 @@ Launch one `kstack:review-critic` per unit, in parallel, as the dispatch referen
 - **Intent:** the requirements from the packet: the user's ask or, for another author's pull request, its title, description, and linked issues.
 - **Artifact:** the same exact refs, diff, or snapshot the reviewer had.
 - **The claim:** for each finding in the unit, its ID, location, failure scenario, and any command the reviewer ran with its output. Leave out the reviewer's severity, confidence, risk scores, and argument for why it matters, so the verifier judges the code rather than the reasoning.
-- **The rubric:** the risk rubric, verbatim.
+- **The rubric:** the risk rubric's path, as the packet gives it.
 - **Isolation:** that other verifiers run beside it, and any project isolation settings, as the dispatch reference describes.
 
 ## Verification assignment
