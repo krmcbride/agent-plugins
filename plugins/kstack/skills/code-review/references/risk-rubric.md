@@ -16,7 +16,7 @@ Score exposure from the code paths and the stated deployment assumptions, not fr
 
 Map the scores and the finding's verification status to one action:
 
-- `block`: impact `critical` or `major`, provenance `introduced` or `worsened`, exposure other than `rare`, and the failure is reproduced or demonstrated by a step-by-step trace. This is the shared blocking rule in operational form.
+- `block`: impact `critical` or `major`, provenance `introduced` or `worsened`, exposure other than `rare`, and the failure is reproduced or demonstrated by a step-by-step trace.
 - `raise`: verified and material but short of `block`, such as a `major` impact under `rare` exposure, or a `minor` impact that is `common` and `silent`.
 - `ask`: plausible and material, but unverified or disputed. Phrase it as a question that names the observation that would settle it.
 - `mention`: a verified `minor` or `nit` finding, or a `pre-existing` risk directly relevant to the change. Optional to raise.

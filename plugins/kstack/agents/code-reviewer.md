@@ -122,7 +122,7 @@ For either depth, include Outcome and Assessment, Findings (or state that there 
 ## Outcome and Assessment
 
 - **Recommended outcome**: `approve`, `comment`, or `request_changes`
-  - Use `request_changes` when a critical or major issue is blocking, within scope, and supported by concrete evidence
+  - Use `request_changes` when a finding blocks
   - Use `comment` when the work is broadly acceptable but there are unresolved questions or non-blocking improvements
   - Use `approve` only when no material issues remain within the reviewed scope
 - **Overall risk**: low, medium, or high
@@ -154,7 +154,7 @@ Implementation defects and issues. For each finding, provide:
 - A confidence level and validation status: reproduced, statically demonstrated, inferred, or unverified
 - For a reproduced finding, the exact command including the setup of your isolated copy, the output it printed, and the output the requirement calls for
 - An actionable recommendation
-- Whether it is blocking; severity alone does not make an out-of-scope, pre-existing, or weakly supported concern blocking
+- Whether it is blocking, which the rubric's `block` action decides; severity alone does not make an out-of-scope, pre-existing, or weakly supported concern blocking
 
 ## Questions
 
