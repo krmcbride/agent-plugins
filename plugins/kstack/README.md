@@ -152,7 +152,7 @@ being kept or published.
 contract, and no tracker or decision log runs beside the harness. The review and Git skills are not from pstack either.
 
 kstack is written here, not generated from `vendor/`. The pstack-derived skills were adapted from pstack at upstream commit
-`4dd1d05818d19792e7cd6e818f1667f95f7e1dbe` (version 0.15.36). To find upstream changes worth porting, diff the
+`93b916d4a1e806507e22f4716b352fa91f2b227e` (version 0.15.43). To find upstream changes worth porting, diff the
 matching principle or playbook files in `vendor/pstack/upstream/skills/` from that commit to the current pin.
 
 ## Install
