@@ -77,4 +77,4 @@ After authorized fixes, identify the new artifact version, update its packet, an
 - a repair changes behavior on a path the packet names as a risk;
 - the new version carries changes the exchange never examined, such as fixes for feedback that arrived from elsewhere during the freeze.
 
-Otherwise the repairs may rest on their own tests. Start a completely fresh reviewer only when the user requests an independent second adversarial look. In the final report, say which changes made after the reviewed version were reviewed again and which were not.
+Otherwise the repairs may rest on their own tests. Start a completely fresh reviewer only when the user requests an independent second adversarial look.
