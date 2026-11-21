@@ -22,7 +22,7 @@ For another author's pull request, ordinary review followed by verification of i
 
 Briefly state the selected approach and the concrete reason; include reviewer depth for either delegated approach. Choosing no delegation cannot cancel an explicit review request or required validation. Do not run ordinary review as a mandatory preliminary pass for adversarial review. If new evidence changes the selection, explain the reason and establish the appropriate packet before changing protocols.
 
-For either delegated approach, the verification step, or the shape pass, also read [Claude dispatch](references/dispatch.md) and the agent settings below before launching. Check the required roles and tools for the selected approach. If unavailable, identify the limitation and provide a prepared packet or clearly labeled local or partial assessment; do not silently downgrade a requested independent or adversarial review.
+For either delegated approach, the verification step, or the shape pass, also read [dispatch](references/dispatch.md) and the agent settings below before launching. Check the required roles and tools for the selected approach. If unavailable, identify the limitation and provide a prepared packet or clearly labeled local or partial assessment; do not silently downgrade a requested independent or adversarial review.
 
 ## Agent settings
 
@@ -30,11 +30,11 @@ The plugin's settings choose the model alias and effort for each review agent. P
 
 | Agent | Model | Effort |
 | --- | --- | --- |
-| `kstack:code-reviewer` | `${user_config.code_reviewer_model}` | `${user_config.code_reviewer_effort}` |
-| `kstack:review-critic` | `${user_config.review_critic_model}` | `${user_config.review_critic_effort}` |
-| `kstack:shape-reviewer` | `${user_config.shape_reviewer_model}` | `${user_config.shape_reviewer_effort}` |
+| `code-reviewer` | `${user_config.code_reviewer_model}` | `${user_config.code_reviewer_effort}` |
+| `review-critic` | `${user_config.review_critic_model}` | `${user_config.review_critic_effort}` |
+| `shape-reviewer` | `${user_config.shape_reviewer_model}` | `${user_config.shape_reviewer_effort}` |
 
-A cell that is not a single model alias or effort level means that setting was never saved. Omit that argument so the agent's own definition applies.
+A cell that is not a single model alias or effort level supported by the harness means that setting was not configured or does not apply here; omit that argument so the agent's own definition or session default applies.
 
 ## Verify the findings
 
@@ -48,7 +48,7 @@ Assume the user started this session to review the pull request, and check out i
 
 ## Add the shape pass
 
-The approaches above review correctness, and their calibration filters out code-shape problems. Review shape in its own pass against the `kstack:code-shape` rubric. Run it for completed implementation work that creates production files or grows existing ones, and whenever the user asks. For a small, bounded edit, measure the touched files against the rubric's size budget yourself and delegate only if one approaches it or another hard stop is plausible.
+The approaches above review correctness, and their calibration filters out code-shape problems. Review shape in its own pass against the `code-shape` rubric. Run it for completed implementation work that creates production files or grows existing ones, and whenever the user asks. For a small, bounded edit, measure the touched files against the rubric's size budget yourself and delegate only if one approaches it or another hard stop is plausible.
 
 When both apply, run the shape pass first so the correctness review examines the final structure. Launch the shape reviewer as described in the dispatch reference with the packet below, without a depth assignment, plus any user-accepted exceptions to code-shape hard stops. Resolve every introduced hard stop before continuing: repair it and have the same shape reviewer verify the repair, or record the user's accepted reason. Address findings within existing implementation authority or report them to the user. The risk rubric's `block` action governs correctness findings; code-shape hard stops block under their own rubric.
 
@@ -70,7 +70,7 @@ Supply the same factual context to every participant:
 - **Artifact:** exact base/head refs and diff, or a snapshot of working changes including relevant untracked files. Name the version and relevant files; refs alone do not freeze uncommitted work.
 - **Validation:** commands, results, known gaps, and specific unanswered questions.
 - **Assignment:** scope, selected reviewer depth, immediate task (initial review, response to feedback, verification of repairs, or critic audit), and the applicable investigation, response, disposition, and stopping instructions.
-- **Risk rubric:** the path of [the risk rubric](references/risk-rubric.md), `${CLAUDE_SKILL_DIR}/references/risk-rubric.md`, for the code reviewer and every critic to read, so each finding carries the same scores and action. Paste its text instead for an agent that reports it cannot read the path.
+- **Risk rubric:** the absolute path of [the risk rubric](references/risk-rubric.md) in this skill's directory, for the code reviewer and every critic to read, so each finding carries the same scores and action. Paste its text instead for an agent that reports it cannot read the path.
 
 Inspect available artifacts before asking about missing context. Ask a precise question only when a material gap prevents assessment, and continue unaffected work. Record minor gaps without inventing requirements. The reviewer and shape reviewer have the `engineering-principles` index preloaded; when architecture is material, also supply the relevant project-specific architectural constraints.
 
