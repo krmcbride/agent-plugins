@@ -98,12 +98,12 @@ Label it for the reader:
 - Keep to about 20 arrows. Merge states that act the same and leave out steps the reader does not need, but keep every state on a path to a bad state.
 - Colour states by phase, and mark bad states and the states on the path into them, with the classes in [references/themes.md](references/themes.md).
 
-If the client offers a tool that renders SVG or HTML inline in the conversation, draw the diagram with it and skip the page below.
+If the client renders Mermaid, SVG, or HTML inline in the conversation, use that directly and skip the page below.
 
-Otherwise render the Mermaid with Pele, because Claude Code's desktop app and terminals show Mermaid only as source. Write each diagram to a `.mmd` file in a new `mktemp -d` scratch directory, then build one page for them:
+Otherwise, when the client shows Mermaid only as source, render it with Pele. Write each diagram to a `.mmd` file in a new `mktemp -d` scratch directory, then build one page for them with [scripts/diagram-page.mjs](scripts/diagram-page.mjs):
 
 ```sh
-node ${CLAUDE_SKILL_DIR}/scripts/diagram-page.mjs --theme blueprint --title "How an upload finishes" \
+node <skill-dir>/scripts/diagram-page.mjs --theme blueprint --title "How an upload finishes" \
   --legend teal=Sending --legend breaks="File lost" --out "$dir/upload.html" "$dir/upload.mmd"
 ```
 
@@ -124,8 +124,8 @@ Only when the user asks for a page, mockup, or artifact, write one focused, self
 
 Show a diagram page or HTML page where the client renders it, and always give the user its path too.
 
-- In Claude Code's desktop app, send it with `SendUserFile` and `display: "render"`, or open it in the browser pane.
-- Elsewhere, open it with the platform opener: `open` on macOS, `xdg-open` on Linux.
+- When the client can render a file inline or in a browser pane (such as `SendUserFile` with `display: "render"`), present it there.
+- Otherwise, open it with the platform opener: `open` on macOS, `xdg-open` on Linux.
 
 When you can render or screenshot the page, look at it before replying and fix overlap, clipping, and overflow. The desktop browser pane shows a local file outside the project as a static snapshot that its tools cannot read, so to look at one there, serve its directory in the background with `python3 -m http.server --bind 127.0.0.1`, open the `http://127.0.0.1` address, and stop the server when you are done.
 
