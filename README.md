@@ -1,7 +1,6 @@
 # agent-plugins
 
-The home of **kstack**, a personal set of skills and review agents for [Claude Code](https://code.claude.com),
-published as a [plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces).
+The home of **kstack**, a personal set of skills and review agents for coding agents, published as a [Claude Code plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces) alongside harness-native variants under `harnesses/`.
 
 kstack is how one engineer works with coding agents day to day: how to plan substantial work, which decisions stay
 with the user, how a change gets reviewed and its findings verified, and how commits and pull requests are made. Those
@@ -11,6 +10,8 @@ playbooks from Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main
 The marketplace also carries pstack itself, translated for Claude Code, for anyone who wants the original.
 
 ## Install
+
+### Claude Code
 
 In Claude Code:
 
@@ -28,6 +29,16 @@ claude plugin install kstack@krmcbride
 
 Every skill and agent is then available under the `kstack:` prefix. Claude picks most of them up from their
 descriptions; any can also be run as a slash command, such as `/kstack:code-review`.
+
+### Antigravity
+
+Install the Antigravity-native variant from [`harnesses/antigravity/kstack`](harnesses/antigravity/kstack):
+
+```sh
+agy plugin install https://github.com/krmcbride/agent-plugins/tree/master/harnesses/antigravity/kstack
+```
+
+For skills-only hosts such as T3 Code (which links `~/.gemini/config/skills/` and `~/.gemini/config/skills.json`, not `~/.gemini/config/plugins/`), see [`harnesses/antigravity/kstack/README.md`](harnesses/antigravity/kstack/README.md).
 
 ## What kstack covers
 
@@ -67,9 +78,10 @@ kstack does not need it. Install pstack to use the original workflows as their a
 ## Repository layout
 
 ```
-.claude-plugin/marketplace.json   marketplace catalog (name: krmcbride)
-plugins/kstack/                   written here and edited in place
+.claude-plugin/marketplace.json   Claude Code marketplace catalog (name: krmcbride)
+plugins/kstack/                   Claude Code kstack (primary source, edited in place)
 plugins/pstack/                   generated from vendor/pstack; never edited directly
+harnesses/antigravity/kstack/     Antigravity-native kstack plugin and skills
 vendor/pstack/                    the pristine upstream copy and its pin, plus the rules and patches
                                   that turn it into plugins/pstack
 scripts/vendor.mjs                builds, checks, and syncs vendored plugins (Node 24)

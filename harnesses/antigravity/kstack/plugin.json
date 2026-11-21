@@ -1,0 +1,33 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "kstack",
+  "displayName": "kstack",
+  "version": "0.1.0",
+  "description": "Personal engineering principles, playbooks, planning, verified code review, Git workflows, repository research, and quick visuals.",
+  "suggestedPrompts": [
+    "Review my current branch against master and verify any findings",
+    "Help me plan this change and interview me on the open decisions first",
+    "Apply engineering-principles to this refactor and check code shape"
+  ],
+  "author": {
+    "name": "Kevin McBride",
+    "url": "https://github.com/krmcbride"
+  },
+  "homepage": "https://github.com/krmcbride/agent-plugins/tree/master/harnesses/antigravity/kstack",
+  "repository": "https://github.com/krmcbride/agent-plugins",
+  "license": "MIT",
+  "keywords": [
+    "engineering-principles",
+    "debugging",
+    "performance",
+    "refactoring",
+    "prototyping",
+    "planning",
+    "code-review",
+    "adversarial-review",
+    "code-shape",
+    "git",
+    "github",
+    "pull-requests"
+  ]
+}
