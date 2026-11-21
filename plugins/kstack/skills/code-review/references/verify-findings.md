@@ -10,7 +10,7 @@ Group findings that share a root cause or rest on the same code path, and verify
 
 ## Launch the verifiers
 
-Launch one `kstack:review-critic` per unit, in parallel, as the dispatch reference describes, with the verification assignment below. Give each verifier:
+Launch one `review-critic` agent per unit, in parallel, as the dispatch reference describes, with the verification assignment below. Give each verifier:
 
 - **Intent:** the requirements from the packet: the user's ask or, for another author's pull request, its title, description, and linked issues.
 - **Artifact:** the same exact refs, diff, or snapshot the reviewer had.

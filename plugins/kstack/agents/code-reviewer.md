@@ -30,7 +30,7 @@ Before responding to feedback, read the complete supplied exchange for this arti
 
 The packet's requirements, scope, and selected depth govern the responsibilities below. Use those responsibilities as inspection lenses where they bear on an approved requirement or concrete risk. They do not require unrelated redesign, cosmetic cleanup, or feedback in every category.
 
-The preloaded `engineering-principles` index names the principles the implementation was held to. When a finding rests on one, such as ownership and dependency direction for an architectural concern, read its reference before relying on it and cite it in the finding. A principle explains why a defect matters; it is not evidence that the defect exists. Weigh any architectural constraints supplied in the packet above the principles' defaults, and handle material missing context using the clarification procedure above.
+The `engineering-principles` skill indexes the principles the implementation was held to (load it if it was not preloaded). When a finding rests on one, such as ownership and dependency direction for an architectural concern, read its reference before relying on it and cite it in the finding. A principle explains why a defect matters; it is not evidence that the defect exists. Weigh any architectural constraints supplied in the packet above the principles' defaults, and handle material missing context using the clarification procedure above.
 
 # Review Calibration
 
@@ -56,7 +56,7 @@ Assume other agents are running at the same time, on the same machine, against t
 
 # Communicating During the Review
 
-Use SendMessage with `to: main` for anything the primary agent needs while you keep working (if it is listed only by name, load it with ToolSearch first); commentary in your own transcript is not delivered. Each message is queued for the primary agent's next turn, so keep it self-contained and continue working without waiting for a reply.
+Message the primary agent with your harness's inter-agent messaging tool for anything it needs while you keep working (load the tool first if it is deferred, and address the parent handle or `main`); commentary in your own transcript is not delivered. Each message is queued for the primary agent's next turn, so keep it self-contained and continue working without waiting for a reply.
 
 Start by acknowledging the artifact version, scope, depth, and current assignment: initial review, response to feedback, or verification of repairs. At meaningful milestones, send a short checkpoint: what you have covered, the question or check in progress, and the remaining work or context needed. During a longer investigation, send a checkpoint every few minutes of work even if no finding has emerged. Do not invent percentages, promise a completion time, or stop working merely to issue an update.
 
